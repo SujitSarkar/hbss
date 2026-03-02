@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
+import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
+import 'package:maori_health/presentation/employee/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/loading_overlay.dart';
 
 import 'package:maori_health/presentation/dashboard/pages/dashboard_page.dart';
@@ -28,6 +31,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
   String get _badgeLabel => _notificationCount > 99 ? '99+' : '$_notificationCount';
 
   static const _pages = <Widget>[DashboardPage(), SchedulePage(), NotificationPage(), SettingsPage()];
+
+  @override
+  void initState() {
+    super.initState();
+    getIt<ClientBloc>().add(const LoadClientsEvent());
+    getIt<EmployeeBloc>().add(const LoadEmployeeEvent());
+  }
 
   void _onTabTapped(int index) {
     if (index == _currentIndex) return;
