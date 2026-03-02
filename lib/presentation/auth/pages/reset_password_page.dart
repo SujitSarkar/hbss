@@ -4,15 +4,16 @@ import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/string_constants.dart';
 import 'package:maori_health/core/router/route_names.dart';
+import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/core/utils/form_validators.dart';
 
-import 'package:maori_health/presentation/auth/bloc/auth_bloc.dart';
-import 'package:maori_health/presentation/auth/bloc/auth_state.dart';
+import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/auth/widgets/auth_back_bar_widget.dart';
 import 'package:maori_health/presentation/auth/widgets/auth_layout.dart';
 import 'package:maori_health/presentation/shared/decorations/outline_input_decoration.dart';
 import 'package:maori_health/presentation/shared/widgets/confirmation_dialog.dart';
+import 'package:maori_health/presentation/shared/widgets/loading_overlay.dart';
 import 'package:maori_health/presentation/shared/widgets/solid_button.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -37,12 +38,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     super.dispose();
   }
 
-  void _onUpdatePassword() {
+  void _onResetPassword() {
     if (!_formKey.currentState!.validate()) return;
 
-    // context.read<AuthBloc>().add(
-    //   AuthLoginEvent(email: _emailController.text.trim(), password: _passwordController.text),
-    // );
+    context.read<AuthBloc>().add(
+      AuthResetPasswordEvent(
+        email: widget.email,
+        newPassword: _passwordController.text.trim(),
+        confirmPassword: _confirmPasswordController.text.trim(),
+      ),
+    );
   }
 
   @override
@@ -56,13 +61,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       },
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthenticatedState) {
-            // context.goNamed(RouteNames.home);
+          if (state is AuthResetPasswordSuccessState) {
+            context.showSnackBar(state.message, onTop: true);
+            context.goNamed(RouteNames.login);
           } else if (state is AuthErrorState) {
             context.showSnackBar(state.errorMessage, isError: true, onTop: true);
           }
         },
-        child: AuthLayout(child: _buildFormSection(screenHeight)),
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            return LoadingOverlay(
+              isLoading: state is AuthForgotPasswordLoadingState,
+              child: AuthLayout(child: _buildFormSection(screenHeight)),
+            );
+          },
+        ),
       ),
     );
   }
@@ -121,12 +134,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           ),
           const SizedBox(height: 40),
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
             builder: (context, state) {
               return SolidButton(
-                onPressed: _onUpdatePassword,
+                onPressed: state is AuthForgotPasswordLoadingState ? null : _onResetPassword,
                 isLoading: state is AuthLoadingState,
-                backgroundColor: const Color(0xFF1A5E2D),
+                backgroundColor: AppColors.authButtonColor,
                 foregroundColor: Colors.white,
                 child: Text(
                   StringConstants.updatePassword,

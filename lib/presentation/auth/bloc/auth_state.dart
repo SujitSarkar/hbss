@@ -57,3 +57,33 @@ class ChangePassSuccessState extends AuthState {
   @override
   List<Object?> get props => [user, message];
 }
+
+class AuthForgotPasswordLoadingState extends AuthState {
+  const AuthForgotPasswordLoadingState();
+}
+
+class AuthOtpSentSuccessState extends AuthState {
+  final String email;
+  final String message;
+  const AuthOtpSentSuccessState({required this.email, required this.message});
+
+  @override
+  List<Object?> get props => [email, message];
+}
+
+class AuthOtpVerifiedState extends AuthState {
+  final String email;
+  final String message;
+  const AuthOtpVerifiedState({required this.email, required this.message});
+
+  @override
+  List<Object?> get props => [email, message];
+}
+
+class AuthResetPasswordSuccessState extends AuthState {
+  final String message;
+  const AuthResetPasswordSuccessState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}

@@ -1,5 +1,3 @@
-import 'package:jwt_decode/jwt_decode.dart';
-
 import 'package:maori_health/core/storage/local_cache_service.dart';
 import 'package:maori_health/core/storage/secure_storage_service.dart';
 import 'package:maori_health/data/auth/models/user_model.dart';
@@ -30,13 +28,11 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<bool> isTokenValid() async {
     final token = await _secureStorage.getAccessToken();
-    if (token == null || token.isEmpty) return false;
 
-    try {
-      return !Jwt.isExpired(token);
-    } catch (_) {
-      // Non-JWT token (e.g. Laravel Sanctum) — treat as valid if present
+    if (token != null && token.isNotEmpty) {
       return true;
+    } else {
+      return false;
     }
   }
 

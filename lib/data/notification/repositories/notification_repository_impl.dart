@@ -26,11 +26,9 @@ class NotificationRepositoryImpl implements NotificationRepository {
       final response = await _remoteDataSource.getNotifications(page: page);
       return SuccessResult(response);
     } on ApiException catch (e) {
-      return ErrorResult(
-        ApiError(errorCode: 'FETCH_NOTIFICATIONS_FAILED', errorMessage: e.message, statusCode: e.statusCode),
-      );
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'FETCH_NOTIFICATIONS_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 
@@ -43,11 +41,9 @@ class NotificationRepositoryImpl implements NotificationRepository {
       final response = await _remoteDataSource.readNotification(notificationId);
       return SuccessResult(response);
     } on ApiException catch (e) {
-      return ErrorResult(
-        ApiError(errorCode: 'GET_NOTIFICATION_FAILED', errorMessage: e.message, statusCode: e.statusCode),
-      );
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'GET_NOTIFICATION_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 }

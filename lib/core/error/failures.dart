@@ -1,5 +1,5 @@
 abstract class AppError {
-  final String errorCode;
+  final int? errorCode;
   final String? errorMessage;
 
   const AppError({required this.errorCode, this.errorMessage});
@@ -18,12 +18,9 @@ class ApiError extends AppError {
 }
 
 class NetworkError extends AppError {
-  const NetworkError({
-    super.errorCode = 'NO_NETWORK',
-    super.errorMessage = 'No internet connection. Please check your network.',
-  });
+  const NetworkError({super.errorCode = 0, super.errorMessage = 'No internet connection. Please check your network.'});
 }
 
 class CacheError extends AppError {
-  const CacheError({super.errorCode = 'CACHE_ERROR', super.errorMessage});
+  const CacheError({super.errorCode = 0, super.errorMessage});
 }

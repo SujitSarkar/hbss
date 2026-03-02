@@ -14,7 +14,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       super(const AuthLoadingState()) {
     on<AuthLocalLoginEvent>(_onLocalLoginEvent);
     on<AuthLoginEvent>(_onLoginEvent);
-    on<AuthChangePasswordEvent>(_onChangePassword);
+    on<AuthChangePasswordEvent>(_onChangePasswordEvent);
+    on<AuthForgotPasswordEvent>(_onForgotPasswordEvent);
+    on<AuthVerifyOtpEvent>(_onVerifyOtpEvent);
+    on<AuthResetPasswordEvent>(_onResetPasswordEvent);
     on<AuthLogoutEvent>(_onLogoutEvent);
   }
 
@@ -40,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  Future<void> _onChangePassword(AuthChangePasswordEvent event, Emitter<AuthState> emit) async {
+  Future<void> _onChangePasswordEvent(AuthChangePasswordEvent event, Emitter<AuthState> emit) async {
     final currentUser = state.user;
     if (currentUser == null) return;
 
@@ -60,6 +63,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(ChangePassSuccessState(user: currentUser, message: message));
         await Future.delayed(const Duration(milliseconds: 100));
         emit(AuthenticatedState(user: currentUser));
+      },
+    );
+  }
+
+  Future<void> _onForgotPasswordEvent(AuthForgotPasswordEvent event, Emitter<AuthState> emit) async {
+    final currentState = state;
+    if (currentState is AuthForgotPasswordLoadingState) return;
+
+    emit(const AuthForgotPasswordLoadingState());
+    final result = await _authRepository.forgotPassword(email: event.email);
+
+    await result.fold(
+      onFailure: (error) async {
+        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+      },
+      onSuccess: (response) async {
+        emit(AuthOtpSentSuccessState(email: event.email, message: response.message));
+      },
+    );
+  }
+
+  Future<void> _onVerifyOtpEvent(AuthVerifyOtpEvent event, Emitter<AuthState> emit) async {
+    final currentState = state;
+    if (currentState is AuthForgotPasswordLoadingState) return;
+
+    emit(const AuthForgotPasswordLoadingState());
+    final result = await _authRepository.verifyOtp(email: event.email, otp: event.otp);
+
+    await result.fold(
+      onFailure: (error) async {
+        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+      },
+      onSuccess: (response) async {
+        emit(AuthOtpVerifiedState(email: event.email, message: response.message));
+      },
+    );
+  }
+
+  Future<void> _onResetPasswordEvent(AuthResetPasswordEvent event, Emitter<AuthState> emit) async {
+    final currentState = state;
+    if (currentState is AuthForgotPasswordLoadingState) return;
+
+    emit(const AuthForgotPasswordLoadingState());
+    final result = await _authRepository.resetPassword(
+      email: event.email,
+      newPassword: event.newPassword,
+      confirmPassword: event.confirmPassword,
+    );
+
+    await result.fold(
+      onFailure: (error) async {
+        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+      },
+      onSuccess: (response) async {
+        emit(AuthResetPasswordSuccessState(message: response.message));
       },
     );
   }

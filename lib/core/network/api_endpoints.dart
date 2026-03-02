@@ -5,7 +5,11 @@ abstract class ApiEndpoints {
   static const String login = 'auth/login';
   static const String logout = 'auth/logout';
   static const String updatePassword = 'auth/update-password';
-  static const String refreshToken = 'auth/refresh-token';
+
+  // Forgot Password
+  static const String forgotPassword = 'auth/forgot-password';
+  static const String verifyOtp = 'auth/otp-verification';
+  static const String resetPassword = 'auth/reset-password';
 
   // Assets
   static const String assets = 'assets';

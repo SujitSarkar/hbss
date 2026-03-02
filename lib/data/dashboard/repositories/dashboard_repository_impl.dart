@@ -25,11 +25,9 @@ class DashboardRepositoryImpl implements DashboardRepository {
       final response = await _remoteDataSource.getDashboard();
       return SuccessResult(response);
     } on ApiException catch (e) {
-      return ErrorResult(
-        ApiError(errorCode: 'DASHBOARD_FETCH_FAILED', errorMessage: e.message, statusCode: e.statusCode),
-      );
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'DASHBOARD_FETCH_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 }

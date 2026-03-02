@@ -5,9 +5,12 @@ import 'package:maori_health/core/result/result.dart';
 
 import 'package:maori_health/data/auth/datasources/auth_local_data_source.dart';
 import 'package:maori_health/data/auth/datasources/auth_remote_data_source.dart';
-import 'package:maori_health/data/auth/models/user_model.dart';
+
+import 'package:maori_health/domain/auth/entities/forgot_pass_response.dart';
 import 'package:maori_health/domain/auth/entities/login_response.dart';
 import 'package:maori_health/domain/auth/entities/user.dart';
+
+import 'package:maori_health/data/auth/models/user_model.dart';
 import 'package:maori_health/domain/auth/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -37,9 +40,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return SuccessResult(response);
     } on ApiException catch (e) {
-      return ErrorResult(ApiError(errorCode: 'LOGIN_FAILED', errorMessage: e.message, statusCode: e.statusCode));
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'LOGIN_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 
@@ -49,17 +52,72 @@ class AuthRepositoryImpl implements AuthRepository {
       final isValid = await _localDataSource.isTokenValid();
       if (!isValid) {
         await _localDataSource.clearAll();
-        return const ErrorResult(CacheError(errorMessage: 'Token is missing or expired'));
+        return const ErrorResult(CacheError(errorMessage: 'Session expired!'));
       }
 
       final user = _localDataSource.getCachedUser();
       if (user == null) {
-        return const ErrorResult(CacheError(errorMessage: 'No cached user data found'));
+        return const ErrorResult(CacheError(errorMessage: 'User not found!'));
       }
 
       return SuccessResult(user);
+    } on CacheException catch (e) {
+      return ErrorResult(CacheError(errorCode: 0, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(CacheError(errorMessage: e.toString()));
+      return ErrorResult(CacheError(errorCode: 0, errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<AppError, ForgotPasswordResponse>> forgotPassword({required String email}) async {
+    if (!await _networkChecker.hasConnection) {
+      return const ErrorResult(NetworkError());
+    }
+    try {
+      final response = await _remoteDataSource.forgotPassword(email: email);
+      return SuccessResult(response);
+    } on ApiException catch (e) {
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
+    } catch (e) {
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<AppError, ForgotPasswordResponse>> verifyOtp({required String email, required String otp}) async {
+    if (!await _networkChecker.hasConnection) {
+      return const ErrorResult(NetworkError());
+    }
+    try {
+      final response = await _remoteDataSource.verifyOtp(email: email, otp: otp);
+      return SuccessResult(response);
+    } on ApiException catch (e) {
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
+    } catch (e) {
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<AppError, ForgotPasswordResponse>> resetPassword({
+    required String email,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    if (!await _networkChecker.hasConnection) {
+      return const ErrorResult(NetworkError());
+    }
+    try {
+      final response = await _remoteDataSource.resetPassword(
+        email: email,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      return SuccessResult(response);
+    } on ApiException catch (e) {
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
+    } catch (e) {
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 
@@ -89,11 +147,9 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return SuccessResult(message);
     } on ApiException catch (e) {
-      return ErrorResult(
-        ApiError(errorCode: 'UPDATE_PASSWORD_FAILED', errorMessage: e.message, statusCode: e.statusCode),
-      );
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'UPDATE_PASSWORD_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 }

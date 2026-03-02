@@ -3,6 +3,7 @@ import 'package:maori_health/core/error/failures.dart';
 import 'package:maori_health/core/network/network_checker.dart';
 import 'package:maori_health/core/result/result.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
+
 import 'package:maori_health/data/timesheet/datasources/timesheet_remote_data_source.dart';
 import 'package:maori_health/data/timesheet/models/timesheet_response_model.dart';
 import 'package:maori_health/domain/timesheet/repositories/timesheet_repository.dart';
@@ -34,11 +35,9 @@ class TimeSheetRepositoryImpl implements TimeSheetRepository {
       );
       return SuccessResult(response);
     } on ApiException catch (e) {
-      return ErrorResult(
-        ApiError(errorCode: 'FETCH_TIMESHEETS_FAILED', errorMessage: e.message, statusCode: e.statusCode),
-      );
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'FETCH_TIMESHEETS_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 }

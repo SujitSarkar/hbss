@@ -24,9 +24,9 @@ class AssetRepositoryImpl implements AssetRepository {
       final assets = await _remoteDataSource.getAssets();
       return SuccessResult(assets);
     } on ApiException catch (e) {
-      return ErrorResult(ApiError(errorCode: 'FETCH_ASSETS_FAILED', errorMessage: e.message, statusCode: e.statusCode));
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'FETCH_ASSETS_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 
@@ -39,9 +39,9 @@ class AssetRepositoryImpl implements AssetRepository {
       final asset = await _remoteDataSource.acceptAsset(assetId);
       return SuccessResult(asset);
     } on ApiException catch (e) {
-      return ErrorResult(ApiError(errorCode: 'ACCEPT_ASSET_FAILED', errorMessage: e.message, statusCode: e.statusCode));
+      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
     } catch (e) {
-      return ErrorResult(ApiError(errorCode: 'ACCEPT_ASSET_FAILED', errorMessage: e.toString()));
+      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
     }
   }
 }

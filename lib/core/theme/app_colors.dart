@@ -18,4 +18,6 @@ abstract class AppColors {
   static const Color shimmerHighlightLight = Color(0xFFF5F5F5);
   static const Color shimmerBaseDark = Color(0xFF2A2A2A);
   static const Color shimmerHighlightDark = Color(0xFF3A3A3A);
+
+  static const Color authButtonColor = Color(0xFF1A5E2D);
 }
