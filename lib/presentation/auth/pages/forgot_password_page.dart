@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -78,10 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          const AuthBackBarWidget(
-            title: StringConstants.forgotPassword,
-            subTitle: StringConstants.forgotPasswordInstruction,
-          ),
+          const AuthBackBarWidget(title: AppStrings.forgotPassword, subTitle: AppStrings.forgotPasswordInstruction),
           const SizedBox(height: 40),
           TextFormField(
             controller: _emailController,
@@ -89,7 +86,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             textInputAction: .next,
             validator: FormValidators.email(),
             autovalidateMode: .onUserInteraction,
-            decoration: OutlineInputDecoration(context: context, labelText: StringConstants.email),
+            decoration: OutlineInputDecoration(context: context, labelText: AppStrings.email),
           ),
           const SizedBox(height: 40),
           BlocBuilder<AuthBloc, AuthState>(
@@ -99,7 +96,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 backgroundColor: AppColors.authButtonColor,
                 foregroundColor: Colors.white,
                 child: Text(
-                  StringConstants.resetPassword,
+                  AppStrings.resetPassword,
                   style: context.textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: .bold),
                 ),
               );

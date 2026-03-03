@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 
 abstract class AssetUtils {
   static String statusLabel(int acknowledgementStatus) {
     return acknowledgementStatus == 1
-        ? StringConstants.accepted
+        ? AppStrings.accepted
         : acknowledgementStatus == 2
-        ? StringConstants.returned
-        : StringConstants.pending;
+        ? AppStrings.returned
+        : AppStrings.pending;
   }
 
   static Color statusColor(int acknowledgementStatus) {

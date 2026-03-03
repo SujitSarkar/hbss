@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
-import 'package:maori_health/presentation/employee/bloc/bloc.dart';
+// import 'package:maori_health/presentation/employee/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/loading_overlay.dart';
 
 import 'package:maori_health/presentation/dashboard/pages/dashboard_page.dart';
@@ -36,7 +36,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     super.initState();
     getIt<ClientBloc>().add(const LoadClientsEvent());
-    getIt<EmployeeBloc>().add(const LoadEmployeeEvent());
+    // TODO: Uncomment when client and employee API is implemented
+    // getIt<EmployeeBloc>().add(const LoadEmployeeEvent());
   }
 
   void _onTabTapped(int index) {
@@ -78,12 +79,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   BottomNavigationBarItem(
                     icon: Icon(Icons.dashboard_outlined),
                     activeIcon: Icon(Icons.dashboard),
-                    label: StringConstants.dashboard,
+                    label: AppStrings.dashboard,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.calendar_today_outlined),
                     activeIcon: Icon(Icons.calendar_today),
-                    label: StringConstants.schedule,
+                    label: AppStrings.schedule,
                   ),
                   BottomNavigationBarItem(
                     icon: Badge(
@@ -96,12 +97,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       label: Text(_badgeLabel, style: TextStyle(fontSize: 10)),
                       child: Icon(Icons.notifications),
                     ),
-                    label: StringConstants.notification,
+                    label: AppStrings.notification,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.settings_outlined),
                     activeIcon: Icon(Icons.settings),
-                    label: StringConstants.settings,
+                    label: AppStrings.settings,
                   ),
                 ],
               ),

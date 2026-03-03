@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/presentation/shared/widgets/app_dialog.dart';
 
@@ -18,14 +18,11 @@ Future<bool> showConfirmationDialog(
       title: title,
       content: Text(message, style: context.theme.textTheme.bodyMedium),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext, false),
-          child: Text(cancelText ?? StringConstants.cancel),
-        ),
+        TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: Text(cancelText ?? AppStrings.cancel)),
         TextButton(
           onPressed: () => Navigator.pop(dialogContext, true),
           child: Text(
-            confirmText ?? StringConstants.ok,
+            confirmText ?? AppStrings.ok,
             style: confirmColor != null ? TextStyle(color: confirmColor) : null,
           ),
         ),

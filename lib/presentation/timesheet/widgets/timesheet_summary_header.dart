@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 
 import 'package:maori_health/core/utils/extensions.dart';
 
@@ -19,7 +19,7 @@ class TimeSheetSummaryHeader extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            '$totalAppointments ${StringConstants.appointments}',
+            '$totalAppointments ${AppStrings.appointments}',
             style: context.textTheme.bodyMedium?.copyWith(fontWeight: .w600),
           ),
         ),

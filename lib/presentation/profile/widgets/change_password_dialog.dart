@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/core/utils/form_validators.dart';
 
@@ -84,7 +84,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
               padding: const .symmetric(vertical: 14),
               decoration: BoxDecoration(color: context.colorScheme.primary),
               child: Text(
-                StringConstants.changePassword,
+                AppStrings.changePassword,
                 textAlign: TextAlign.center,
                 style: context.textTheme.titleMedium?.copyWith(fontWeight: .bold, color: context.colorScheme.onPrimary),
               ),
@@ -103,7 +103,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: OutlineInputDecoration(
                         context: context,
-                        hintText: StringConstants.oldPassword,
+                        hintText: AppStrings.oldPassword,
                         suffixIcon: _visibilityToggle(_obscureOld, () => setState(() => _obscureOld = !_obscureOld)),
                       ),
                     ),
@@ -115,7 +115,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: OutlineInputDecoration(
                         context: context,
-                        hintText: StringConstants.newPassword,
+                        hintText: AppStrings.newPassword,
                         suffixIcon: _visibilityToggle(_obscureNew, () => setState(() => _obscureNew = !_obscureNew)),
                       ),
                     ),
@@ -127,14 +127,14 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
                         final base = FormValidators.password()(value);
                         if (base != null) return base;
                         if (value != _newPasswordController.text) {
-                          return StringConstants.passwordsDoNotMatch;
+                          return AppStrings.passwordsDoNotMatch;
                         }
                         return null;
                       },
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: OutlineInputDecoration(
                         context: context,
-                        hintText: StringConstants.confirmPassword,
+                        hintText: AppStrings.confirmPassword,
                         suffixIcon: _visibilityToggle(
                           _obscureConfirm,
                           () => setState(() => _obscureConfirm = !_obscureConfirm),
@@ -159,7 +159,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
                         height: 42,
                         onPressed: isLoading ? null : () => Navigator.pop(context),
                         backgroundColor: context.theme.hintColor,
-                        child: const Text(StringConstants.close),
+                        child: const Text(AppStrings.close),
                       ),
                       const SizedBox(width: 12),
                       SolidButton(
@@ -167,7 +167,7 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
                         height: 42,
                         onPressed: isLoading ? null : _onSubmit,
                         isLoading: isLoading,
-                        child: const Text(StringConstants.save),
+                        child: const Text(AppStrings.save),
                       ),
                     ],
                   );

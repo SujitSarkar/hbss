@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -32,13 +32,11 @@ class _AssetsView extends StatelessWidget {
     return BlocListener<AssetBloc, AssetState>(
       listener: (context, state) {
         if (state is AssetAcceptedState) {
-          context.showSnackBar(StringConstants.assetAccepted);
-        } else if (state is AssetErrorState) {
-          context.showSnackBar(state.message, isError: true);
+          context.showSnackBar(AppStrings.assetAccepted);
         }
       },
       child: Scaffold(
-        appBar: CommonAppBar(context: context, title: Text(StringConstants.assets)),
+        appBar: CommonAppBar(context: context, title: Text(AppStrings.assets)),
         body: BlocBuilder<AssetBloc, AssetState>(
           builder: (context, state) {
             if (state is AssetInitialState || state is AssetLoadingState) {
@@ -47,13 +45,18 @@ class _AssetsView extends StatelessWidget {
               final loadedState = state as AssetLoadedState;
               return loadedState.assets.isEmpty
                   ? ErrorViewWidget(
-                      message: StringConstants.noDataFound,
+                      message: AppStrings.noDataFound,
                       onRetry: () async => context.read<AssetBloc>().add(const AssetsLoadEvent()),
                     )
                   : LoadingOverlay(
                       isLoading: state is AssetAcceptLoadingState,
                       child: _buildAssetList(context, loadedState, state is AssetAcceptLoadingState),
                     );
+            } else if (state is AssetErrorState) {
+              return ErrorViewWidget(
+                message: state.message,
+                onRetry: () async => context.read<AssetBloc>().add(const AssetsLoadEvent()),
+              );
             } else {
               return const SizedBox.shrink();
             }

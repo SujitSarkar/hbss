@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/domain/auth/repositories/auth_repository.dart';
 
 import 'package:maori_health/presentation/auth/bloc/auth_event.dart';
@@ -35,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _authRepository.login(email: event.email, password: event.password);
     await result.fold(
       onFailure: (error) async {
-        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(AuthErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (response) async {
         emit(AuthenticatedState(user: response.user));
@@ -57,7 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       onFailure: (error) async {
-        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong, user: currentUser));
+        emit(AuthErrorState(error.errorMessage ?? AppStrings.somethingWentWrong, user: currentUser));
       },
       onSuccess: (message) async {
         emit(ChangePassSuccessState(user: currentUser, message: message));
@@ -76,7 +76,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       onFailure: (error) async {
-        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(AuthErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (response) async {
         emit(AuthOtpSentSuccessState(email: event.email, message: response.message));
@@ -93,7 +93,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       onFailure: (error) async {
-        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(AuthErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (response) async {
         emit(AuthOtpVerifiedState(email: event.email, message: response.message));
@@ -114,7 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       onFailure: (error) async {
-        emit(AuthErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(AuthErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (response) async {
         emit(AuthResetPasswordSuccessState(message: response.message));

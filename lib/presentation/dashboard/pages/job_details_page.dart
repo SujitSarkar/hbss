@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -60,7 +60,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
       children: [
         GestureDetector(onTap: () => Navigator.maybePop(context), child: const Icon(Icons.arrow_back)),
         const SizedBox(width: 8),
-        Text(StringConstants.jobDetails, style: context.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
+        Text(AppStrings.jobDetails, style: context.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
       ],
     );
   }
@@ -77,12 +77,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     return Column(
       crossAxisAlignment: .stretch,
       children: [
-        SolidButton(onPressed: () {}, child: const Text(StringConstants.acceptJob)),
+        SolidButton(onPressed: () {}, child: const Text(AppStrings.acceptJob)),
         const SizedBox(height: 24),
         SolidButton(
           onPressed: () => Navigator.maybePop(context),
           backgroundColor: AppColors.primary.withAlpha(250),
-          child: const Text(StringConstants.backToDashboard),
+          child: const Text(AppStrings.backToDashboard),
         ),
       ],
     );
@@ -92,7 +92,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
     return Column(
       crossAxisAlignment: .stretch,
       children: [
-        SolidButton(onPressed: () {}, child: const Text(StringConstants.startJob)),
+        SolidButton(onPressed: () {}, child: const Text(AppStrings.startJob)),
         const SizedBox(height: 12),
         SolidButton(
           onPressed: () {
@@ -100,13 +100,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           },
           backgroundColor: AppColors.amber,
           foregroundColor: Colors.black87,
-          child: const Text(StringConstants.cancelJob),
+          child: const Text(AppStrings.cancelJob),
         ),
         const SizedBox(height: 12),
         SolidButton(
           onPressed: () => Navigator.maybePop(context),
           backgroundColor: AppColors.primary.withAlpha(150),
-          child: const Text(StringConstants.backToDashboard),
+          child: const Text(AppStrings.backToDashboard),
         ),
       ],
     );
@@ -120,7 +120,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           onPressed: () {
             // TODO: Dispatch finish job
           },
-          child: const Text(StringConstants.finishJob),
+          child: const Text(AppStrings.finishJob),
         ),
         const SizedBox(height: 12),
         SolidButton(
@@ -129,13 +129,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
           },
           backgroundColor: AppColors.amber,
           foregroundColor: Colors.black87,
-          child: const Text(StringConstants.cancelJob),
+          child: const Text(AppStrings.cancelJob),
         ),
         const SizedBox(height: 12),
         SolidButton(
           onPressed: () => Navigator.maybePop(context),
           backgroundColor: AppColors.primary,
-          child: const Text(StringConstants.backToDashboard),
+          child: const Text(AppStrings.backToDashboard),
         ),
       ],
     );

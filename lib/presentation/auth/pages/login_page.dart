@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/core/utils/form_validators.dart';
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
             textInputAction: .next,
             validator: FormValidators.email(),
             autovalidateMode: .onUserInteraction,
-            decoration: OutlineInputDecoration(context: context, labelText: StringConstants.email),
+            decoration: OutlineInputDecoration(context: context, labelText: AppStrings.email),
           ),
           const SizedBox(height: 20),
           TextFormField(
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: .visiblePassword,
             decoration: OutlineInputDecoration(
               context: context,
-              labelText: StringConstants.password,
+              labelText: AppStrings.password,
               suffixIcon: IconButton(
                 icon: Icon(
                   _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 context.pushNamed(RouteNames.forgotPassword, extra: {'email': _emailController.text.trim()});
               },
               child: Text(
-                StringConstants.forgotPassword,
+                AppStrings.forgotPassword,
                 style: context.textTheme.bodyMedium?.copyWith(color: const Color(0xFF1A5E2D), fontWeight: .w500),
               ),
             ),
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: const Color(0xFF1A5E2D),
                 foregroundColor: Colors.white,
                 child: Text(
-                  StringConstants.login,
+                  AppStrings.login,
                   style: context.textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: .bold),
                 ),
               );

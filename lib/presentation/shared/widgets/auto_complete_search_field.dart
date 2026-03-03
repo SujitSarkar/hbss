@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/presentation/shared/widgets/app_bottom_sheet.dart';
@@ -196,7 +196,7 @@ class _SuggestionSheetState<T> extends State<_SuggestionSheet<T>> {
           child: _suggestions.isEmpty
               ? Center(
                   child: Text(
-                    StringConstants.noDataFound,
+                    AppStrings.noDataFound,
                     style: context.textTheme.bodyMedium?.copyWith(color: context.theme.hintColor),
                   ),
                 )

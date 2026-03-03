@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/domain/notification/repositories/notification_repository.dart';
 
 import 'package:maori_health/presentation/notification/bloc/bloc.dart';
@@ -22,7 +22,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     final result = await _repository.getNotifications(page: 1);
     await result.fold(
       onFailure: (error) async {
-        emit(NotificationErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(NotificationErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (response) async {
         emit(

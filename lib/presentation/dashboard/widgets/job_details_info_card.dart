@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/presentation/dashboard/pages/job_details_page.dart';
@@ -50,7 +50,7 @@ class JobDetailsInfoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: .start,
                   children: [
-                    Text(StringConstants.date, style: labelStyle),
+                    Text(AppStrings.date, style: labelStyle),
                     Text(date, style: textTheme.headlineSmall?.copyWith(fontWeight: .bold)),
                   ],
                 ),
@@ -64,27 +64,27 @@ class JobDetailsInfoCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(StringConstants.jobType, style: labelStyle),
+          Text(AppStrings.jobType, style: labelStyle),
           Text(jobType, style: textTheme.titleLarge?.copyWith(fontWeight: .bold)),
           const SizedBox(height: 8),
-          Text(StringConstants.clientName, style: labelStyle),
+          Text(AppStrings.clientName, style: labelStyle),
           Text(clientName, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
           const SizedBox(height: 8),
-          Text(StringConstants.clientAddress, style: labelStyle),
+          Text(AppStrings.clientAddress, style: labelStyle),
           Text(clientAddress, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
           const SizedBox(height: 8),
-          Text(StringConstants.duration, style: labelStyle),
+          Text(AppStrings.duration, style: labelStyle),
           Row(
             crossAxisAlignment: .baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(duration, style: textTheme.titleLarge?.copyWith(fontWeight: .bold)),
               const SizedBox(width: 6),
-              Text(StringConstants.hours, style: textTheme.bodyMedium),
+              Text(AppStrings.hours, style: textTheme.bodyMedium),
             ],
           ),
           const SizedBox(height: 12),
-          Text(StringConstants.scheduledTime, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
+          Text(AppStrings.scheduledTime, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
           const SizedBox(height: 4),
           Row(
             children: [
@@ -92,7 +92,7 @@ class JobDetailsInfoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: .start,
                   children: [
-                    Text(jobStartedTime != null ? StringConstants.start : StringConstants.startTime, style: labelStyle),
+                    Text(jobStartedTime != null ? AppStrings.start : AppStrings.startTime, style: labelStyle),
                     _buildTimeValue(context, startTime),
                   ],
                 ),
@@ -101,7 +101,7 @@ class JobDetailsInfoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: .start,
                   children: [
-                    Text(jobStartedTime != null ? StringConstants.end : StringConstants.endTime, style: labelStyle),
+                    Text(jobStartedTime != null ? AppStrings.end : AppStrings.endTime, style: labelStyle),
                     _buildTimeValue(context, endTime),
                   ],
                 ),
@@ -110,7 +110,7 @@ class JobDetailsInfoCard extends StatelessWidget {
           ),
           if (jobStartedTime != null) ...[
             const SizedBox(height: 12),
-            Text(StringConstants.jobStartedTime, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
+            Text(AppStrings.jobStartedTime, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
             const SizedBox(height: 2),
             Text(jobStartedTime!, style: textTheme.bodyMedium),
           ],

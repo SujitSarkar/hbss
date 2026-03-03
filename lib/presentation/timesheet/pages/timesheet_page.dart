@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/domain/employee/entities/employee.dart';
 
@@ -51,7 +51,7 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(context: context, title: Text(StringConstants.timeSheets)),
+      appBar: CommonAppBar(context: context, title: Text(AppStrings.timeSheets)),
       body: SafeArea(
         child: Padding(
           padding: const .fromLTRB(16, 8, 16, 0),
@@ -118,7 +118,7 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
                   onRefresh: () => _onRefresh(context),
                   child: CustomScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [SliverFillRemaining(child: NoDataFoundWidget(message: StringConstants.noDataFound))],
+                    slivers: [SliverFillRemaining(child: NoDataFoundWidget(message: AppStrings.noDataFound))],
                   ),
                 )
               : PaginationWrapper(

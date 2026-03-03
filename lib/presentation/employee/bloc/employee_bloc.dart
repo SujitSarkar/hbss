@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/domain/employee/repositories/employee_repository.dart';
 
 import 'package:maori_health/presentation/employee/bloc/employee_event.dart';
@@ -20,7 +20,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
     final result = await _repository.getEmployees();
     await result.fold(
       onFailure: (error) async {
-        emit(EmployeeErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(EmployeeErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (employees) async {
         emit(EmployeeLoadedState(employees));

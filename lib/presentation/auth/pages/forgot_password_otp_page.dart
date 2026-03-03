@@ -8,7 +8,7 @@ import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/loading_overlay.dart';
 import 'package:pinput/pinput.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
 import 'package:maori_health/presentation/auth/widgets/auth_back_bar_widget.dart';
@@ -77,7 +77,7 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage> {
       crossAxisAlignment: .start,
       children: [
         AuthBackBarWidget(
-          title: StringConstants.checkYourEmail,
+          title: AppStrings.checkYourEmail,
           subTitle: 'We sent a reset link to ${widget.email}\nenter 6 digit code that mentioned in the email',
         ),
         const SizedBox(height: 40),
@@ -100,7 +100,7 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage> {
               backgroundColor: AppColors.authButtonColor,
               foregroundColor: Colors.white,
               child: Text(
-                StringConstants.verifyCode,
+                AppStrings.verifyCode,
                 style: context.textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: .bold),
               ),
             );

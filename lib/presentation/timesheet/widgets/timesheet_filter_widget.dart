@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/domain/employee/entities/employee.dart';
@@ -35,7 +35,7 @@ class TimesheetFilterWidget extends StatelessWidget {
     final hasDateRange = startDate != null && endDate != null;
     final dateRangeText = hasDateRange
         ? '${DateConverter.formatDate(startDate!)} - ${DateConverter.formatDate(endDate!)}'
-        : StringConstants.selectDateRange;
+        : AppStrings.selectDateRange;
 
     return Row(
       children: [
@@ -80,8 +80,8 @@ class TimesheetFilterWidget extends StatelessWidget {
       firstDate: DateTime(2020),
       lastDate: now.add(const Duration(days: 365)),
       initialDateRange: (startDate != null && endDate != null) ? DateTimeRange(start: startDate!, end: endDate!) : null,
-      saveText: StringConstants.apply,
-      cancelText: StringConstants.clear,
+      saveText: AppStrings.apply,
+      cancelText: AppStrings.clear,
       builder: (dialogContext, child) {
         return Theme(
           data: dialogContext.theme.copyWith(
@@ -111,7 +111,7 @@ class TimesheetFilterWidget extends StatelessWidget {
                         },
                         icon: Icon(Icons.clear, size: 20),
                         label: Text(
-                          StringConstants.clear,
+                          AppStrings.clear,
                           style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onError),
                         ),
                       ),
@@ -147,8 +147,8 @@ class _EmployeeAutoComplete extends StatelessWidget {
 
         return AutoCompleteSearchField<Employee>(
           items: employees,
-          title: StringConstants.selectEmployee,
-          searchHint: StringConstants.searchEmployee,
+          title: AppStrings.selectEmployee,
+          searchHint: AppStrings.searchEmployee,
           initialQuery: selectedEmployee?.fullName,
           itemFilter: (employee, query) => employee.fullName.toLowerCase().contains(query.toLowerCase()),
           itemSorter: (a, b) => a.fullName.compareTo(b.fullName),
@@ -173,7 +173,7 @@ class _EmployeeAutoComplete extends StatelessWidget {
                       child: isLoading
                           ? const Center(child: SizedBox(height: 16, width: 16, child: LoadingWidget()))
                           : Text(
-                              selectedEmployee?.fullName ?? StringConstants.employee,
+                              selectedEmployee?.fullName ?? AppStrings.employee,
                               style: context.textTheme.bodySmall?.copyWith(
                                 fontWeight: .w600,
                                 color: context.colorScheme.onSurface,

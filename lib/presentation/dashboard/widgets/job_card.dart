@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -72,7 +72,7 @@ class JobCard extends StatelessWidget {
                 ),
                 if (_workStartedAt != null)
                   Text(
-                    '${StringConstants.startedAt} : $_workStartedAt',
+                    '${AppStrings.startedAt} : $_workStartedAt',
                     style: textTheme.bodySmall?.copyWith(fontWeight: .w600),
                   ),
               ],
@@ -80,11 +80,11 @@ class JobCard extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                _TimeColumn(label: StringConstants.startTime, value: _startTime),
+                _TimeColumn(label: AppStrings.startTime, value: _startTime),
                 const SizedBox(width: 24),
-                _TimeColumn(label: StringConstants.endTime, value: _endTime),
+                _TimeColumn(label: AppStrings.endTime, value: _endTime),
                 const Spacer(),
-                _TimeColumn(label: StringConstants.totalHours, value: _totalHours),
+                _TimeColumn(label: AppStrings.totalHours, value: _totalHours),
               ],
             ),
           ],

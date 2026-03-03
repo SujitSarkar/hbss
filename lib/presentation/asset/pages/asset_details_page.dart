@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:maori_health/core/config/env_config.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
@@ -18,7 +18,7 @@ class AssetDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(context: context, title: Text(StringConstants.viewDetails)),
+      appBar: CommonAppBar(context: context, title: Text(AppStrings.viewDetails)),
       body: SingleChildScrollView(
         padding: const .all(16),
         child: Column(
@@ -51,43 +51,43 @@ class AssetDetailsPage extends StatelessWidget {
         crossAxisAlignment: .start,
         children: [
           _InfoRow(
-            label: '${StringConstants.aid}: ',
+            label: '${AppStrings.aid}: ',
             value: '${asset.asset.id}',
             labelStyle: labelStyle,
             valueStyle: valueStyle,
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            label: '${StringConstants.statusLabel}: ',
+            label: '${AppStrings.statusLabel}: ',
             value: AssetUtils.statusLabel(asset.asset.acknowledgementStatus ?? 0),
             labelStyle: labelStyle,
             valueStyle: valueStyle?.copyWith(color: AssetUtils.statusColor(asset.asset.acknowledgementStatus ?? 0)),
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            label: '${StringConstants.product}: ',
-            value: asset.stock.uniqueId ?? StringConstants.na,
+            label: '${AppStrings.product}: ',
+            value: asset.stock.uniqueId ?? AppStrings.na,
             labelStyle: labelStyle,
             valueStyle: valueStyle,
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            label: '${StringConstants.assignDate}: ',
+            label: '${AppStrings.assignDate}: ',
             value: DateConverter.formatDate(asset.asset.assignedDate!),
             labelStyle: labelStyle,
             valueStyle: valueStyle,
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            label: '${StringConstants.operator}: ',
-            value: asset.user.fullName ?? StringConstants.na,
+            label: '${AppStrings.operator}: ',
+            value: asset.user.fullName ?? AppStrings.na,
             labelStyle: labelStyle,
             valueStyle: valueStyle,
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            label: '${StringConstants.acknowledgement}: ',
-            value: asset.receivedBy?.fullName ?? StringConstants.na,
+            label: '${AppStrings.acknowledgement}: ',
+            value: asset.receivedBy?.fullName ?? AppStrings.na,
             labelStyle: labelStyle,
             valueStyle: valueStyle,
           ),
@@ -95,7 +95,7 @@ class AssetDetailsPage extends StatelessWidget {
             const SizedBox(height: 8),
 
             _InfoRow(
-              label: '${StringConstants.at}: ',
+              label: '${AppStrings.at}: ',
               value: DateConverter.formatDateTime(asset.asset.receivedAt!),
               labelStyle: labelStyle,
               valueStyle: valueStyle,
@@ -112,10 +112,10 @@ class AssetDetailsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: .start,
       children: [
-        Text(StringConstants.description, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
+        Text(AppStrings.description, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
         const SizedBox(height: 8),
         Text(
-          asset.asset.note ?? StringConstants.na,
+          asset.asset.note ?? AppStrings.na,
           style: textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurfaceVariant),
         ),
       ],
@@ -128,15 +128,17 @@ class AssetDetailsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: .start,
       children: [
-        Text(StringConstants.attachment, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
+        Text(AppStrings.attachment, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
         const SizedBox(height: 12),
         asset.stock.product?.image != null
             ? ClipRRect(
                 borderRadius: .circular(12),
                 child: CachedNetworkImage(
+                  width: double.infinity,
+                  height: 200,
+                  fit: BoxFit.fitHeight,
                   imageUrl: '${EnvConfig.hostUrl}${asset.stock.product?.image}',
-                  imageBuilder: (context, imageProvider) => Image(image: imageProvider),
-                  placeholder: (context, url) => _buildAttachmentPlaceholder(context),
+                  placeholder: (context, url) => _buildAttachmentPlaceholder(context, text: '${AppStrings.loading}...'),
                   errorWidget: (context, url, error) => _buildAttachmentPlaceholder(context, icon: Icons.error_outline),
                 ),
               )
@@ -145,7 +147,7 @@ class AssetDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAttachmentPlaceholder(BuildContext context, {IconData? icon}) {
+  Widget _buildAttachmentPlaceholder(BuildContext context, {IconData? icon, String? text}) {
     return Container(
       width: double.infinity,
       height: 200,
@@ -156,7 +158,7 @@ class AssetDetailsPage extends StatelessWidget {
           Icon(icon ?? Icons.image_outlined, size: 48, color: context.colorScheme.onSurfaceVariant.withAlpha(120)),
           const SizedBox(height: 8),
           Text(
-            StringConstants.noAttachment,
+            text ?? AppStrings.noAttachment,
             style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurfaceVariant.withAlpha(150)),
           ),
         ],

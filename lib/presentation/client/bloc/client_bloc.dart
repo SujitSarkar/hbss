@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
 import 'package:maori_health/domain/client/repositories/client_repository.dart';
 
@@ -20,7 +20,7 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
 
     await result.fold(
       onFailure: (error) async {
-        emit(ClientErrorState(message: (error.errorMessage ?? StringConstants.somethingWentWrong)));
+        emit(ClientErrorState(message: (error.errorMessage ?? AppStrings.somethingWentWrong)));
       },
       onSuccess: (clients) async {
         emit(ClientLoadedState(clients: clients));

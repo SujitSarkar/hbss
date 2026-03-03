@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 
@@ -25,7 +25,7 @@ class SplashPage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         body: Center(
           child: Text(
-            StringConstants.appName,
+            AppStrings.appName,
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Colors.white, fontWeight: .bold),
           ),
         ),

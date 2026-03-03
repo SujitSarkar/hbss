@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/domain/timesheet/repositories/timesheet_repository.dart';
 
 import 'package:maori_health/presentation/timesheet/bloc/timesheet_event.dart';
@@ -28,7 +28,7 @@ class TimeSheetBloc extends Bloc<TimeSheetEvent, TimeSheetState> {
 
     await result.fold(
       onFailure: (error) async {
-        emit(TimeSheetErrorState(error.errorMessage ?? StringConstants.somethingWentWrong));
+        emit(TimeSheetErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
       },
       onSuccess: (response) async {
         emit(

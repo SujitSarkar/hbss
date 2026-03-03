@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maori_health/core/config/env_config.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/enums/job.status.enum.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
@@ -24,13 +24,13 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(title: const Text(StringConstants.profile), context: context),
+      appBar: CommonAppBar(title: const Text(AppStrings.profile), context: context),
       body: BlocBuilder<AuthBloc, AuthState>(
         buildWhen: (prev, curr) => prev.user != curr.user,
         builder: (context, state) {
           final user = state.user;
           if (user == null) {
-            return const Center(child: Text(StringConstants.noDataFound));
+            return const Center(child: Text(AppStrings.noDataFound));
           }
           return _ProfileBody(user: user);
         },
@@ -92,22 +92,22 @@ class _ProfileBody extends StatelessWidget {
   Widget _buildBasicInfo(BuildContext context) {
     return ProfileSectionCard(
       icon: Icons.person_outline,
-      title: StringConstants.basicInformation,
+      title: AppStrings.basicInformation,
       children: [
         ProfileInfoTile(
           icon: Icons.verified_outlined,
-          label: StringConstants.statusLabel,
+          label: AppStrings.statusLabel,
           trailing: _StatusBadge(status: user.status),
         ),
-        ProfileInfoTile(icon: Icons.face_outlined, label: StringConstants.nickName, value: user.nickName),
-        ProfileInfoTile(icon: Icons.wc_outlined, label: StringConstants.gender, value: user.gender),
-        ProfileInfoTile(icon: Icons.cake_outlined, label: StringConstants.dateOfBirth, value: user.dob),
-        ProfileInfoTile(icon: Icons.hourglass_bottom_outlined, label: StringConstants.age, value: user.age),
-        ProfileInfoTile(icon: Icons.diversity_3_outlined, label: StringConstants.ethnicity, value: user.ethnicity),
-        ProfileInfoTile(icon: Icons.medical_information_outlined, label: StringConstants.nhi, value: user.nhi),
+        ProfileInfoTile(icon: Icons.face_outlined, label: AppStrings.nickName, value: user.nickName),
+        ProfileInfoTile(icon: Icons.wc_outlined, label: AppStrings.gender, value: user.gender),
+        ProfileInfoTile(icon: Icons.cake_outlined, label: AppStrings.dateOfBirth, value: user.dob),
+        ProfileInfoTile(icon: Icons.hourglass_bottom_outlined, label: AppStrings.age, value: user.age),
+        ProfileInfoTile(icon: Icons.diversity_3_outlined, label: AppStrings.ethnicity, value: user.ethnicity),
+        ProfileInfoTile(icon: Icons.medical_information_outlined, label: AppStrings.nhi, value: user.nhi),
         ProfileInfoTile(
           icon: Icons.calendar_today_outlined,
-          label: StringConstants.joinedDate,
+          label: AppStrings.joinedDate,
           value: DateConverter.formatIsoDateTime(user.createdAt),
         ),
       ],
@@ -117,11 +117,11 @@ class _ProfileBody extends StatelessWidget {
   Widget _buildContactInfo(BuildContext context) {
     return ProfileSectionCard(
       icon: Icons.contact_mail_outlined,
-      title: StringConstants.contactInformation,
+      title: AppStrings.contactInformation,
       children: [
-        ProfileInfoTile(icon: Icons.email_outlined, label: StringConstants.email, value: user.email),
-        ProfileInfoTile(icon: Icons.phone_outlined, label: StringConstants.phone, value: user.phone),
-        ProfileInfoTile(icon: Icons.location_on_outlined, label: StringConstants.location, value: user.location),
+        ProfileInfoTile(icon: Icons.email_outlined, label: AppStrings.email, value: user.email),
+        ProfileInfoTile(icon: Icons.phone_outlined, label: AppStrings.phone, value: user.phone),
+        ProfileInfoTile(icon: Icons.location_on_outlined, label: AppStrings.location, value: user.location),
       ],
     );
   }
@@ -130,7 +130,7 @@ class _ProfileBody extends StatelessWidget {
     return SolidButton(
       width: 200,
       onPressed: () => showChangePasswordDialog(context),
-      child: const Text(StringConstants.changePassword),
+      child: const Text(AppStrings.changePassword),
     );
   }
 

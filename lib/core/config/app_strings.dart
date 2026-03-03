@@ -1,4 +1,4 @@
-abstract class StringConstants {
+abstract class AppStrings {
   static const String appName = 'HBSS';
   // Bottom Navigation
   static const String dashboard = 'Dashboard';
@@ -114,6 +114,7 @@ abstract class StringConstants {
   static const String description = 'Description';
   static const String attachment = 'Attachment';
   static const String noAttachment = 'No attachment';
+  static const String loading = 'Loading';
   static const String assetAccepted = 'Asset accepted';
 
   // TimeSheet
@@ -121,6 +122,9 @@ abstract class StringConstants {
   static const String selectDateRange = 'Select Date Range';
   static const String selectEmployee = 'Select Employee';
   static const String searchEmployee = 'Search employee';
+  static const String selectClient = 'Select Client';
+  static const String searchClient = 'Search client';
+  static const String client = 'Client';
   static const String select = 'Select';
   static const String employee = 'Employee';
   static const String apply = 'Apply';

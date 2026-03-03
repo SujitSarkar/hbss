@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 
 class FormValidators {
   FormValidators._();
@@ -11,32 +11,32 @@ class FormValidators {
 
   static String? Function(String?) required() {
     return (value) {
-      if (value == null || value.trim().isEmpty) return StringConstants.thisFieldIsRequired;
+      if (value == null || value.trim().isEmpty) return AppStrings.thisFieldIsRequired;
       return null;
     };
   }
 
   static String? Function(String?) email() {
     return (value) {
-      if (value == null || value.trim().isEmpty) return StringConstants.thisFieldIsRequired;
-      if (!_emailRegex.hasMatch(value.trim())) return StringConstants.invalidEmail;
+      if (value == null || value.trim().isEmpty) return AppStrings.thisFieldIsRequired;
+      if (!_emailRegex.hasMatch(value.trim())) return AppStrings.invalidEmail;
       return null;
     };
   }
 
   static String? Function(String?) name() {
     return (value) {
-      if (value == null || value.trim().isEmpty) return StringConstants.thisFieldIsRequired;
-      if (value.trim().length < 2) return StringConstants.nameTooShort;
-      if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value.trim())) return StringConstants.invalidName;
+      if (value == null || value.trim().isEmpty) return AppStrings.thisFieldIsRequired;
+      if (value.trim().length < 2) return AppStrings.nameTooShort;
+      if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value.trim())) return AppStrings.invalidName;
       return null;
     };
   }
 
   static String? Function(String?) password({int minLength = 8}) {
     return (value) {
-      if (value == null || value.isEmpty) return StringConstants.thisFieldIsRequired;
-      if (value.length < minLength) return StringConstants.passwordTooShort;
+      if (value == null || value.isEmpty) return AppStrings.thisFieldIsRequired;
+      if (value.length < minLength) return AppStrings.passwordTooShort;
       return null;
     };
   }

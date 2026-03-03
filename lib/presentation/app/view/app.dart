@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/app_router.dart';
 import 'package:maori_health/core/theme/app_theme.dart';
@@ -56,7 +56,7 @@ class _AppViewState extends State<_AppView> {
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, appState) {
         return MaterialApp.router(
-          title: StringConstants.appName,
+          title: AppStrings.appName,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,

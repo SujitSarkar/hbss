@@ -36,6 +36,7 @@ import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
 import 'package:maori_health/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:maori_health/presentation/notification/bloc/notification_bloc.dart';
 import 'package:maori_health/presentation/employee/bloc/employee_bloc.dart';
+import 'package:maori_health/presentation/schedule/bloc/schedule_bloc.dart';
 import 'package:maori_health/presentation/timesheet/bloc/timesheet_bloc.dart';
 
 void registerFeatureModule(GetIt getIt) {
@@ -124,4 +125,15 @@ void registerFeatureModule(GetIt getIt) {
       ),
     )
     ..registerFactory<DashboardBloc>(() => DashboardBloc(repository: getIt<DashboardRepository>()));
+
+  // ── Schedule
+  getIt
+  // ..registerLazySingleton<ScheduleRemoteDataSource>(() => ScheduleRemoteDataSourceImpl(client: getIt<DioClient>()))
+  // ..registerLazySingleton<ScheduleRepository>(
+  //   () => ScheduleRepositoryImpl(
+  //     remoteDataSource: getIt<ScheduleRemoteDataSource>(),
+  //     networkChecker: getIt<NetworkChecker>(),
+  //   ),
+  // )
+  .registerFactory<ScheduleBloc>(() => ScheduleBloc());
 }

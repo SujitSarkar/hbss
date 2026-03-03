@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -39,7 +39,7 @@ class _NotificationView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: .start,
             children: [
-              Text(StringConstants.notification, style: context.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
+              Text(AppStrings.notification, style: context.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
               const SizedBox(height: 12),
               Expanded(
                 child: BlocBuilder<NotificationBloc, NotificationState>(
@@ -73,7 +73,7 @@ class _NotificationView extends StatelessWidget {
         onRefresh: () => _onRefresh(context),
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [SliverFillRemaining(child: NoDataFoundWidget(message: StringConstants.noDataFound))],
+          slivers: [SliverFillRemaining(child: NoDataFoundWidget(message: AppStrings.noDataFound))],
         ),
       );
     }

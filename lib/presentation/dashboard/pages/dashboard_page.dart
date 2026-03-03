@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/assets.dart';
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -87,7 +87,7 @@ class _DashboardView extends StatelessWidget {
             const SizedBox(height: 20),
 
             if (dashboardData.availableJobs.isNotEmpty) ...[
-              _buildSectionTitle(context, StringConstants.availableJobs),
+              _buildSectionTitle(context, AppStrings.availableJobs),
               const SizedBox(height: 12),
               JobCarousel(jobs: dashboardData.availableJobs, onJobTap: (job) => _onJobTap(context, job)),
               const SizedBox(height: 24),
@@ -108,28 +108,28 @@ class _DashboardView extends StatelessWidget {
             const SizedBox(height: 24),
 
             if (dashboardData.currentSchedule != null) ...[
-              _buildSectionTitle(context, StringConstants.currentScheduled),
+              _buildSectionTitle(context, AppStrings.currentScheduled),
               const SizedBox(height: 12),
               _buildJobCard(context, dashboardData.currentSchedule!),
               const SizedBox(height: 16),
             ],
 
             if (dashboardData.nextSchedule != null) ...[
-              _buildSectionTitle(context, StringConstants.nextSchedule),
+              _buildSectionTitle(context, AppStrings.nextSchedule),
               const SizedBox(height: 12),
               _buildJobCard(context, dashboardData.nextSchedule!),
               const SizedBox(height: 16),
             ],
 
             if (dashboardData.todaysSchedules.isNotEmpty) ...[
-              _buildSectionTitle(context, StringConstants.todaySchedule),
+              _buildSectionTitle(context, AppStrings.todaySchedule),
               const SizedBox(height: 12),
               ...dashboardData.todaysSchedules.map((j) => _buildJobCard(context, j)),
               const SizedBox(height: 16),
             ],
 
             if (dashboardData.upcomingSchedules.isNotEmpty) ...[
-              _buildSectionTitle(context, StringConstants.upcomingSchedule),
+              _buildSectionTitle(context, AppStrings.upcomingSchedule),
               const SizedBox(height: 12),
               ...dashboardData.upcomingSchedules.map((j) => _buildJobCard(context, j)),
             ],
@@ -155,7 +155,7 @@ class _DashboardView extends StatelessWidget {
                   Text('Hi, $name', style: textTheme.headlineSmall?.copyWith(fontWeight: .bold)),
                   const SizedBox(height: 2),
                   Text(
-                    StringConstants.welcomeTo,
+                    AppStrings.welcomeTo,
                     style: textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurfaceVariant),
                   ),
                 ],
@@ -181,12 +181,12 @@ class _DashboardView extends StatelessWidget {
 
   List<StatsGridItem> _buildStatsItems(Stats stats) {
     return [
-      StatsGridItem(value: '${stats.totalJobs}', label: StringConstants.totalJob),
-      StatsGridItem(value: '${stats.activeJobs}', label: StringConstants.activeJob),
-      StatsGridItem(value: '${stats.cancelledJobs}', label: StringConstants.cancelJob),
-      StatsGridItem(value: '${stats.completedJobs}', label: StringConstants.completeJob),
-      StatsGridItem(value: '${stats.totalClients}', label: StringConstants.totalClient),
-      StatsGridItem(value: '${stats.missedTimesheets}', label: StringConstants.missedTimeSheets),
+      StatsGridItem(value: '${stats.totalJobs}', label: AppStrings.totalJob),
+      StatsGridItem(value: '${stats.activeJobs}', label: AppStrings.activeJob),
+      StatsGridItem(value: '${stats.cancelledJobs}', label: AppStrings.cancelJob),
+      StatsGridItem(value: '${stats.completedJobs}', label: AppStrings.completeJob),
+      StatsGridItem(value: '${stats.totalClients}', label: AppStrings.totalClient),
+      StatsGridItem(value: '${stats.missedTimesheets}', label: AppStrings.missedTimeSheets),
     ];
   }
 }

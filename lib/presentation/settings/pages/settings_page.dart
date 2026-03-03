@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
 
 import 'package:maori_health/presentation/app/bloc/bloc.dart';
@@ -24,8 +24,8 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: .start,
             children: [
-              Text(StringConstants.settings, style: theme.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
-              const SizedBox(height: 16),
+              Text(AppStrings.settings, style: theme.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
+              const SizedBox(height: 12),
               Expanded(
                 child: Container(
                   padding: const .symmetric(horizontal: 8, vertical: 12),
@@ -38,17 +38,17 @@ class SettingsPage extends StatelessWidget {
                       children: [
                         SettingsTile(
                           icon: Icons.person_outline,
-                          title: StringConstants.profile,
+                          title: AppStrings.profile,
                           onTap: () => context.pushNamed(RouteNames.profile),
                         ),
                         SettingsTile(
                           icon: Icons.photo_library_outlined,
-                          title: StringConstants.assets,
+                          title: AppStrings.assets,
                           onTap: () => context.pushNamed(RouteNames.assets),
                         ),
                         SettingsTile(
                           icon: Icons.access_time_outlined,
-                          title: StringConstants.timeSheets,
+                          title: AppStrings.timeSheets,
                           onTap: () => context.pushNamed(RouteNames.timeSheets),
                         ),
                         BlocBuilder<AppBloc, AppState>(
@@ -57,7 +57,7 @@ class SettingsPage extends StatelessWidget {
                             return SettingsTile(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                               icon: isDark ? Icons.dark_mode : Icons.light_mode_outlined,
-                              title: StringConstants.darkMode,
+                              title: AppStrings.darkMode,
                               trailing: Transform.scale(
                                 scale: 0.9,
                                 child: Switch.adaptive(
@@ -81,14 +81,14 @@ class SettingsPage extends StatelessWidget {
                         ),
                         SettingsTile(
                           icon: Icons.logout,
-                          title: StringConstants.signOut,
+                          title: AppStrings.signOut,
                           color: theme.colorScheme.error,
                           onTap: () async {
                             final confirmed = await showConfirmationDialog(
                               context,
-                              title: StringConstants.signOut,
-                              message: StringConstants.areYouSureYouWantToSignOut,
-                              confirmText: StringConstants.signOut,
+                              title: AppStrings.signOut,
+                              message: AppStrings.areYouSureYouWantToSignOut,
+                              confirmText: AppStrings.signOut,
                               confirmColor: theme.colorScheme.error,
                             );
                             if (confirmed && context.mounted) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -87,8 +87,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         crossAxisAlignment: .start,
         children: [
           AuthBackBarWidget(
-            title: StringConstants.setAnewPassword,
-            subTitle: StringConstants.createNewPassInstruction,
+            title: AppStrings.setAnewPassword,
+            subTitle: AppStrings.createNewPassInstruction,
             onBackPressed: _pageExitConfirmation,
           ),
           const SizedBox(height: 40),
@@ -101,7 +101,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             autovalidateMode: .onUserInteraction,
             decoration: OutlineInputDecoration(
               context: context,
-              labelText: StringConstants.password,
+              labelText: AppStrings.password,
               suffixIcon: _visibilityToggle(
                 _obscurePassword,
                 () => setState(() => _obscurePassword = !_obscurePassword),
@@ -117,7 +117,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             autovalidateMode: .onUserInteraction,
             decoration: OutlineInputDecoration(
               context: context,
-              labelText: StringConstants.confirmPassword,
+              labelText: AppStrings.confirmPassword,
               suffixIcon: _visibilityToggle(
                 _obscureConfirmPassword,
                 () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
@@ -127,7 +127,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               final base = FormValidators.password()(value);
               if (base != null) return base;
               if (value != _passwordController.text) {
-                return StringConstants.passwordsDoNotMatch;
+                return AppStrings.passwordsDoNotMatch;
               }
               return null;
             },
@@ -141,7 +141,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 backgroundColor: AppColors.authButtonColor,
                 foregroundColor: Colors.white,
                 child: Text(
-                  StringConstants.updatePassword,
+                  AppStrings.updatePassword,
                   style: context.textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: .bold),
                 ),
               );
@@ -157,9 +157,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final contextToUse = context;
     final confirmed = await showConfirmationDialog(
       contextToUse,
-      title: StringConstants.terminateProcess,
-      message: StringConstants.terminateProcessInstruction,
-      confirmText: StringConstants.yes,
+      title: AppStrings.terminateProcess,
+      message: AppStrings.terminateProcessInstruction,
+      confirmText: AppStrings.yes,
       confirmColor: context.theme.colorScheme.error,
     );
     if (contextToUse.mounted && confirmed) {

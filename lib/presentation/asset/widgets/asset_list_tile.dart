@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:maori_health/core/config/string_constants.dart';
+import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -33,22 +33,22 @@ class AssetListTile extends StatelessWidget {
         children: [
           _buildHeader(context, textTheme),
           const SizedBox(height: 12),
-          _buildInfoRow(context, icon: Icons.tag, label: StringConstants.id, value: '${asset.stock.uniqueId}'),
+          _buildInfoRow(context, icon: Icons.tag, label: AppStrings.id, value: '${asset.stock.uniqueId}'),
           const SizedBox(height: 10),
           _buildInfoRow(
             context,
             icon: Icons.calendar_today_outlined,
-            label: StringConstants.assignmentDate,
+            label: AppStrings.assignmentDate,
             value: DateConverter.formatDate(asset.asset.assignedDate!),
           ),
           const SizedBox(height: 10),
           _buildInfoRow(
             context,
             icon: Icons.calendar_today_outlined,
-            label: StringConstants.acknowledgementStatus,
+            label: AppStrings.acknowledgementStatus,
             value: AssetUtils.isAcknowledged(asset.asset.acknowledgementStatus ?? 0)
-                ? StringConstants.accepted
-                : StringConstants.pending,
+                ? AppStrings.accepted
+                : AppStrings.pending,
           ),
           const SizedBox(height: 14),
           _buildActions(context),
@@ -69,7 +69,7 @@ class AssetListTile extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: Text(
-            asset.stock.product?.name ?? StringConstants.na,
+            asset.stock.product?.name ?? AppStrings.na,
             style: textTheme.titleSmall?.copyWith(fontWeight: .w600),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -101,7 +101,7 @@ class AssetListTile extends StatelessWidget {
           Expanded(
             child: _ActionButton(
               icon: Icons.visibility_outlined,
-              label: StringConstants.view,
+              label: AppStrings.view,
               backgroundColor: context.colorScheme.primary,
               foregroundColor: Colors.white,
               onTap: onView,
@@ -111,7 +111,7 @@ class AssetListTile extends StatelessWidget {
           Expanded(
             child: _ActionButton(
               icon: Icons.check,
-              label: StringConstants.accept,
+              label: AppStrings.accept,
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
               onTap: onAccept,
@@ -135,10 +135,7 @@ class AssetListTile extends StatelessWidget {
           children: [
             Icon(Icons.visibility_outlined, size: 18, color: context.colorScheme.onSurface),
             const SizedBox(width: 6),
-            Text(
-              StringConstants.view,
-              style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurface),
-            ),
+            Text(AppStrings.view, style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurface)),
           ],
         ),
       ),
