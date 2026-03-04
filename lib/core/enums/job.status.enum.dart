@@ -1,4 +1,5 @@
 enum JobStatusEnum {
+  pending('pending'),
   active('active'),
   inProgress('inprogress'),
   completed('completed'),

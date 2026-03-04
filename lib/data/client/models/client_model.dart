@@ -1,7 +1,8 @@
+import 'package:maori_health/data/client/models/address_model.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
 
 class ClientModel extends Client {
-  ClientModel({
+  const ClientModel({
     super.id,
     super.fullName,
     super.fName,
@@ -32,6 +33,7 @@ class ClientModel extends Client {
     super.createdAt,
     super.updatedAt,
     super.deletedAt,
+    super.address,
   });
   factory ClientModel.fromJson(Map<String, dynamic> json) => ClientModel(
     id: json["id"],
@@ -66,6 +68,7 @@ class ClientModel extends Client {
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"] == null ? null : DateTime.parse(json["deleted_at"]),
     fullName: json["full_name"],
+    address: json["address"] == null ? null : AddressModel.fromJson(json["address"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -100,5 +103,6 @@ class ClientModel extends Client {
     "updated_at": updatedAt?.toIso8601String(),
     "deleted_at": deletedAt?.toIso8601String(),
     "full_name": fullName,
+    "address": (address as AddressModel?)?.toJson(),
   };
 }

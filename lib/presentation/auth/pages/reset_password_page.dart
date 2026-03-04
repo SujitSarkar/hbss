@@ -30,6 +30,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _isExitDialogOpen = false;
 
   @override
   void dispose() {
@@ -57,7 +58,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        _pageExitConfirmation();
+        if (didPop || _isExitDialogOpen || !mounted) return;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted || _isExitDialogOpen) return;
+          _pageExitConfirmation();
+        });
       },
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -154,6 +159,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   }
 
   void _pageExitConfirmation() async {
+    if (_isExitDialogOpen || !mounted) return;
+    _isExitDialogOpen = true;
     final contextToUse = context;
     final confirmed = await showConfirmationDialog(
       contextToUse,
@@ -162,6 +169,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       confirmText: AppStrings.yes,
       confirmColor: context.theme.colorScheme.error,
     );
+    _isExitDialogOpen = false;
     if (contextToUse.mounted && confirmed) {
       contextToUse.goNamed(RouteNames.login);
     }

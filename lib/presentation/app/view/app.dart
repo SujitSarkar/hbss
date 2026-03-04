@@ -11,6 +11,8 @@ import 'package:maori_health/presentation/app/bloc/bloc.dart';
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
 import 'package:maori_health/presentation/employee/bloc/bloc.dart';
+import 'package:maori_health/presentation/notification/bloc/bloc.dart';
+import 'package:maori_health/presentation/schedule/bloc/schedule_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -21,8 +23,10 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<AppBloc>()..add(const AppStarted())),
         BlocProvider(create: (_) => getIt<AuthBloc>()..add(const AuthLocalLoginEvent())),
+        BlocProvider(create: (_) => getIt<NotificationBloc>()),
         BlocProvider(create: (_) => getIt<ClientBloc>()),
         BlocProvider(create: (_) => getIt<EmployeeBloc>()),
+        BlocProvider(create: (_) => getIt<ScheduleBloc>()),
       ],
       child: const _AppView(),
     );

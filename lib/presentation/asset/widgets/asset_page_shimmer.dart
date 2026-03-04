@@ -35,7 +35,7 @@ class _ShimmerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const .all(16),
+      padding: const .all(12),
       decoration: BoxDecoration(
         borderRadius: .circular(14),
         border: .all(color: context.theme.cardColor),

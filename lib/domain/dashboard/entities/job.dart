@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:maori_health/domain/auth/entities/user.dart';
+import 'package:maori_health/domain/client/entities/client.dart';
 
 class Job extends Equatable {
   final int id;
@@ -39,6 +41,8 @@ class Job extends Equatable {
   final String? createdAt;
   final String? updatedAt;
   final String? deletedAt;
+  final Client? client;
+  final User? assignee;
 
   const Job({
     required this.id,
@@ -79,8 +83,51 @@ class Job extends Equatable {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
+    this.client,
+    this.assignee,
   });
 
   @override
-  List<Object?> get props => [id, jobListId, jobDayId];
+  List<Object?> get props => [
+    id,
+    jobListId,
+    jobDayId,
+    assigneeUserId,
+    clientUserId,
+    funderId,
+    scheduleStartTime,
+    scheduleEndTime,
+    workStartTime,
+    workEndTime,
+    scheduleTotalTime,
+    workTotalTime,
+    day,
+    jobType,
+    payHour,
+    travelType,
+    travelTime,
+    travelDistance,
+    visitType,
+    batchCreatedAt,
+    isChecked,
+    confirmedAt,
+    confirmedBy,
+    status,
+    isHoliday,
+    cancelDateTime,
+    cancelledBy,
+    cancelReason,
+    cancelNote,
+    ibtEtApply,
+    payableCancelled,
+    cancelRequestedAt,
+    operatorId,
+    color,
+    childColors,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    client,
+    assignee,
+  ];
 }

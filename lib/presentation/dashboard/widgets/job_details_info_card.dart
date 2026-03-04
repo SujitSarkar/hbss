@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
+import 'package:maori_health/core/enums/job.status.enum.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
-import 'package:maori_health/presentation/dashboard/pages/job_details_page.dart';
 
 class JobDetailsInfoCard extends StatelessWidget {
   final String date;
@@ -14,7 +14,7 @@ class JobDetailsInfoCard extends StatelessWidget {
   final String startTime;
   final String endTime;
   final String? jobStartedTime;
-  final JobStatus status;
+  final String? status;
 
   const JobDetailsInfoCard({
     super.key,
@@ -45,6 +45,7 @@ class JobDetailsInfoCard extends StatelessWidget {
         crossAxisAlignment: .start,
         children: [
           Row(
+            crossAxisAlignment: .start,
             children: [
               Expanded(
                 child: Column(
@@ -55,7 +56,7 @@ class JobDetailsInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (status == JobStatus.started)
+              if (status == JobStatusEnum.active.value)
                 Container(
                   width: 14,
                   height: 14,

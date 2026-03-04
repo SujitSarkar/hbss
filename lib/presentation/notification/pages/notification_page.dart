@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
@@ -15,48 +14,54 @@ import 'package:maori_health/presentation/shared/widgets/no_data_found_widget.da
 import 'package:maori_health/presentation/shared/widgets/pagination_wrapper.dart';
 import 'package:maori_health/presentation/shared/widgets/swipe_refresh_wrapper.dart';
 
-class NotificationPage extends StatelessWidget {
+class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<NotificationBloc>()..add(const NotificationsLoadEvent()),
-      child: const _NotificationView(),
-    );
-  }
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _NotificationView extends StatelessWidget {
-  const _NotificationView();
+class _NotificationPageState extends State<NotificationPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationBloc>().add(const NotificationsLoadEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const .fromLTRB(16, 16, 16, 0),
-          child: Column(
-            crossAxisAlignment: .start,
-            children: [
-              Text(AppStrings.notification, style: context.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
-              const SizedBox(height: 12),
-              Expanded(
-                child: BlocBuilder<NotificationBloc, NotificationState>(
-                  builder: (context, state) {
-                    return switch (state) {
-                      NotificationLoadingState() => const NotificationShimmer(),
-                      NotificationErrorState(:final errorMessage) => ErrorViewWidget(
-                        message: errorMessage,
-                        onRetry: () => context.read<NotificationBloc>().add(const NotificationsLoadEvent()),
-                      ),
-                      NotificationLoadedState() => _buildContent(context, state),
-                      _ => const SizedBox.shrink(),
-                    };
-                  },
+    return BlocListener<NotificationBloc, NotificationState>(
+      listener: (context, state) {
+        if (state is NotificationErrorState) {
+          context.showSnackBar(state.errorMessage);
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const .fromLTRB(16, 16, 16, 0),
+            child: Column(
+              crossAxisAlignment: .start,
+              children: [
+                Text(AppStrings.notification, style: context.textTheme.headlineMedium?.copyWith(fontWeight: .bold)),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: BlocBuilder<NotificationBloc, NotificationState>(
+                    builder: (context, state) {
+                      return switch (state) {
+                        NotificationLoadingState() => const NotificationShimmer(),
+                        NotificationErrorState(:final errorMessage) => ErrorViewWidget(
+                          message: errorMessage,
+                          onRetry: () => context.read<NotificationBloc>().add(const NotificationsLoadEvent()),
+                        ),
+                        NotificationLoadedState() => _buildContent(context, state),
+                        _ => const SizedBox.shrink(),
+                      };
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -15,12 +15,15 @@ class NotificationLoadingState extends NotificationState {
 
 class NotificationLoadedState extends NotificationState {
   final List<NotificationResponse> notifications;
+  final int unreadCount;
   final int currentPage;
   final int lastPage;
+
   final bool isLoadingMore;
 
   const NotificationLoadedState({
     required this.notifications,
+    required this.unreadCount,
     required this.currentPage,
     required this.lastPage,
     this.isLoadingMore = false,
@@ -30,12 +33,14 @@ class NotificationLoadedState extends NotificationState {
 
   NotificationLoadedState copyWith({
     List<NotificationResponse>? notifications,
+    int? unreadCount,
     int? currentPage,
     int? lastPage,
     bool? isLoadingMore,
   }) {
     return NotificationLoadedState(
       notifications: notifications ?? this.notifications,
+      unreadCount: unreadCount ?? this.unreadCount,
       currentPage: currentPage ?? this.currentPage,
       lastPage: lastPage ?? this.lastPage,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
@@ -43,7 +48,7 @@ class NotificationLoadedState extends NotificationState {
   }
 
   @override
-  List<Object?> get props => [notifications, currentPage, lastPage, isLoadingMore];
+  List<Object?> get props => [notifications, unreadCount, currentPage, lastPage, isLoadingMore];
 }
 
 class NotificationErrorState extends NotificationState {

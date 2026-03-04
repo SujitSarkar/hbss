@@ -75,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
             controller: _passwordController,
             obscureText: _obscurePassword,
             textInputAction: TextInputAction.done,
-            onFieldSubmitted: (_) => _onLogin(),
             validator: FormValidators.password(),
             autovalidateMode: .onUserInteraction,
             keyboardType: .visiblePassword,

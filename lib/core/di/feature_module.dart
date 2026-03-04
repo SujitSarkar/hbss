@@ -16,6 +16,8 @@ import 'package:maori_health/data/notification/datasources/notification_remote_d
 import 'package:maori_health/data/notification/repositories/notification_repository_impl.dart';
 import 'package:maori_health/data/employee/datasources/employee_remote_data_source.dart';
 import 'package:maori_health/data/employee/repositories/employee_repository_impl.dart';
+import 'package:maori_health/data/schedule/datasources/schedule_remote_datasource.dart';
+import 'package:maori_health/data/schedule/repositories/schedule_repository_impl.dart';
 import 'package:maori_health/data/timesheet/datasources/timesheet_remote_data_source.dart';
 import 'package:maori_health/data/timesheet/repositories/timesheet_repository_impl.dart';
 import 'package:maori_health/data/dashboard/datasources/dashboard_remote_data_source.dart';
@@ -26,6 +28,8 @@ import 'package:maori_health/domain/asset/repositories/asset_repository.dart';
 import 'package:maori_health/domain/client/repositories/client_repository.dart';
 import 'package:maori_health/domain/notification/repositories/notification_repository.dart';
 import 'package:maori_health/domain/employee/repositories/employee_repository.dart';
+import 'package:maori_health/domain/schedule/repositories/schedule_repository.dart';
+import 'package:maori_health/domain/schedule/usecases/get_schedule_details_usecase.dart';
 import 'package:maori_health/domain/timesheet/repositories/timesheet_repository.dart';
 import 'package:maori_health/domain/dashboard/repositories/dashboard_repository.dart';
 
@@ -128,12 +132,15 @@ void registerFeatureModule(GetIt getIt) {
 
   // ── Schedule
   getIt
-  // ..registerLazySingleton<ScheduleRemoteDataSource>(() => ScheduleRemoteDataSourceImpl(client: getIt<DioClient>()))
-  // ..registerLazySingleton<ScheduleRepository>(
-  //   () => ScheduleRepositoryImpl(
-  //     remoteDataSource: getIt<ScheduleRemoteDataSource>(),
-  //     networkChecker: getIt<NetworkChecker>(),
-  //   ),
-  // )
-  .registerFactory<ScheduleBloc>(() => ScheduleBloc());
+    ..registerLazySingleton<ScheduleRemoteDataSource>(() => ScheduleRemoteDataSourceImpl(client: getIt<DioClient>()))
+    ..registerLazySingleton<ScheduleRepository>(
+      () => ScheduleRepositoryImpl(
+        remoteDataSource: getIt<ScheduleRemoteDataSource>(),
+        networkChecker: getIt<NetworkChecker>(),
+      ),
+    )
+    ..registerLazySingleton<GetScheduleDetailsUsecase>(
+      () => GetScheduleDetailsUsecase(repository: getIt<ScheduleRepository>()),
+    )
+    ..registerFactory<ScheduleBloc>(() => ScheduleBloc(getScheduleDetailsUsecase: getIt<GetScheduleDetailsUsecase>()));
 }

@@ -85,9 +85,9 @@ flutter_assets:
   filename: assets.dart
 
 flutter_native_splash:
-  color: "#54E378"
+  color: "#FFFFFF"
   android_12:
-    color: "#54E378"
+    color: "#FFFFFF"
   ios: true
   android: true
   web: false

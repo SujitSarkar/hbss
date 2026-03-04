@@ -28,6 +28,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         emit(
           NotificationLoadedState(
             notifications: response.notifications,
+            unreadCount: response.unreadCount,
             currentPage: response.currentPage,
             lastPage: response.lastPage,
           ),
@@ -55,6 +56,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
             notifications: [...currentState.notifications, ...response.notifications],
             currentPage: response.currentPage,
             lastPage: response.lastPage,
+            unreadCount: response.unreadCount,
           ),
         );
       },
@@ -69,13 +71,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     await result.fold(
       onFailure: (error) async {},
       onSuccess: (updatedNotification) async {
-        final latestState = state;
-        if (latestState is! NotificationLoadedState) return;
-
-        final updated = latestState.notifications.map((notification) {
+        final updated = currentState.notifications.map((notification) {
           return notification.id == event.notificationId ? updatedNotification : notification;
         }).toList();
-        emit(latestState.copyWith(notifications: updated));
+        emit(currentState.copyWith(notifications: updated, unreadCount: currentState.unreadCount - 1));
       },
     );
   }

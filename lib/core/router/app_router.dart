@@ -11,7 +11,7 @@ import 'package:maori_health/presentation/auth/pages/forgot_password_otp_page.da
 import 'package:maori_health/presentation/auth/pages/forgot_password_page.dart';
 import 'package:maori_health/presentation/auth/pages/login_page.dart';
 import 'package:maori_health/presentation/auth/pages/reset_password_page.dart';
-import 'package:maori_health/presentation/dashboard/pages/job_details_page.dart';
+import 'package:maori_health/presentation/schedule/pages/job_details_page.dart';
 import 'package:maori_health/presentation/profile/pages/profile_page.dart';
 import 'package:maori_health/presentation/splash/splash_page.dart';
 import 'package:maori_health/presentation/timesheet/pages/timesheet_page.dart';

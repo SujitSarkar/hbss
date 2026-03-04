@@ -1,7 +1,10 @@
 import 'dart:convert';
 
-import 'package:maori_health/domain/dashboard/entities/job.dart';
 import 'package:maori_health/core/utils/data_parse_util.dart';
+
+import 'package:maori_health/data/Client/models/Client_model.dart';
+import 'package:maori_health/data/auth/models/user_model.dart';
+import 'package:maori_health/domain/dashboard/entities/job.dart';
 
 class JobModel extends Job {
   const JobModel({
@@ -43,6 +46,8 @@ class JobModel extends Job {
     super.createdAt,
     super.updatedAt,
     super.deletedAt,
+    super.client,
+    super.assignee,
   });
 
   factory JobModel.fromJson(Map<String, dynamic> json) {
@@ -85,6 +90,8 @@ class JobModel extends Job {
       createdAt: json['created_at']?.toString(),
       updatedAt: json['updated_at']?.toString(),
       deletedAt: json['deleted_at']?.toString(),
+      client: json['client'] != null ? ClientModel.fromJson(json['client'] as Map<String, dynamic>) : null,
+      assignee: json['assignee'] != null ? UserModel.fromJson(json['assignee'] as Map<String, dynamic>) : null,
     );
   }
 
@@ -140,6 +147,8 @@ class JobModel extends Job {
       'created_at': createdAt,
       'updated_at': updatedAt,
       'deleted_at': deletedAt,
+      'client': (client as ClientModel?)?.toJson(),
+      'assignee': (assignee as UserModel?)?.toJson(),
     };
   }
 }

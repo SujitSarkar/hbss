@@ -8,6 +8,7 @@ import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
 
 import 'package:maori_health/core/utils/asset_utils.dart';
+import 'package:maori_health/presentation/shared/widgets/app_shimmer.dart';
 import 'package:maori_health/presentation/shared/widgets/common_app_bar.dart';
 
 class AssetDetailsPage extends StatelessWidget {
@@ -138,7 +139,7 @@ class AssetDetailsPage extends StatelessWidget {
                   height: 200,
                   fit: BoxFit.fitHeight,
                   imageUrl: '${EnvConfig.hostUrl}${asset.stock.product?.image}',
-                  placeholder: (context, url) => _buildAttachmentPlaceholder(context, text: '${AppStrings.loading}...'),
+                  placeholder: (context, url) => AppShimmer.card(height: 200, borderRadius: 12),
                   errorWidget: (context, url, error) => _buildAttachmentPlaceholder(context, icon: Icons.error_outline),
                 ),
               )

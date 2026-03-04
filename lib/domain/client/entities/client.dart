@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:maori_health/domain/client/entities/address.dart';
 
 class Client extends Equatable {
   final int? id;
@@ -31,8 +32,9 @@ class Client extends Equatable {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final DateTime? deletedAt;
+  final Address? address;
 
-  Client({
+  const Client({
     this.id,
     this.fName,
     this.mName,
@@ -63,6 +65,7 @@ class Client extends Equatable {
     this.updatedAt,
     this.deletedAt,
     this.fullName,
+    this.address,
   });
 
   @override
@@ -96,5 +99,6 @@ class Client extends Equatable {
     createdAt,
     updatedAt,
     deletedAt,
+    address,
   ];
 }

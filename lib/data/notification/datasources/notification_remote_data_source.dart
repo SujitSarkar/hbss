@@ -3,15 +3,22 @@ import 'package:dio/dio.dart';
 import 'package:maori_health/core/error/exceptions.dart';
 import 'package:maori_health/core/network/api_endpoints.dart';
 import 'package:maori_health/core/network/dio_client.dart';
+import 'package:maori_health/core/utils/data_parse_util.dart';
 
 import 'package:maori_health/data/notification/models/notification_response_model.dart';
 
 class PaginatedNotificationResponse {
   final List<NotificationResponseModel> notifications;
+  final int unreadCount;
   final int currentPage;
   final int lastPage;
 
-  const PaginatedNotificationResponse({required this.notifications, required this.currentPage, required this.lastPage});
+  const PaginatedNotificationResponse({
+    required this.notifications,
+    required this.unreadCount,
+    required this.currentPage,
+    required this.lastPage,
+  });
 
   bool get hasMore => currentPage < lastPage;
 }
@@ -38,13 +45,14 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
         );
       }
 
-      final paginated = body['data'] as Map<String, dynamic>;
-      final list = paginated['data'] as List<dynamic>? ?? [];
+      final responseBody = body['data'] as Map<String, dynamic>;
+      final list = responseBody['notifications']?['data'] as List<dynamic>? ?? [];
 
       return PaginatedNotificationResponse(
         notifications: list.map((e) => NotificationResponseModel.fromJson(e as Map<String, dynamic>)).toList(),
-        currentPage: paginated['current_page'] as int? ?? 1,
-        lastPage: paginated['last_page'] as int? ?? 1,
+        currentPage: DataParseUtil.parseInt(responseBody['notifications']?['current_page'], defaultValue: 1),
+        lastPage: DataParseUtil.parseInt(responseBody['notifications']?['last_page'], defaultValue: 1),
+        unreadCount: DataParseUtil.parseInt(responseBody['unread']),
       );
     } on DioException catch (e) {
       final message = (e.response?.data is Map) ? (e.response!.data as Map)['message']?.toString() : null;

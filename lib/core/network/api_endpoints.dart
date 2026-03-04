@@ -22,6 +22,9 @@ abstract class ApiEndpoints {
   // Dashboard
   static const String dashboard = 'dashboard';
 
+  // Schedule
+  static String scheduleById(int scheduleId) => 'schedules/$scheduleId';
+
   // Lookups
   static const String employees = 'lookups/employees';
   static const String clients = 'lookups/clients';

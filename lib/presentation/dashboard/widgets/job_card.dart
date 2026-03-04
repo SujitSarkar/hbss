@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
+import 'package:maori_health/core/enums/job.status.enum.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/core/utils/dashboard_utils.dart';
 import 'package:maori_health/domain/dashboard/entities/job.dart';
 
-import 'package:maori_health/presentation/dashboard/pages/job_details_page.dart';
-
 class JobCard extends StatelessWidget {
   final Job job;
   final VoidCallback? onTap;
-
   const JobCard({super.key, required this.job, this.onTap});
-
-  JobStatus get _status => DashboardUtils.mapJobStatus(job.status);
 
   String get _date => DateConverter.formatIsoDateTime(job.scheduleStartTime, pattern: 'EEEE, MMMM d, yyyy');
   String get _startTime => DateConverter.formatIsoDateTime(job.scheduleStartTime, pattern: 'h:mm a');
@@ -45,11 +41,12 @@ class JobCard extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: .start,
               children: [
                 Expanded(
                   child: Text(_date, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
                 ),
-                if (_status == JobStatus.started)
+                if (job.status == JobStatusEnum.inProgress.value)
                   Container(
                     width: 12,
                     height: 12,

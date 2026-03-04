@@ -6,8 +6,10 @@ import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
+import 'package:maori_health/core/utils/utils.dart';
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
+import 'package:maori_health/presentation/notification/bloc/bloc.dart';
 // import 'package:maori_health/presentation/employee/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/loading_overlay.dart';
 
@@ -26,9 +28,9 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _currentIndex = 0;
   // TODO: Replace with dynamic count from BLoC
-  final int _notificationCount = 120;
+  // final int _notificationCount = 120;
 
-  String get _badgeLabel => _notificationCount > 99 ? '99+' : '$_notificationCount';
+  // String get _badgeLabel => _notificationCount > 99 ? '99+' : '$_notificationCount';
 
   static const _pages = <Widget>[DashboardPage(), SchedulePage(), NotificationPage(), SettingsPage()];
 
@@ -48,6 +50,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+
+    final NotificationState notificationState = context.watch<NotificationBloc>().state;
+    final int unReadNotification = notificationState is NotificationLoadedState ? notificationState.unreadCount : 0;
 
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -88,13 +93,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                   BottomNavigationBarItem(
                     icon: Badge(
-                      isLabelVisible: _notificationCount > 0,
-                      label: Text(_badgeLabel, style: TextStyle(fontSize: 10)),
+                      isLabelVisible: unReadNotification > 0,
+                      label: Text(Utils.getNotificationBadgeLabel(unReadNotification), style: TextStyle(fontSize: 10)),
                       child: Icon(Icons.notifications_outlined),
                     ),
                     activeIcon: Badge(
-                      isLabelVisible: _notificationCount > 0,
-                      label: Text(_badgeLabel, style: TextStyle(fontSize: 10)),
+                      isLabelVisible: unReadNotification > 0,
+                      label: Text(Utils.getNotificationBadgeLabel(unReadNotification), style: TextStyle(fontSize: 10)),
                       child: Icon(Icons.notifications),
                     ),
                     label: AppStrings.notification,

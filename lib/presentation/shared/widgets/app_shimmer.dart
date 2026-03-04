@@ -66,7 +66,6 @@ class _CardShimmer extends AppShimmer {
       child: Container(
         width: double.infinity,
         height: height,
-        margin: const .symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: .circular(borderRadius)),
       ),
     );

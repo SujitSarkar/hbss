@@ -9,7 +9,7 @@ class DashboardShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      padding: const .fromLTRB(0, 16, 0, 24),
+      padding: const .fromLTRB(12, 12, 0, 24),
       child: Column(
         crossAxisAlignment: .start,
         children: [
