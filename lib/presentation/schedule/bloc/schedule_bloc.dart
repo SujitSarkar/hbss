@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 
-import 'package:maori_health/data/dashboard/models/job_model.dart';
+import 'package:maori_health/data/dashboard/models/schedule_model.dart';
 import 'package:maori_health/domain/schedule/usecases/get_schedules_usecase.dart';
 import 'package:maori_health/domain/schedule/usecases/get_schedule_details_usecase.dart';
 import 'package:maori_health/domain/schedule/usecases/accept_schedule_usecase.dart';
@@ -140,7 +140,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           final int updatedIndex = currentState.schedules.indexWhere((schedule) => schedule.id == event.scheduleId);
 
           if (updatedIndex != -1) {
-            final updatedSchedules = List<JobModel>.from(currentState.schedules);
+            final updatedSchedules = List<ScheduleModel>.from(currentState.schedules);
             updatedSchedules[updatedIndex] = updatedSchedule;
             emit(currentState.copyWith(schedules: updatedSchedules));
           } else {
@@ -171,7 +171,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           final int updatedIndex = currentState.schedules.indexWhere((schedule) => schedule.id == event.scheduleId);
 
           if (updatedIndex != -1) {
-            final updatedSchedules = List<JobModel>.from(currentState.schedules);
+            final updatedSchedules = List<ScheduleModel>.from(currentState.schedules);
             updatedSchedules[updatedIndex] = updatedSchedule;
             emit(currentState.copyWith(schedules: updatedSchedules));
           } else {
@@ -202,7 +202,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           final int updatedIndex = currentState.schedules.indexWhere((schedule) => schedule.id == event.scheduleId);
 
           if (updatedIndex != -1) {
-            final updatedSchedules = List<JobModel>.from(currentState.schedules);
+            final updatedSchedules = List<ScheduleModel>.from(currentState.schedules);
             updatedSchedules[updatedIndex] = updatedSchedule;
             emit(currentState.copyWith(schedules: updatedSchedules));
           } else {
@@ -233,7 +233,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           final int updatedIndex = currentState.schedules.indexWhere((schedule) => schedule.id == event.scheduleId);
 
           if (updatedIndex != -1) {
-            final updatedSchedules = List<JobModel>.from(currentState.schedules);
+            final updatedSchedules = List<ScheduleModel>.from(currentState.schedules);
             updatedSchedules[updatedIndex] = updatedSchedule;
             emit(currentState.copyWith(schedules: updatedSchedules));
           } else {

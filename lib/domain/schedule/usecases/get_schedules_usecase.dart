@@ -11,7 +11,7 @@ class GetSchedulesUsecase {
 
   Future<Result<AppError, PaginatedScheduleResponse>> call({
     required int page,
-    String? clientUserId,
+    int? clientUserId,
     String? startDate,
     String? endDate,
   }) async {

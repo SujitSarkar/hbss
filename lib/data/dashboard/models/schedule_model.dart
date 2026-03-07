@@ -4,10 +4,10 @@ import 'package:maori_health/core/utils/data_parse_util.dart';
 
 import 'package:maori_health/data/Client/models/Client_model.dart';
 import 'package:maori_health/data/auth/models/user_model.dart';
-import 'package:maori_health/domain/dashboard/entities/job.dart';
+import 'package:maori_health/domain/schedule/entities/schedule.dart';
 
-class JobModel extends Job {
-  const JobModel({
+class ScheduleModel extends Schedule {
+  const ScheduleModel({
     required super.id,
     required super.jobListId,
     required super.jobDayId,
@@ -50,8 +50,8 @@ class JobModel extends Job {
     super.assignee,
   });
 
-  factory JobModel.fromJson(Map<String, dynamic> json) {
-    return JobModel(
+  factory ScheduleModel.fromJson(Map<String, dynamic> json) {
+    return ScheduleModel(
       id: DataParseUtil.parseInt(json['id']),
       jobListId: DataParseUtil.parseInt(json['job_list_id']),
       jobDayId: DataParseUtil.parseInt(json['job_day_id']),

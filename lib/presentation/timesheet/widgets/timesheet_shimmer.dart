@@ -21,8 +21,6 @@ class TimeSheetShimmer extends StatelessWidget {
         children: [
           _buildFilterShimmer(),
           const SizedBox(height: 16),
-          _buildSummaryShimmer(),
-          const SizedBox(height: 16),
           Expanded(
             child: ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
@@ -39,36 +37,9 @@ class TimeSheetShimmer extends StatelessWidget {
   Widget _buildFilterShimmer() {
     return const Row(
       children: [
-        Expanded(child: AppShimmer.text(width: double.infinity, height: 42)),
-        SizedBox(width: 12),
         Expanded(flex: 2, child: AppShimmer.text(width: double.infinity, height: 42)),
-      ],
-    );
-  }
-
-  Widget _buildSummaryShimmer() {
-    return const Row(
-      children: [
-        AppShimmer.circular(size: 18),
-        SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: .start,
-            children: [
-              AppShimmer.text(width: 40, height: 14),
-              SizedBox(height: 4),
-              AppShimmer.text(width: 120, height: 12),
-            ],
-          ),
-        ),
-        Column(
-          crossAxisAlignment: .end,
-          children: [
-            AppShimmer.text(width: 40, height: 20),
-            SizedBox(height: 4),
-            AppShimmer.text(width: 90, height: 12),
-          ],
-        ),
+        SizedBox(width: 12),
+        Expanded(flex: 1, child: AppShimmer.text(width: double.infinity, height: 42)),
       ],
     );
   }

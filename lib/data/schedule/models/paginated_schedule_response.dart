@@ -1,7 +1,7 @@
-import 'package:maori_health/data/dashboard/models/job_model.dart';
+import 'package:maori_health/data/dashboard/models/schedule_model.dart';
 
 class PaginatedScheduleResponse {
-  final List<JobModel> schedules;
+  final List<ScheduleModel> schedules;
   final int currentPage;
   final int lastPage;
 

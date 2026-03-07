@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maori_health/core/config/env_config.dart';
 
+import 'package:maori_health/core/config/env_config.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/enums/job_status.enum.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
@@ -35,6 +35,17 @@ class ProfilePage extends StatelessWidget {
           return _ProfileBody(user: user);
         },
       ),
+
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const .fromLTRB(12, 4, 12, 0),
+          child: SolidButton(
+            width: 200,
+            onPressed: () => showChangePasswordDialog(context),
+            child: const Text(AppStrings.changePassword),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -49,7 +60,7 @@ class _ProfileBody extends StatelessWidget {
     final textTheme = context.textTheme;
 
     return SingleChildScrollView(
-      padding: const .fromLTRB(16, 0, 16, 16),
+      padding: const .fromLTRB(12, 0, 12, 16),
       child: Column(
         children: [
           _buildAvatar(context),
@@ -64,8 +75,6 @@ class _ProfileBody extends StatelessWidget {
           _buildBasicInfo(context),
           const SizedBox(height: 16),
           _buildContactInfo(context),
-          const SizedBox(height: 24),
-          _buildChangePasswordButton(context),
           const SizedBox(height: 24),
         ],
       ),
@@ -123,14 +132,6 @@ class _ProfileBody extends StatelessWidget {
         ProfileInfoTile(icon: Icons.phone_outlined, label: AppStrings.phone, value: user.phone),
         ProfileInfoTile(icon: Icons.location_on_outlined, label: AppStrings.location, value: user.location),
       ],
-    );
-  }
-
-  Widget _buildChangePasswordButton(BuildContext context) {
-    return SolidButton(
-      width: 200,
-      onPressed: () => showChangePasswordDialog(context),
-      child: const Text(AppStrings.changePassword),
     );
   }
 

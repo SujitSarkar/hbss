@@ -8,7 +8,7 @@ sealed class ScheduleEvent extends Equatable {
 }
 
 class SchedulesLoadEvent extends ScheduleEvent {
-  final String? clientUserId;
+  final int? clientUserId;
   final String? startDate;
   final String? endDate;
 
@@ -19,7 +19,7 @@ class SchedulesLoadEvent extends ScheduleEvent {
 }
 
 class SchedulesLoadMoreEvent extends ScheduleEvent {
-  final String? clientUserId;
+  final int? clientUserId;
   final String? startDate;
   final String? endDate;
 

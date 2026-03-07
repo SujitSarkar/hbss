@@ -3,33 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/enums/job_status.enum.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
+import 'package:maori_health/core/utils/color_utils.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
-import 'package:maori_health/core/utils/dashboard_utils.dart';
-import 'package:maori_health/domain/dashboard/entities/job.dart';
+import 'package:maori_health/domain/schedule/entities/schedule.dart';
 
-class JobCard extends StatelessWidget {
-  final Job job;
+class ScheduleListTileWidget extends StatelessWidget {
+  final Schedule schedule;
   final VoidCallback? onTap;
-  const JobCard({super.key, required this.job, this.onTap});
+  const ScheduleListTileWidget({super.key, required this.schedule, this.onTap});
 
-  String get _date => DateConverter.formatIsoDateTime(job.scheduleStartTime, pattern: 'EEEE, MMMM d, yyyy');
-  String get _startTime => DateConverter.formatIsoDateTime(job.scheduleStartTime, pattern: 'h:mm a');
-  String get _endTime => DateConverter.formatIsoDateTime(job.scheduleEndTime, pattern: 'h:mm a');
-  String get _totalHours => job.scheduleTotalTime.toStringAsFixed(2);
-  String get _title => DashboardUtils.formatJobType(job.jobType);
-  String get _subtitle => 'Job #${job.id}';
-  String? get _workStartedAt =>
-      job.workStartTime != null ? DateConverter.formatIsoDateTime(job.workStartTime, pattern: 'h:mm a') : null;
+  String get _date => DateConverter.formatIsoDateTime(schedule.scheduleStartTime, pattern: 'EEEE, MMMM d, yyyy');
+  String get _startTime => DateConverter.formatIsoDateTime(schedule.scheduleStartTime, pattern: 'h:mm a');
+  String get _endTime => DateConverter.formatIsoDateTime(schedule.scheduleEndTime, pattern: 'h:mm a');
+  String get _totalHours => schedule.scheduleTotalTime.toStringAsFixed(2);
+  String get _title => (schedule.jobType ?? '-').toUpperCase();
+  String get _subtitle => 'Job #${schedule.id}';
+  String? get _workStartedAt => schedule.workStartTime != null
+      ? DateConverter.formatIsoDateTime(schedule.workStartTime, pattern: 'h:mm a')
+      : null;
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     final textTheme = context.textTheme;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const .all(14),
+        padding: const .all(12),
         decoration: BoxDecoration(
           color: AppColors.primary.withAlpha(30),
           borderRadius: .circular(14),
@@ -46,12 +48,25 @@ class JobCard extends StatelessWidget {
                 Expanded(
                   child: Text(_date, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
                 ),
-                if (job.status == JobStatusEnum.inProgress.value)
+                if (schedule.status == JobStatusEnum.inProgress.value)
                   Container(
                     width: 12,
                     height: 12,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.success),
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.hexToColor(schedule.color)),
                   ),
+                schedule.status != null
+                    ? Container(
+                        padding: const .symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: ColorUtils.hexToColor(schedule.color),
+                          borderRadius: .circular(4),
+                        ),
+                        child: Text(
+                          schedule.status!.capitalize(),
+                          style: textTheme.bodySmall?.copyWith(color: theme.colorScheme.onPrimary, fontWeight: .w500),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
             const SizedBox(height: 6),

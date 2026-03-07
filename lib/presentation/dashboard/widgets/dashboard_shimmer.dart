@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maori_health/core/utils/extensions.dart';
 
 import 'package:maori_health/presentation/shared/widgets/app_shimmer.dart';
 
@@ -15,8 +16,6 @@ class DashboardShimmer extends StatelessWidget {
         children: [
           _buildHeaderShimmer(),
           const SizedBox(height: 20),
-          const AppShimmer.text(width: 140, height: 18),
-          const SizedBox(height: 12),
           const AppShimmer.card(height: 150, borderRadius: 14),
           const SizedBox(height: 24),
           _buildStatsGridShimmer(),
@@ -53,6 +52,7 @@ class DashboardShimmer extends StatelessWidget {
           ),
         ),
         AppShimmer.text(width: 48, height: 48, borderRadius: 8),
+        SizedBox(width: 12),
       ],
     );
   }
@@ -75,25 +75,43 @@ class _JobCardShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: .start,
-      children: [
-        AppShimmer.text(width: 180, height: 12),
-        SizedBox(height: 8),
-        AppShimmer.text(width: double.infinity, height: 16),
-        SizedBox(height: 6),
-        AppShimmer.text(width: 220, height: 12),
-        SizedBox(height: 14),
-        Row(
-          children: [
-            AppShimmer.text(width: 60, height: 28),
-            SizedBox(width: 24),
-            AppShimmer.text(width: 60, height: 28),
-            Spacer(),
-            AppShimmer.text(width: 60, height: 28),
-          ],
-        ),
-      ],
+    return Container(
+      padding: const .all(12),
+      decoration: BoxDecoration(
+        color: context.theme.cardColor,
+        borderRadius: .circular(14),
+        border: .all(color: context.theme.dividerColor),
+      ),
+      child: const Column(
+        crossAxisAlignment: .start,
+        children: [
+          Row(children: [AppShimmer.text(width: 180, height: 12), Spacer(), AppShimmer.text(width: 50, height: 12)]),
+          SizedBox(height: 12),
+          AppShimmer.text(width: double.infinity, height: 24),
+          SizedBox(height: 12),
+          AppShimmer.text(width: 220, height: 12),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              AppShimmer.text(width: 60, height: 28),
+              SizedBox(width: 24),
+              AppShimmer.text(width: 60, height: 28),
+              Spacer(),
+              AppShimmer.text(width: 60, height: 28),
+            ],
+          ),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              AppShimmer.text(width: 60, height: 28),
+              SizedBox(width: 24),
+              AppShimmer.text(width: 60, height: 28),
+              Spacer(),
+              AppShimmer.text(width: 60, height: 28),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

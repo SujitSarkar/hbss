@@ -5,7 +5,7 @@ abstract class DateConverter {
 
   static String formatDateTime(DateTime date) => DateFormat('dd-MM-yyyy | h:mm a').format(date);
 
-  static String toIsoDate(DateTime date) => DateFormat('yyyy-MM-DD').format(date);
+  static String toIsoDate(DateTime date) => DateFormat('yyyy-MM-dd').format(date);
 
   static String toWeekDay(DateTime date) => DateFormat('EEEE, dd MMM').format(date);
 

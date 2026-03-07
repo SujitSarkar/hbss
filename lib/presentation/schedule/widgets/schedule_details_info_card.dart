@@ -5,7 +5,7 @@ import 'package:maori_health/core/enums/job_status.enum.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
-class JobDetailsInfoCard extends StatelessWidget {
+class ScheduleDetailsInfoCard extends StatelessWidget {
   final String date;
   final String jobType;
   final String clientName;
@@ -16,7 +16,7 @@ class JobDetailsInfoCard extends StatelessWidget {
   final String? jobStartedTime;
   final String? status;
 
-  const JobDetailsInfoCard({
+  const ScheduleDetailsInfoCard({
     super.key,
     required this.date,
     required this.jobType,
@@ -52,11 +52,11 @@ class JobDetailsInfoCard extends StatelessWidget {
                   crossAxisAlignment: .start,
                   children: [
                     Text(AppStrings.date, style: labelStyle),
-                    Text(date, style: textTheme.headlineSmall?.copyWith(fontWeight: .bold)),
+                    Text(date, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
                   ],
                 ),
               ),
-              if (status == JobStatusEnum.active.value)
+              if (status == JobStatusEnum.inProgress.value)
                 Container(
                   width: 14,
                   height: 14,
@@ -66,7 +66,7 @@ class JobDetailsInfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(AppStrings.jobType, style: labelStyle),
-          Text(jobType, style: textTheme.titleLarge?.copyWith(fontWeight: .bold)),
+          Text(jobType, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
           const SizedBox(height: 8),
           Text(AppStrings.clientName, style: labelStyle),
           Text(clientName, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
@@ -79,7 +79,7 @@ class JobDetailsInfoCard extends StatelessWidget {
             crossAxisAlignment: .baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(duration, style: textTheme.titleLarge?.copyWith(fontWeight: .bold)),
+              Text(duration, style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
               const SizedBox(width: 6),
               Text(AppStrings.hours, style: textTheme.bodyMedium),
             ],
@@ -126,7 +126,7 @@ class JobDetailsInfoCard extends StatelessWidget {
       crossAxisAlignment: .baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Text(parts.$1, style: context.textTheme.titleLarge?.copyWith(fontWeight: .bold)),
+        Text(parts.$1, style: context.textTheme.titleMedium?.copyWith(fontWeight: .bold)),
         const SizedBox(width: 4),
         Text(parts.$2, style: context.textTheme.bodyMedium),
       ],

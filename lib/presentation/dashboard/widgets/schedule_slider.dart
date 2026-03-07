@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:maori_health/core/utils/extensions.dart';
-import 'package:maori_health/domain/dashboard/entities/job.dart';
-import 'package:maori_health/presentation/dashboard/widgets/job_card.dart';
+import 'package:maori_health/domain/schedule/entities/schedule.dart';
+import 'package:maori_health/presentation/schedule/widgets/schedule_list_tile_widget.dart';
 
-class JobCarousel extends StatefulWidget {
-  final List<Job> jobs;
-  final void Function(Job job)? onJobTap;
+class ScheduleSlider extends StatefulWidget {
+  final List<Schedule> schedules;
+  final void Function(Schedule schedule)? onScheduleTap;
   final double height;
 
-  const JobCarousel({super.key, required this.jobs, this.onJobTap, this.height = 160});
+  const ScheduleSlider({super.key, required this.schedules, this.onScheduleTap, this.height = 160});
 
   @override
-  State<JobCarousel> createState() => _JobCarouselState();
+  State<ScheduleSlider> createState() => _ScheduleSliderState();
 }
 
-class _JobCarouselState extends State<JobCarousel> {
+class _ScheduleSliderState extends State<ScheduleSlider> {
   final _pageController = PageController(viewportFraction: 0.92);
   int _currentPage = 0;
 
@@ -26,14 +26,14 @@ class _JobCarouselState extends State<JobCarousel> {
   }
 
   void _goToPage(int delta) {
-    final next = (_currentPage + delta).clamp(0, widget.jobs.length - 1);
+    final next = (_currentPage + delta).clamp(0, widget.schedules.length - 1);
     _pageController.animateToPage(next, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   @override
   Widget build(BuildContext context) {
-    final jobs = widget.jobs;
-    if (jobs.isEmpty) return const SizedBox.shrink();
+    final schedules = widget.schedules;
+    if (schedules.isEmpty) return const SizedBox.shrink();
 
     return SizedBox(
       height: widget.height,
@@ -41,17 +41,20 @@ class _JobCarouselState extends State<JobCarousel> {
         children: [
           PageView.builder(
             controller: _pageController,
-            itemCount: jobs.length,
+            itemCount: schedules.length,
             onPageChanged: (i) => setState(() => _currentPage = i),
             itemBuilder: (_, i) {
-              final job = jobs[i];
+              final schedule = schedules[i];
               return Padding(
                 padding: const .symmetric(horizontal: 4),
-                child: JobCard(job: job, onTap: widget.onJobTap != null ? () => widget.onJobTap!(job) : null),
+                child: ScheduleListTileWidget(
+                  schedule: schedule,
+                  onTap: widget.onScheduleTap != null ? () => widget.onScheduleTap!(schedule) : null,
+                ),
               );
             },
           ),
-          if (jobs.length > 1) ...[
+          if (schedules.length > 1) ...[
             _CarouselArrow(
               icon: Icons.chevron_left,
               alignment: Alignment.centerLeft,
@@ -60,7 +63,7 @@ class _JobCarouselState extends State<JobCarousel> {
             _CarouselArrow(
               icon: Icons.chevron_right,
               alignment: Alignment.centerRight,
-              onTap: _currentPage < jobs.length - 1 ? () => _goToPage(1) : null,
+              onTap: _currentPage < schedules.length - 1 ? () => _goToPage(1) : null,
             ),
           ],
         ],

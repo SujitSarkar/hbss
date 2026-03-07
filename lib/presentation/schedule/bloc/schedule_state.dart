@@ -14,10 +14,10 @@ class ScheduleLoadingState extends ScheduleState {}
 class ScheduleDetailsLoadingState extends ScheduleState {}
 
 class ScheduleLoadedState extends ScheduleState {
-  final List<JobModel> schedules;
+  final List<ScheduleModel> schedules;
   final int currentPage;
   final int lastPage;
-  final JobModel? scheduleDetails;
+  final ScheduleModel? scheduleDetails;
   final bool actionLoading;
   final bool isLoadingMore;
 
@@ -33,10 +33,10 @@ class ScheduleLoadedState extends ScheduleState {
   bool get hasMore => currentPage < lastPage;
 
   ScheduleLoadedState copyWith({
-    List<JobModel>? schedules,
+    List<ScheduleModel>? schedules,
     int? currentPage,
     int? lastPage,
-    JobModel? scheduleDetails,
+    ScheduleModel? scheduleDetails,
     bool? actionLoading,
     bool? isLoadingMore,
   }) {
@@ -55,7 +55,7 @@ class ScheduleLoadedState extends ScheduleState {
 }
 
 class ScheduleAcceptSuccessState extends ScheduleState {
-  final JobModel schedule;
+  final ScheduleModel schedule;
 
   const ScheduleAcceptSuccessState({required this.schedule});
 
@@ -64,7 +64,7 @@ class ScheduleAcceptSuccessState extends ScheduleState {
 }
 
 class ScheduleStartSuccessState extends ScheduleState {
-  final JobModel schedule;
+  final ScheduleModel schedule;
 
   const ScheduleStartSuccessState({required this.schedule});
 
@@ -73,7 +73,7 @@ class ScheduleStartSuccessState extends ScheduleState {
 }
 
 class ScheduleFinishSuccessState extends ScheduleState {
-  final JobModel schedule;
+  final ScheduleModel schedule;
 
   const ScheduleFinishSuccessState({required this.schedule});
 
@@ -82,7 +82,7 @@ class ScheduleFinishSuccessState extends ScheduleState {
 }
 
 class ScheduleCancelSuccessState extends ScheduleState {
-  final JobModel schedule;
+  final ScheduleModel schedule;
 
   const ScheduleCancelSuccessState({required this.schedule});
 

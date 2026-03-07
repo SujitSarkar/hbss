@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
-import 'package:maori_health/domain/dashboard/entities/job.dart';
+import 'package:maori_health/domain/schedule/entities/schedule.dart';
 
 import 'package:maori_health/presentation/asset/pages/asset_details_page.dart';
 import 'package:maori_health/presentation/asset/pages/assets_page.dart';
@@ -11,7 +11,7 @@ import 'package:maori_health/presentation/auth/pages/forgot_password_otp_page.da
 import 'package:maori_health/presentation/auth/pages/forgot_password_page.dart';
 import 'package:maori_health/presentation/auth/pages/login_page.dart';
 import 'package:maori_health/presentation/auth/pages/reset_password_page.dart';
-import 'package:maori_health/presentation/schedule/pages/job_details_page.dart';
+import 'package:maori_health/presentation/schedule/pages/schedule_details_page.dart';
 import 'package:maori_health/presentation/profile/pages/profile_page.dart';
 import 'package:maori_health/presentation/splash/splash_page.dart';
 import 'package:maori_health/presentation/timesheet/pages/timesheet_page.dart';
@@ -75,14 +75,14 @@ class AppRouter {
           builder: (context, state) => const TimeSheetPage(),
         ),
         GoRoute(
-          name: RouteNames.jobDetails,
-          path: RouteNames.jobDetailsPath,
+          name: RouteNames.scheduleDetails,
+          path: RouteNames.scheduleDetailsPath,
           builder: (context, state) {
             final extra = state.extra;
-            if (extra is Job) {
-              return JobDetailsPage(job: extra);
+            if (extra is Schedule) {
+              return ScheduleDetailsPage(schedule: extra);
             }
-            return JobDetailsPage(jobScheduleId: extra as int?);
+            return ScheduleDetailsPage(scheduleId: extra as int?);
           },
         ),
       ],

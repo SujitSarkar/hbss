@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:maori_health/domain/auth/entities/user.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
 
-class Job extends Equatable {
+class Schedule extends Equatable {
   final int id;
   final int jobListId;
   final int jobDayId;
@@ -44,7 +44,7 @@ class Job extends Equatable {
   final Client? client;
   final User? assignee;
 
-  const Job({
+  const Schedule({
     required this.id,
     required this.jobListId,
     required this.jobDayId,

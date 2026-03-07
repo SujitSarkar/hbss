@@ -9,14 +9,14 @@ import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
 import 'package:maori_health/domain/dashboard/entities/dashboard_response.dart';
-import 'package:maori_health/domain/dashboard/entities/job.dart';
+import 'package:maori_health/domain/schedule/entities/schedule.dart';
 import 'package:maori_health/domain/dashboard/entities/stats.dart';
 
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/widgets/dashboard_shimmer.dart';
-import 'package:maori_health/presentation/dashboard/widgets/job_card.dart';
-import 'package:maori_health/presentation/dashboard/widgets/job_carousel.dart';
+import 'package:maori_health/presentation/schedule/widgets/schedule_list_tile_widget.dart';
+import 'package:maori_health/presentation/dashboard/widgets/schedule_slider.dart';
 import 'package:maori_health/presentation/dashboard/widgets/stat_card.dart';
 import 'package:maori_health/presentation/shared/widgets/error_view_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/swipe_refresh_wrapper.dart';
@@ -43,7 +43,10 @@ class _DashboardView extends StatelessWidget {
         child: BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) => switch (state) {
             DashboardInitialState() || DashboardLoadingState() => const DashboardShimmer(),
-            DashboardErrorState(:final message) => _buildError(context, message),
+            DashboardErrorState(:final message) => ErrorViewWidget(
+              message: message,
+              onRetry: () => _onRefresh(context),
+            ),
             DashboardLoadedState(:final dashboardData) => _buildLoaded(context, dashboardData),
           },
         ),
@@ -55,21 +58,8 @@ class _DashboardView extends StatelessWidget {
     context.read<DashboardBloc>().add(const DashboardLoadEvent());
   }
 
-  void _onJobTap(BuildContext context, Job job) {
-    context.pushNamed(RouteNames.jobDetails, extra: job);
-  }
-
-  Widget _buildError(BuildContext context, String message) {
-    return SwipeRefreshWrapper(
-      onRefresh: () => _onRefresh(context),
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          SizedBox(height: context.screenSize.height * 0.3),
-          ErrorViewWidget(message: message, onRetry: () => _onRefresh(context)),
-        ],
-      ),
-    );
+  void _onScheduleTap(BuildContext context, Schedule schedule) {
+    context.pushNamed(RouteNames.scheduleDetails, extra: schedule);
   }
 
   Widget _buildLoaded(BuildContext context, DashboardResponse dashboardData) {
@@ -89,7 +79,10 @@ class _DashboardView extends StatelessWidget {
             if (dashboardData.availableJobs.isNotEmpty) ...[
               _buildSectionTitle(context, AppStrings.availableJobs),
               const SizedBox(height: 12),
-              JobCarousel(jobs: dashboardData.availableJobs, onJobTap: (job) => _onJobTap(context, job)),
+              ScheduleSlider(
+                schedules: dashboardData.availableJobs,
+                onScheduleTap: (schedule) => _onScheduleTap(context, schedule),
+              ),
               const SizedBox(height: 24),
             ],
 
@@ -110,28 +103,28 @@ class _DashboardView extends StatelessWidget {
             if (dashboardData.currentSchedule != null) ...[
               _buildSectionTitle(context, AppStrings.currentScheduled),
               const SizedBox(height: 12),
-              _buildJobCard(context, dashboardData.currentSchedule!),
+              _buildScheduleCard(context, dashboardData.currentSchedule!),
               const SizedBox(height: 16),
             ],
 
             if (dashboardData.nextSchedule != null) ...[
               _buildSectionTitle(context, AppStrings.nextSchedule),
               const SizedBox(height: 12),
-              _buildJobCard(context, dashboardData.nextSchedule!),
+              _buildScheduleCard(context, dashboardData.nextSchedule!),
               const SizedBox(height: 16),
             ],
 
             if (dashboardData.todaysSchedules.isNotEmpty) ...[
               _buildSectionTitle(context, AppStrings.todaySchedule),
               const SizedBox(height: 12),
-              ...dashboardData.todaysSchedules.map((j) => _buildJobCard(context, j)),
+              ...dashboardData.todaysSchedules.map((s) => _buildScheduleCard(context, s)),
               const SizedBox(height: 16),
             ],
 
             if (dashboardData.upcomingSchedules.isNotEmpty) ...[
               _buildSectionTitle(context, AppStrings.upcomingSchedule),
               const SizedBox(height: 12),
-              ...dashboardData.upcomingSchedules.map((j) => _buildJobCard(context, j)),
+              ...dashboardData.upcomingSchedules.map((s) => _buildScheduleCard(context, s)),
             ],
           ],
         ),
@@ -172,10 +165,10 @@ class _DashboardView extends StatelessWidget {
     return Text(title, style: context.textTheme.titleLarge?.copyWith(fontWeight: .bold));
   }
 
-  Widget _buildJobCard(BuildContext context, Job job) {
+  Widget _buildScheduleCard(BuildContext context, Schedule schedule) {
     return Padding(
       padding: const .only(bottom: 12),
-      child: JobCard(job: job, onTap: () => _onJobTap(context, job)),
+      child: ScheduleListTileWidget(schedule: schedule, onTap: () => _onScheduleTap(context, schedule)),
     );
   }
 
