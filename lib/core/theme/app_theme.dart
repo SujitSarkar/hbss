@@ -56,6 +56,17 @@ abstract class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: .circular(8)),
       ),
       bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.primary,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withAlpha(160),
+        selectedLabelStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: .w700),
+        unselectedLabelStyle: TextStyle(fontSize: 14, color: Colors.white.withAlpha(160)),
+        type: BottomNavigationBarType.fixed,
+        selectedIconTheme: IconThemeData(color: Colors.white),
+        unselectedIconTheme: IconThemeData(color: Colors.white.withAlpha(160)),
+        elevation: 0,
+      ),
     );
   }
 
@@ -111,6 +122,17 @@ abstract class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: .circular(8)),
       ),
       bottomSheetTheme: const BottomSheetThemeData(backgroundColor: AppColors.cardDark),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.primary,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withAlpha(160),
+        selectedLabelStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: .w700),
+        unselectedLabelStyle: TextStyle(fontSize: 14, color: Colors.white.withAlpha(160)),
+        type: BottomNavigationBarType.fixed,
+        selectedIconTheme: IconThemeData(color: Colors.white),
+        unselectedIconTheme: IconThemeData(color: Colors.white.withAlpha(160)),
+        elevation: 0,
+      ),
     );
   }
 }

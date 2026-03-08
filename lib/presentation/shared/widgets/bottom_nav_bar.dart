@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
-import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/core/utils/utils.dart';
 
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
@@ -44,8 +43,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-
     final NotificationState notificationState = context.watch<NotificationBloc>().state;
     final int unReadNotification = notificationState is NotificationLoadedState ? notificationState.unreadCount : 0;
 
@@ -59,54 +56,39 @@ class _BottomNavBarState extends State<BottomNavBar> {
         isLoading: authState is AuthLoadingState,
         child: Scaffold(
           body: IndexedStack(index: _currentIndex, children: _pages),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              boxShadow: [BoxShadow(color: theme.shadowColor, offset: const Offset(0, -2))],
-            ),
-            child: ClipRRect(
-              borderRadius: const .only(topLeft: .circular(20), topRight: .circular(20)),
-              child: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: _onTabTapped,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: theme.colorScheme.primary,
-                selectedItemColor: theme.colorScheme.onPrimary,
-                unselectedItemColor: theme.colorScheme.onPrimary.withAlpha(160),
-                selectedFontSize: 12,
-                unselectedFontSize: 12,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.dashboard_outlined),
-                    activeIcon: Icon(Icons.dashboard),
-                    label: AppStrings.dashboard,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_today_outlined),
-                    activeIcon: Icon(Icons.calendar_today),
-                    label: AppStrings.schedule,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Badge(
-                      isLabelVisible: unReadNotification > 0,
-                      label: Text(Utils.getNotificationBadgeLabel(unReadNotification), style: TextStyle(fontSize: 10)),
-                      child: Icon(Icons.notifications_outlined),
-                    ),
-                    activeIcon: Badge(
-                      isLabelVisible: unReadNotification > 0,
-                      label: Text(Utils.getNotificationBadgeLabel(unReadNotification), style: TextStyle(fontSize: 10)),
-                      child: Icon(Icons.notifications),
-                    ),
-                    label: AppStrings.notification,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings_outlined),
-                    activeIcon: Icon(Icons.settings),
-                    label: AppStrings.settings,
-                  ),
-                ],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: _onTabTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard_outlined),
+                activeIcon: Icon(Icons.dashboard),
+                label: AppStrings.dashboard,
               ),
-            ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_today_outlined),
+                activeIcon: Icon(Icons.calendar_today),
+                label: AppStrings.schedule,
+              ),
+              BottomNavigationBarItem(
+                icon: Badge(
+                  isLabelVisible: unReadNotification > 0,
+                  label: Text(Utils.getNotificationBadgeLabel(unReadNotification), style: TextStyle(fontSize: 10)),
+                  child: Icon(Icons.notifications_outlined),
+                ),
+                activeIcon: Badge(
+                  isLabelVisible: unReadNotification > 0,
+                  label: Text(Utils.getNotificationBadgeLabel(unReadNotification), style: TextStyle(fontSize: 10)),
+                  child: Icon(Icons.notifications),
+                ),
+                label: AppStrings.notification,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings_outlined),
+                activeIcon: Icon(Icons.settings),
+                label: AppStrings.settings,
+              ),
+            ],
           ),
         ),
       ),

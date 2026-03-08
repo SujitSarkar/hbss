@@ -38,7 +38,7 @@ class ProfilePage extends StatelessWidget {
 
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const .fromLTRB(12, 4, 12, 0),
+          padding: const .fromLTRB(12, 4, 12, 12),
           child: SolidButton(
             width: 200,
             onPressed: () => showChangePasswordDialog(context),
@@ -60,7 +60,7 @@ class _ProfileBody extends StatelessWidget {
     final textTheme = context.textTheme;
 
     return SingleChildScrollView(
-      padding: const .fromLTRB(12, 0, 12, 16),
+      padding: const .fromLTRB(12, 0, 12, 12),
       child: Column(
         children: [
           _buildAvatar(context),
