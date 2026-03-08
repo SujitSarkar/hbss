@@ -77,7 +77,7 @@ abstract class AppStrings {
   static const String close = 'Close';
   static const String passwordsDoNotMatch = 'Passwords do not match';
 
-  // Job Details
+  // Schedule
   static const String jobDetails = 'Job Details';
   static const String date = 'Date';
   static const String jobType = 'Job Type';
@@ -93,6 +93,19 @@ abstract class AppStrings {
   static const String startJob = 'Start Job';
   static const String finishJob = 'Finish Job';
   static const String backToDashboard = 'Back to Dashboard';
+  static const String areYouSureYouWantToStartJob = 'Are you sure you want to start the job?';
+  static const String appointmentSummary = 'Appointment Summary';
+  static const String jobSummary = 'Job Summary';
+  static const String scheduledDuration = 'Scheduled Duration';
+  static const String actualDuration = 'Actual Duration';
+  static const String finishingOnTime = 'Finishing On Time.';
+  static const String finishingEarly = 'Finishing Early.';
+  static const String overHours = 'Over-hours';
+  static const String finishEarlyMessagePrefix = 'You are finishing this appointment before the scheduled end time of';
+  static const String finishEarlyMessageSuffix = 'Please confirm if you want to finish the appointment now.';
+  static const String overHoursMessagePrefix = 'You have exceeded the scheduled appointment time by';
+  static const String overHoursMessageMiddle = 'minutes.';
+  static const String overHoursMessageSuffix = 'The appointment was scheduled to end at';
 
   // Assets
   static const String id = 'ID';

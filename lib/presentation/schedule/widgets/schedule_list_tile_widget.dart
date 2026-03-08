@@ -25,7 +25,6 @@ class ScheduleListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final textTheme = context.textTheme;
 
     return GestureDetector(
@@ -48,25 +47,31 @@ class ScheduleListTileWidget extends StatelessWidget {
                 Expanded(
                   child: Text(_date, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
                 ),
-                if (schedule.status == JobStatusEnum.inProgress.value)
-                  Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.hexToColor(schedule.color)),
-                  ),
-                schedule.status != null
-                    ? Container(
-                        padding: const .symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: ColorUtils.hexToColor(schedule.color),
-                          borderRadius: .circular(4),
-                        ),
-                        child: Text(
-                          schedule.status!.capitalize(),
-                          style: textTheme.bodySmall?.copyWith(color: theme.colorScheme.onPrimary, fontWeight: .w500),
-                        ),
-                      )
-                    : SizedBox.shrink(),
+                // Status Badge Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: .center,
+                  children: [
+                    if (schedule.status == JobStatusEnum.inProgress.value)
+                      Padding(
+                        padding: const .only(right: 4),
+                        child: CircleAvatar(radius: 5, backgroundColor: AppColors.primary),
+                      ),
+                    schedule.status != null
+                        ? Container(
+                            padding: const .symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: ColorUtils.hexToColor(schedule.color),
+                              borderRadius: .circular(4),
+                            ),
+                            child: Text(
+                              schedule.status!.capitalize(),
+                              style: textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: .w500),
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 6),

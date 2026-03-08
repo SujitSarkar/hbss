@@ -88,8 +88,9 @@ class SettingsPage extends StatelessWidget {
                               context,
                               title: AppStrings.signOut,
                               message: AppStrings.areYouSureYouWantToSignOut,
-                              confirmText: AppStrings.signOut,
+                              confirmText: AppStrings.yes,
                               confirmColor: theme.colorScheme.error,
+                              cancelText: AppStrings.no,
                             );
                             if (confirmed && context.mounted) {
                               context.read<AuthBloc>().add(const AuthLogoutEvent());

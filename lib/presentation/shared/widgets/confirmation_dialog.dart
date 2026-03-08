@@ -11,6 +11,7 @@ Future<bool> showConfirmationDialog(
   String? confirmText,
   String? cancelText,
   Color? confirmColor,
+  Color? cancelColor,
 }) async {
   final result = await showDialog<bool>(
     context: context,
@@ -18,7 +19,13 @@ Future<bool> showConfirmationDialog(
       title: title,
       content: Text(message, style: context.theme.textTheme.bodyMedium),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: Text(cancelText ?? AppStrings.cancel)),
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext, false),
+          child: Text(
+            cancelText ?? AppStrings.cancel,
+            style: TextStyle(color: cancelColor ?? context.theme.colorScheme.onPrimary),
+          ),
+        ),
         TextButton(
           onPressed: () => Navigator.pop(dialogContext, true),
           child: Text(
