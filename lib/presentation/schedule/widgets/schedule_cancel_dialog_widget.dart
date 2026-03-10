@@ -17,18 +17,18 @@ import 'package:maori_health/presentation/shared/widgets/solid_button.dart';
 class ScheduleCancelDialogWidget extends StatelessWidget {
   final Schedule schedule;
   final VoidCallback onClose;
-  final Function(String cancelBy, String reason, String reasonType, int hour, int minute) onSave;
+  final Function(String canceledBy, String? cancelReason, int hour, int minute, String reason) onSave;
 
   const ScheduleCancelDialogWidget({super.key, required this.schedule, required this.onSave, required this.onClose});
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final ValueNotifier<String?> canceledBy = ValueNotifier(null);
     final ValueNotifier<String?> cancelReason = ValueNotifier(null);
-    final ValueNotifier<String> reasonType = ValueNotifier('');
-    final TextEditingController reasonController = TextEditingController();
     final TextEditingController hourController = TextEditingController();
     final TextEditingController minuteController = TextEditingController();
+    final TextEditingController reasonController = TextEditingController();
 
     return AppDialog(
       title: AppStrings.cancelJob,
@@ -37,16 +37,44 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: .start,
           children: [
+            // Canceled by filter
             ValueListenableBuilder(
-              valueListenable: cancelReason,
-              builder: (context, value, child) => CancelReasonFilterWidget(
-                selectedCancelReason: value,
-                onSelected: (newReason) {
-                  cancelReason.value = newReason;
+              valueListenable: canceledBy,
+              builder: (context, value, child) => CanceledByFilterWidget(
+                selectedCanceledBy: value,
+                onSelected: (newCanceledBy) {
+                  canceledBy.value = newCanceledBy;
                 },
               ),
             ),
             const SizedBox(height: 18),
+
+            // Cancel reason filter
+            ValueListenableBuilder(
+              valueListenable: canceledBy,
+              builder: (context, value, child) {
+                if (value?.toLowerCase() == AppStrings.client.toLowerCase()) {
+                  return Column(
+                    crossAxisAlignment: .start,
+                    children: [
+                      ValueListenableBuilder(
+                        valueListenable: cancelReason,
+                        builder: (context, value, child) => CancelReasonFilterWidget(
+                          selectedCancelReason: value,
+                          onSelected: (newReason) {
+                            cancelReason.value = newReason;
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                    ],
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+
+            // Hours and minutes input
             Row(
               children: [
                 Expanded(
@@ -89,6 +117,8 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 18),
+
+            // Cancel reason input
             TextFormField(
               controller: reasonController,
               decoration: OutlineInputDecoration(context: context, labelText: AppStrings.reason),
@@ -100,18 +130,21 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
               maxLines: 5,
             ),
             const SizedBox(height: 18),
+
+            // Save and close buttons
             Row(
               children: [
                 Expanded(
                   child: SolidButton(
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
+                        Navigator.maybePop(context);
                         onSave(
-                          cancelReason.value!,
-                          reasonController.text,
-                          reasonType.value,
+                          canceledBy.value!,
+                          cancelReason.value,
                           int.parse(hourController.text),
                           int.parse(minuteController.text),
+                          reasonController.text,
                         );
                       }
                     },
@@ -128,6 +161,55 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CanceledByFilterWidget extends StatelessWidget {
+  final String? selectedCanceledBy;
+  final void Function(String? canceledBy) onSelected;
+  const CanceledByFilterWidget({super.key, this.selectedCanceledBy, required this.onSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LookupEnumsBloc, LookupEnumsState>(
+      builder: (context, state) {
+        final List<String> canceledByList = state is LookupEnumsLoadedState
+            ? state.lookupEnums.canceledBy.values.toList()
+            : [];
+        final isLoading = state is LookupEnumsLoadingState;
+        return Column(
+          crossAxisAlignment: .start,
+          children: [
+            Text(AppStrings.canceledBy, style: context.textTheme.bodyMedium?.copyWith(fontWeight: .w600)),
+            const SizedBox(height: 8),
+            isLoading
+                ? Container(
+                    height: 44,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: .circular(10),
+                      border: .all(color: context.theme.hintColor),
+                    ),
+                    child: Center(child: SizedBox(height: 16, width: 16, child: LoadingWidget())),
+                  )
+                : DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField<String>(
+                      initialValue: selectedCanceledBy,
+                      items: canceledByList.map((e) => DropdownMenuItem<String>(value: e, child: Text(e))).toList(),
+                      onChanged: (String? value) => onSelected(value),
+                      validator: FormValidators.required(),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: OutlineInputDecoration(
+                        context: context,
+                        hintText: AppStrings.select,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                      ),
+                    ),
+                  ),
+          ],
+        );
+      },
     );
   }
 }

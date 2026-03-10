@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/core/enums/job_status.enum.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/color_utils.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
+import 'package:maori_health/core/utils/schedule_utils.dart';
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
+
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
+import 'package:maori_health/presentation/shared/widgets/loading_widget.dart';
 
 class ScheduleListTileWidget extends StatelessWidget {
   final Schedule schedule;
@@ -27,86 +31,98 @@ class ScheduleListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const .all(12),
-        decoration: BoxDecoration(
-          color: AppColors.primary.withAlpha(30),
-          borderRadius: .circular(14),
-          border: .all(color: AppColors.primary.withAlpha(100)),
-        ),
-        child: Column(
-          crossAxisAlignment: .start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<LookupEnumsBloc, LookupEnumsState>(
+      builder: (context, lookupEnumState) {
+        return GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const .all(12),
+            decoration: BoxDecoration(
+              color: schedule.color != null
+                  ? ColorUtils.hexToColor(schedule.color)!.withAlpha(150)
+                  : AppColors.primary.withAlpha(30),
+              borderRadius: .circular(14),
+              border: .all(color: AppColors.primary.withAlpha(150)),
+            ),
+            child: Column(
               crossAxisAlignment: .start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Text(_date, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
-                ),
-                // Status Badge Row
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: .center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: .start,
                   children: [
-                    if (schedule.status == JobStatusEnum.inProgress.value)
-                      Padding(
-                        padding: const .only(right: 4),
-                        child: CircleAvatar(radius: 5, backgroundColor: AppColors.primary),
-                      ),
-                    schedule.status != null
-                        ? Container(
-                            padding: const .symmetric(horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              color: ColorUtils.hexToColor(schedule.color),
-                              borderRadius: .circular(4),
-                            ),
-                            child: Text(
-                              schedule.status!.capitalize(),
-                              style: textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: .w500),
-                            ),
+                    Expanded(
+                      child: Text(_date, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
+                    ),
+                    // Status Badge Row
+                    lookupEnumState is LookupEnumsLoadedState
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: .center,
+                            children: [
+                              if (schedule.status == lookupEnumState.lookupEnums.scheduleStatusKey.inprogress)
+                                Padding(
+                                  padding: const .only(right: 4),
+                                  child: CircleAvatar(radius: 5, backgroundColor: AppColors.primary),
+                                ),
+                              schedule.status != null
+                                  ? Container(
+                                      padding: const .symmetric(horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: ColorUtils.hexToColor(schedule.color),
+                                        borderRadius: .circular(4),
+                                      ),
+                                      child: Text(
+                                        ScheduleUtils.getScheduleStatus(
+                                          status: schedule.status,
+                                          scheduleStatusKey: lookupEnumState.lookupEnums.scheduleStatusKey,
+                                          scheduleStatusValue: lookupEnumState.lookupEnums.scheduleStatusValue,
+                                        ),
+                                        style: textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: .w500),
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                            ],
                           )
-                        : SizedBox.shrink(),
+                        : SizedBox(height: 16, width: 16, child: LoadingWidget()),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  _title,
+                  style: textTheme.titleMedium?.copyWith(fontWeight: .bold),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(_subtitle, style: textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    ),
+                    if (_workStartedAt != null)
+                      Text(
+                        '${AppStrings.startedAt} : $_workStartedAt',
+                        style: textTheme.bodySmall?.copyWith(fontWeight: .w600),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    _TimeColumn(label: AppStrings.startTime, value: _startTime),
+                    const SizedBox(width: 24),
+                    _TimeColumn(label: AppStrings.endTime, value: _endTime),
+                    const Spacer(),
+                    _TimeColumn(label: AppStrings.totalHours, value: _totalHours),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 6),
-            Text(
-              _title,
-              style: textTheme.titleMedium?.copyWith(fontWeight: .bold),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(_subtitle, style: textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-                ),
-                if (_workStartedAt != null)
-                  Text(
-                    '${AppStrings.startedAt} : $_workStartedAt',
-                    style: textTheme.bodySmall?.copyWith(fontWeight: .w600),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                _TimeColumn(label: AppStrings.startTime, value: _startTime),
-                const SizedBox(width: 24),
-                _TimeColumn(label: AppStrings.endTime, value: _endTime),
-                const Spacer(),
-                _TimeColumn(label: AppStrings.totalHours, value: _totalHours),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

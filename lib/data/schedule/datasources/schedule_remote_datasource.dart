@@ -22,10 +22,10 @@ abstract class ScheduleRemoteDataSource {
   Future<ScheduleModel> cancelSchedule({
     required int scheduleId,
     required String cancelBy,
-    required String reason,
-    String? reasonType,
+    required String? cancelReason,
     required int hour,
     required int minute,
+    required String reason,
   });
 }
 
@@ -137,14 +137,19 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
   Future<ScheduleModel> cancelSchedule({
     required int scheduleId,
     required String cancelBy,
-    required String reason,
-    String? reasonType,
+    required String? cancelReason,
     required int hour,
     required int minute,
+    required String reason,
   }) async {
     try {
-      final formData = FormData.fromMap({'cancel_by': cancelBy, 'reason': reason, 'hour': hour, 'minute': minute});
-      if (reasonType != null) formData.fields.add(MapEntry('reason_type', reasonType));
+      final formData = FormData.fromMap({
+        'cancel_by': cancelBy.toLowerCase(),
+        'reason': reason,
+        'hour': hour,
+        'minute': minute,
+      });
+      if (cancelReason != null) formData.fields.add(MapEntry('reason_type', cancelReason));
 
       final response = await _client.post(ApiEndpoints.cancelSchedule(scheduleId), data: formData);
       return ScheduleModel.fromJson(response.data['data']);

@@ -8,6 +8,8 @@ import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/schedule_utils.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
 
+import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 import 'package:maori_health/presentation/schedule/widgets/schedule_list_tile_widget.dart';
 import 'package:maori_health/presentation/schedule/bloc/schedule_bloc.dart';
 import 'package:maori_health/presentation/schedule/widgets/schedule_filter_widget.dart';
@@ -44,6 +46,16 @@ class SchedulePageState extends State<SchedulePage> {
         endDate: DateConverter.toIsoDate(_selectedDate.value ?? DateTime.now()),
       ),
     );
+
+    // Load LookupEnums if not loaded
+    if (context.read<LookupEnumsBloc>().state is! LookupEnumsLoadedState) {
+      context.read<LookupEnumsBloc>().add(const LoadLookupEnumsEvent());
+    }
+
+    // Load clients if not loaded
+    if (context.read<ClientBloc>().state is! ClientLoadedState) {
+      context.read<ClientBloc>().add(const LoadClientsEvent());
+    }
   }
 
   Future<void> _onRefresh(BuildContext context) async {
@@ -63,6 +75,15 @@ class SchedulePageState extends State<SchedulePage> {
       );
     } else if (_selectedFilter.value == ScheduleFilter.client) {
       context.read<ScheduleBloc>().add(SchedulesLoadEvent(clientUserId: _selectedClient.value?.id));
+    }
+    // Load LookupEnums if not loaded
+    if (context.read<LookupEnumsBloc>().state is! LookupEnumsLoadedState) {
+      context.read<LookupEnumsBloc>().add(const LoadLookupEnumsEvent());
+    }
+
+    // Load clients if not loaded
+    if (context.read<ClientBloc>().state is! ClientLoadedState) {
+      context.read<ClientBloc>().add(const LoadClientsEvent());
     }
   }
 
@@ -146,7 +167,10 @@ class SchedulePageState extends State<SchedulePage> {
                           itemBuilder: (context, index) => ScheduleListTileWidget(
                             schedule: state.schedules[index],
                             onTap: () {
-                              context.pushNamed(RouteNames.scheduleDetails, extra: state.schedules[index]);
+                              context.pushNamed(
+                                RouteNames.scheduleDetails,
+                                extra: {'fromScreenName': 'schedule', 'schedule': state.schedules[index]},
+                              );
                             },
                           ),
                           itemCount: state.schedules.length,

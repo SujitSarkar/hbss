@@ -12,18 +12,18 @@ class CancelScheduleUsecase {
   Future<Result<AppError, ScheduleModel>> call({
     required int scheduleId,
     required String cancelBy,
-    required String reason,
-    String? reasonType,
+    required String? cancelReason,
     required int hour,
     required int minute,
+    required String reason,
   }) async {
     return _repository.cancelSchedule(
       scheduleId: scheduleId,
       cancelBy: cancelBy,
-      reason: reason,
-      reasonType: reasonType,
+      cancelReason: cancelReason,
       hour: hour,
       minute: minute,
+      reason: reason,
     );
   }
 }

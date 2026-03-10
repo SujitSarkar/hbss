@@ -16,7 +16,7 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthenticatedState) {
-          context.goNamed(RouteNames.home);
+          context.goNamed(RouteNames.dashboard);
         } else if (state is UnAuthenticatedState) {
           context.goNamed(RouteNames.login);
         }

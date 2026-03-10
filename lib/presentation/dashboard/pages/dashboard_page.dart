@@ -15,7 +15,8 @@ import 'package:maori_health/domain/dashboard/entities/stats.dart';
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/widgets/dashboard_shimmer.dart';
-import 'package:maori_health/presentation/schedule/widgets/schedule_list_tile_widget.dart';
+import 'package:maori_health/presentation/dashboard/widgets/job_list_builder_widget.dart';
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/widgets/schedule_slider.dart';
 import 'package:maori_health/presentation/dashboard/widgets/stat_card.dart';
 import 'package:maori_health/presentation/shared/widgets/error_view_widget.dart';
@@ -56,10 +57,21 @@ class _DashboardView extends StatelessWidget {
 
   Future<void> _onRefresh(BuildContext context) async {
     context.read<DashboardBloc>().add(const DashboardLoadEvent());
+
+    // Load LookupEnums if not loaded
+    if (context.read<LookupEnumsBloc>().state is! LookupEnumsLoadedState) {
+      context.read<LookupEnumsBloc>().add(const LoadLookupEnumsEvent());
+    }
   }
 
-  void _onScheduleTap(BuildContext context, Schedule schedule) {
-    context.pushNamed(RouteNames.scheduleDetails, extra: schedule);
+  void _onScheduleTap(BuildContext context, Schedule schedule) async {
+    final shouldRefresh = await context.pushNamed<bool>(
+      RouteNames.scheduleDetails,
+      extra: {'fromScreenName': RouteNames.dashboard, 'schedule': schedule},
+    );
+    if (shouldRefresh == true && context.mounted) {
+      _onRefresh(context);
+    }
   }
 
   Widget _buildLoaded(BuildContext context, DashboardResponse dashboardData) {
@@ -76,8 +88,9 @@ class _DashboardView extends StatelessWidget {
             _buildHeader(context),
             const SizedBox(height: 20),
 
+            // Available Jobs Slider
             if (dashboardData.availableJobs.isNotEmpty) ...[
-              _buildSectionTitle(context, AppStrings.availableJobs),
+              Text(AppStrings.availableJobs, style: context.textTheme.titleMedium?.copyWith(fontWeight: .bold)),
               const SizedBox(height: 12),
               ScheduleSlider(
                 schedules: dashboardData.availableJobs,
@@ -86,6 +99,7 @@ class _DashboardView extends StatelessWidget {
               const SizedBox(height: 24),
             ],
 
+            // Stats Grid
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -100,31 +114,43 @@ class _DashboardView extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
+            // Current Scheduled Job
             if (dashboardData.currentSchedule != null) ...[
-              _buildSectionTitle(context, AppStrings.currentScheduled),
-              const SizedBox(height: 12),
-              _buildScheduleCard(context, dashboardData.currentSchedule!),
+              JobListBuilderWidget(
+                title: AppStrings.currentScheduled,
+                jobs: [dashboardData.currentSchedule!],
+                onJobTap: (job) => _onScheduleTap(context, job),
+              ),
               const SizedBox(height: 16),
             ],
 
+            // Next Scheduled Job
             if (dashboardData.nextSchedule != null) ...[
-              _buildSectionTitle(context, AppStrings.nextSchedule),
-              const SizedBox(height: 12),
-              _buildScheduleCard(context, dashboardData.nextSchedule!),
+              JobListBuilderWidget(
+                title: AppStrings.nextSchedule,
+                jobs: [dashboardData.nextSchedule!],
+                onJobTap: (job) => _onScheduleTap(context, job),
+              ),
               const SizedBox(height: 16),
             ],
 
+            // Today Scheduled Jobs
             if (dashboardData.todaysSchedules.isNotEmpty) ...[
-              _buildSectionTitle(context, AppStrings.todaySchedule),
-              const SizedBox(height: 12),
-              ...dashboardData.todaysSchedules.map((s) => _buildScheduleCard(context, s)),
+              JobListBuilderWidget(
+                title: AppStrings.todaySchedule,
+                jobs: dashboardData.todaysSchedules,
+                onJobTap: (job) => _onScheduleTap(context, job),
+              ),
               const SizedBox(height: 16),
             ],
 
+            // Upcoming Scheduled Jobs
             if (dashboardData.upcomingSchedules.isNotEmpty) ...[
-              _buildSectionTitle(context, AppStrings.upcomingSchedule),
-              const SizedBox(height: 12),
-              ...dashboardData.upcomingSchedules.map((s) => _buildScheduleCard(context, s)),
+              JobListBuilderWidget(
+                title: AppStrings.upcomingSchedule,
+                jobs: dashboardData.upcomingSchedules,
+                onJobTap: (job) => _onScheduleTap(context, job),
+              ),
             ],
           ],
         ),
@@ -158,17 +184,6 @@ class _DashboardView extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-
-  Widget _buildSectionTitle(BuildContext context, String title) {
-    return Text(title, style: context.textTheme.titleLarge?.copyWith(fontWeight: .bold));
-  }
-
-  Widget _buildScheduleCard(BuildContext context, Schedule schedule) {
-    return Padding(
-      padding: const .only(bottom: 12),
-      child: ScheduleListTileWidget(schedule: schedule, onTap: () => _onScheduleTap(context, schedule)),
     );
   }
 

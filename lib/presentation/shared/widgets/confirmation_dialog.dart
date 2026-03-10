@@ -15,6 +15,7 @@ Future<bool> showConfirmationDialog(
 }) async {
   final result = await showDialog<bool>(
     context: context,
+    barrierDismissible: false,
     builder: (dialogContext) => AppDialog(
       title: title,
       content: Text(message, style: context.theme.textTheme.bodyMedium),

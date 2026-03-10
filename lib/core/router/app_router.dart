@@ -57,7 +57,11 @@ class AppRouter {
           },
         ),
 
-        GoRoute(name: RouteNames.home, path: RouteNames.homePath, builder: (context, state) => const BottomNavBar()),
+        GoRoute(
+          name: RouteNames.dashboard,
+          path: RouteNames.dashboardPath,
+          builder: (context, state) => const BottomNavBar(),
+        ),
         GoRoute(
           name: RouteNames.profile,
           path: RouteNames.profilePath,
@@ -78,11 +82,11 @@ class AppRouter {
           name: RouteNames.scheduleDetails,
           path: RouteNames.scheduleDetailsPath,
           builder: (context, state) {
-            final extra = state.extra;
-            if (extra is Schedule) {
-              return ScheduleDetailsPage(schedule: extra);
-            }
-            return ScheduleDetailsPage(scheduleId: extra as int?);
+            final extra = state.extra as Map<String, dynamic>;
+            final fromScreenName = extra['fromScreenName'] as String;
+            final schedule = extra['schedule'] as Schedule?;
+            final scheduleId = extra['scheduleId'] as int?;
+            return ScheduleDetailsPage(fromScreenName: fromScreenName, schedule: schedule, scheduleId: scheduleId);
           },
         ),
       ],

@@ -5,6 +5,7 @@ import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/domain/employee/entities/employee.dart';
 
+import 'package:maori_health/presentation/employee/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/common_app_bar.dart';
 import 'package:maori_health/presentation/shared/widgets/error_view_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/no_data_found_widget.dart';
@@ -42,10 +43,24 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
 
   TimeSheetBloc get _timeSheetBloc => context.read<TimeSheetBloc>();
 
+  @override
+  void initState() {
+    super.initState();
+    // Load employees if not loaded
+    if (context.read<EmployeeBloc>().state is! EmployeeLoadedState) {
+      context.read<EmployeeBloc>().add(const LoadEmployeeEvent());
+    }
+  }
+
   Future<void> _onRefresh(BuildContext context) async {
     _timeSheetBloc.add(
       TimeSheetDateAndEmployeeChanged(startDate: _startDate, endDate: _endDate, employee: _selectedEmployee),
     );
+
+    // Load employees if not loaded
+    if (context.read<EmployeeBloc>().state is! EmployeeLoadedState) {
+      context.read<EmployeeBloc>().add(const LoadEmployeeEvent());
+    }
   }
 
   @override

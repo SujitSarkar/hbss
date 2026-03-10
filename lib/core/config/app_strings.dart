@@ -93,7 +93,8 @@ abstract class AppStrings {
   static const String acceptJob = 'Accept Job';
   static const String startJob = 'Start Job';
   static const String finishJob = 'Finish Job';
-  static const String backToDashboard = 'Back to Dashboard';
+  static const String backTo = 'Back to';
+  static const String areYouSureYouWantToAcceptJob = 'Are you sure you want to accept the job?';
   static const String areYouSureYouWantToStartJob = 'Are you sure you want to start the job?';
   static const String appointmentSummary = 'Appointment Summary';
   static const String jobSummary = 'Job Summary';
@@ -109,7 +110,7 @@ abstract class AppStrings {
   static const String overHoursMessageSuffix = 'The appointment was scheduled to end at';
   static const String reason = 'Reason';
   static const String cancelReason = 'Cancel reason';
-  static const String cancelBy = 'Cancelled by';
+  static const String canceledBy = 'Canceled by';
 
   // Assets
   static const String id = 'ID';

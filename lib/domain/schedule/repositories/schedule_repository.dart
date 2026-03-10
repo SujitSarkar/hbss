@@ -18,9 +18,9 @@ abstract class ScheduleRepository {
   Future<Result<AppError, ScheduleModel>> cancelSchedule({
     required int scheduleId,
     required String cancelBy,
-    required String reason,
-    String? reasonType,
+    required String? cancelReason,
     required int hour,
     required int minute,
+    required String reason,
   });
 }

@@ -418,7 +418,7 @@ class _HorizontalWeekCalendarState extends State<HorizontalWeekCalendar> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  "Back",
+                                  "Prev",
                                   style: theme.textTheme.titleMedium!.copyWith(
                                     color: isBackDisabled()
                                         ? (widget.inactiveNavigatorColor ?? Colors.grey)

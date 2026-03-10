@@ -103,7 +103,10 @@ class _NotificationPageState extends State<NotificationPage> {
                   context.read<NotificationBloc>().add(NotificationReadEvent(item.id));
                 }
                 if (item.data.jobScheduleId != null) {
-                  context.pushNamed(RouteNames.scheduleDetails, extra: item.data.jobScheduleId);
+                  context.pushNamed(
+                    RouteNames.scheduleDetails,
+                    extra: {'fromScreenName': 'notification', 'scheduleId': item.data.jobScheduleId},
+                  );
                 }
               },
             );

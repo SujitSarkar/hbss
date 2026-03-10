@@ -5,10 +5,11 @@ import 'package:maori_health/domain/lookup_enums/entities/lookup_enums.dart';
 class LookupEnumsModel extends LookupEnums {
   const LookupEnumsModel({
     required super.gender,
-    required super.scheduleStatus,
+    required super.scheduleStatusValue,
     required super.scheduleStatusKey,
     required super.assetStatus,
     required super.jobType,
+    required super.canceledBy,
     required super.cancelReason,
   });
 
@@ -29,10 +30,11 @@ class LookupEnumsModel extends LookupEnums {
   factory LookupEnumsModel.fromJson(Map<String, dynamic> json) {
     return LookupEnumsModel(
       gender: _parseStringList(json['gender']),
-      scheduleStatus: ScheduleStatusModel.fromJson(json['schedule_status']),
-      scheduleStatusKey: _parseStringList(json['schedule_status_key']),
+      scheduleStatusValue: ScheduleStatusModel.fromJson(json['schedule_status']),
+      scheduleStatusKey: ScheduleStatusModel.fromJson(json['schedule_status_same_key_value']),
       assetStatus: AssetStatusModel.fromJson(json['asset_status']),
       jobType: _parseStringMap(json['job_type']),
+      canceledBy: _parseStringMap(json['cancel_by']),
       cancelReason: _parseStringMap(json['cancel_reason']),
     );
   }

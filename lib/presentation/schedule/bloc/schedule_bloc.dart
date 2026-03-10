@@ -224,10 +224,10 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       final result = await _cancelScheduleUsecase.call(
         scheduleId: event.scheduleId,
         cancelBy: event.cancelBy,
-        reason: event.reason,
-        reasonType: event.reasonType,
+        cancelReason: event.cancelReason,
         hour: event.hour,
         minute: event.minute,
+        reason: event.reason,
       );
       await result.fold(
         onFailure: (error) async {

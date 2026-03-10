@@ -95,20 +95,20 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   Future<Result<AppError, ScheduleModel>> cancelSchedule({
     required int scheduleId,
     required String cancelBy,
-    required String reason,
-    String? reasonType,
+    required String? cancelReason,
     required int hour,
     required int minute,
+    required String reason,
   }) async {
     if (!await _networkChecker.hasConnection) return const ErrorResult(NetworkError());
     try {
       final result = await _remoteDataSource.cancelSchedule(
         scheduleId: scheduleId,
         cancelBy: cancelBy,
-        reason: reason,
-        reasonType: reasonType,
+        cancelReason: cancelReason,
         hour: hour,
         minute: minute,
+        reason: reason,
       );
       return SuccessResult(result);
     } on ApiException catch (e) {

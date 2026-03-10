@@ -11,8 +11,7 @@ import 'package:maori_health/presentation/app/bloc/bloc.dart';
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
 import 'package:maori_health/presentation/employee/bloc/bloc.dart';
-import 'package:maori_health/presentation/lookup_enums/bloc/lookup_enums_bloc.dart';
-import 'package:maori_health/presentation/lookup_enums/bloc/lookup_enums_event.dart';
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 import 'package:maori_health/presentation/notification/bloc/bloc.dart';
 import 'package:maori_health/presentation/schedule/bloc/schedule_bloc.dart';
 
@@ -25,9 +24,9 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<AppBloc>()..add(const AppStarted())),
         BlocProvider(create: (_) => getIt<AuthBloc>()..add(const AuthLocalLoginEvent())),
-        BlocProvider(create: (_) => getIt<LookupEnumsBloc>()..add(const LoadLookupEnumsEvent())),
-        BlocProvider(create: (_) => getIt<ClientBloc>()..add(const LoadClientsEvent())),
-        BlocProvider(create: (_) => getIt<EmployeeBloc>()..add(const LoadEmployeeEvent())),
+        BlocProvider(create: (_) => getIt<LookupEnumsBloc>()),
+        BlocProvider(create: (_) => getIt<ClientBloc>()),
+        BlocProvider(create: (_) => getIt<EmployeeBloc>()),
         BlocProvider(create: (_) => getIt<NotificationBloc>()),
         BlocProvider(create: (_) => getIt<ScheduleBloc>()),
       ],

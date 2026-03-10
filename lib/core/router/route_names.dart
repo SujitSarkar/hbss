@@ -5,7 +5,7 @@ abstract class RouteNames {
   static const String forgotPasswordPath = '/forgot-password';
   static const String forgotPasswordOtpPath = '/forgot-password-otp';
   static const String resetPasswordPath = '/reset-password';
-  static const String homePath = '/home';
+  static const String dashboardPath = '/dashboard';
   static const String profilePath = '/profile';
   static const String scheduleDetailsPath = '/schedule-details';
   static const String assetsPath = '/assets';
@@ -18,7 +18,7 @@ abstract class RouteNames {
   static const String forgotPassword = 'forgotPassword';
   static const String forgotPasswordOtp = 'forgotPasswordOtp';
   static const String resetPassword = 'resetPassword';
-  static const String home = 'home';
+  static const String dashboard = 'dashboard';
   static const String profile = 'profile';
   static const String scheduleDetails = 'scheduleDetails';
   static const String assets = 'assets';

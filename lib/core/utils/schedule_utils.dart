@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
+import 'package:maori_health/core/utils/extensions.dart';
+import 'package:maori_health/domain/lookup_enums/entities/schedule_status.dart';
 
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
 import 'package:maori_health/domain/schedule/entities/schedule_finish_analysis_result.dart';
@@ -9,6 +11,28 @@ import 'package:maori_health/domain/schedule/entities/schedule_finish_analysis_r
 import 'package:maori_health/presentation/shared/widgets/horizontal_week_calender.dart';
 
 class ScheduleUtils {
+  static String getScheduleStatus({
+    required String? status,
+    required ScheduleStatus scheduleStatusKey,
+    required ScheduleStatus scheduleStatusValue,
+  }) {
+    if (status == scheduleStatusKey.active) {
+      return scheduleStatusValue.active ?? '';
+    } else if (status == scheduleStatusKey.cancelled) {
+      return scheduleStatusValue.cancelled ?? '';
+    } else if (status == scheduleStatusKey.completed) {
+      return scheduleStatusValue.completed ?? '';
+    } else if (status == scheduleStatusKey.finished) {
+      return scheduleStatusValue.finished ?? '';
+    } else if (status == scheduleStatusKey.inprogress) {
+      return scheduleStatusValue.inprogress ?? '';
+    } else if (status == scheduleStatusKey.parked) {
+      return scheduleStatusValue.parked ?? '';
+    } else {
+      return status?.capitalize() ?? '';
+    }
+  }
+
   static List<DateTime> getWeekDates({required WeekStartFrom weekStartFrom, DateTime? currentDate}) {
     final DateTime now = currentDate ?? DateTime.now();
     final DateTime dateOnly = DateTime(now.year, now.month, now.day);

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/core/enums/job_status.enum.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 
 class ScheduleDetailsInfoCard extends StatelessWidget {
+  final LookupEnumsLoadedState? lookupEnumState;
+  final String? status;
   final String date;
   final String jobType;
   final String clientName;
@@ -14,10 +16,11 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
   final String startTime;
   final String endTime;
   final String? jobStartedTime;
-  final String? status;
 
   const ScheduleDetailsInfoCard({
     super.key,
+    required this.lookupEnumState,
+    required this.status,
     required this.date,
     required this.jobType,
     required this.clientName,
@@ -26,7 +29,6 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
     required this.startTime,
     required this.endTime,
     this.jobStartedTime,
-    required this.status,
   });
 
   @override
@@ -56,7 +58,7 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (status == JobStatusEnum.inProgress.value)
+              if (lookupEnumState != null && status == lookupEnumState!.lookupEnums.scheduleStatusKey.inprogress)
                 Container(
                   width: 14,
                   height: 14,
