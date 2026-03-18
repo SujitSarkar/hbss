@@ -32,11 +32,9 @@ class EmployeeRemoteDataSourceImpl implements EmployeeRemoteDataSource {
         newList = dataList.map((e) => EmployeeModel.fromJson(e as Map<String, dynamic>)).toList();
         employees.addAll(newList);
 
-        if (page == 2) break;
-
-        // if (body['data']?['last_page'] == page) {
-        //   break;
-        // }
+        if (body['data']?['last_page'] == page) {
+          break;
+        }
         page++;
       }
       return employees;
