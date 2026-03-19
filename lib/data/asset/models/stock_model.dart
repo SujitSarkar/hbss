@@ -45,6 +45,6 @@ class StockModel extends Stock {
     operatorId: DataParseUtil.parseInt(json["operator_id"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    product: ProductModel.fromJson(json["product"]),
+    product: json["product"] != null ? ProductModel.fromJson(json["product"]) : null,
   );
 }

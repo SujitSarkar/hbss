@@ -30,8 +30,10 @@ class AssetRemoteDataSourceImpl implements AssetRemoteDataSource {
       final responseData = body['data'] as List<dynamic>? ?? [];
       return responseData.map((e) => AssetResponseModel.fromJson(e as Map<String, dynamic>)).toList();
     } on DioException catch (e) {
-      final message = (e.response?.data is Map) ? (e.response!.data as Map)['message']?.toString() : null;
+      final message = (e.response?.data is Map) ? (e.response?.data as Map)['message']?.toString() : null;
       throw ApiException(statusCode: e.response?.statusCode, message: message ?? e.message ?? 'Failed to fetch assets');
+    } catch (e) {
+      throw ApiException(statusCode: 0, message: e.toString());
     }
   }
 
@@ -48,8 +50,10 @@ class AssetRemoteDataSourceImpl implements AssetRemoteDataSource {
       }
       return AssetResponseModel.fromJson(body['data'] as Map<String, dynamic>);
     } on DioException catch (e) {
-      final message = (e.response?.data is Map) ? (e.response!.data as Map)['message']?.toString() : null;
+      final message = (e.response?.data is Map) ? (e.response?.data as Map)['message']?.toString() : null;
       throw ApiException(statusCode: e.response?.statusCode, message: message ?? e.message ?? 'Failed to accept asset');
+    } catch (e) {
+      throw ApiException(statusCode: 0, message: e.toString());
     }
   }
 }
