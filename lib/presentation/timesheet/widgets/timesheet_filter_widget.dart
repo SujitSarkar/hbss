@@ -4,30 +4,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
-import 'package:maori_health/domain/employee/entities/employee.dart';
+import 'package:maori_health/domain/client/entities/client.dart';
 
-import 'package:maori_health/presentation/employee/bloc/employee_bloc.dart';
-import 'package:maori_health/presentation/employee/bloc/employee_state.dart';
-import 'package:maori_health/presentation/employee/widgets/employee_tile_widget.dart';
+import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
+import 'package:maori_health/presentation/client/widgets/client_tile_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/auto_complete_search_field.dart';
 import 'package:maori_health/presentation/shared/widgets/loading_widget.dart';
 
 class TimesheetFilterWidget extends StatelessWidget {
   final DateTime? startDate;
   final DateTime? endDate;
-  final Employee? selectedEmployee;
+  final Client? selectedClient;
   final void Function(DateTime start, DateTime end) onDateRangeChanged;
   final VoidCallback onDateRangeCleared;
-  final void Function(Employee? employee) onEmployeeChanged;
+  final void Function(Client? client) onClientChanged;
 
   const TimesheetFilterWidget({
     super.key,
     required this.startDate,
     required this.endDate,
-    required this.selectedEmployee,
+    required this.selectedClient,
     required this.onDateRangeChanged,
     required this.onDateRangeCleared,
-    required this.onEmployeeChanged,
+    required this.onClientChanged,
   });
 
   @override
@@ -41,7 +40,7 @@ class TimesheetFilterWidget extends StatelessWidget {
       children: [
         Expanded(
           flex: 2,
-          child: _EmployeeAutoComplete(selectedEmployee: selectedEmployee, onSelected: onEmployeeChanged),
+          child: _ClientAutoComplete(selectedClient: selectedClient, onSelected: onClientChanged),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -132,27 +131,27 @@ class TimesheetFilterWidget extends StatelessWidget {
   }
 }
 
-class _EmployeeAutoComplete extends StatelessWidget {
-  final Employee? selectedEmployee;
-  final void Function(Employee? employee) onSelected;
+class _ClientAutoComplete extends StatelessWidget {
+  final Client? selectedClient;
+  final void Function(Client? client) onSelected;
 
-  const _EmployeeAutoComplete({this.selectedEmployee, required this.onSelected});
+  const _ClientAutoComplete({this.selectedClient, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EmployeeBloc, EmployeeState>(
-      builder: (context, employeeState) {
-        final employees = employeeState is EmployeeLoadedState ? employeeState.employees : <Employee>[];
-        final isLoading = employeeState is EmployeeLoadingState;
+    return BlocBuilder<ClientBloc, ClientState>(
+      builder: (context, clientState) {
+        final clients = clientState is ClientLoadedState ? clientState.clients : <Client>[];
+        final isLoading = clientState is ClientLoadingState;
 
-        return AutoCompleteSearchField<Employee>(
-          items: employees,
-          title: AppStrings.selectEmployee,
-          searchHint: AppStrings.searchEmployee,
-          initialQuery: selectedEmployee?.fullName,
-          itemFilter: (employee, query) => employee.fullName.toLowerCase().contains(query.toLowerCase()),
-          itemSorter: (a, b) => a.fullName.compareTo(b.fullName),
-          itemBuilder: (employee) => EmployeeTileWidget(employee: employee),
+        return AutoCompleteSearchField<Client>(
+          items: clients,
+          title: AppStrings.selectClient,
+          searchHint: AppStrings.searchClient,
+          initialQuery: selectedClient?.fullName,
+          itemFilter: (client, query) => client.fullName?.toLowerCase().contains(query.toLowerCase()) ?? false,
+          itemSorter: (a, b) => a.fullName?.compareTo(b.fullName ?? '') ?? 0,
+          itemBuilder: (client) => ClientTileWidget(client: client),
           onSelected: onSelected,
           onClear: () {
             onSelected(null);
@@ -173,7 +172,7 @@ class _EmployeeAutoComplete extends StatelessWidget {
                       child: isLoading
                           ? const Center(child: SizedBox(height: 16, width: 16, child: LoadingWidget()))
                           : Text(
-                              selectedEmployee?.fullName ?? AppStrings.employee,
+                              selectedClient?.fullName ?? AppStrings.client,
                               style: context.textTheme.bodySmall?.copyWith(
                                 fontWeight: .w600,
                                 color: context.colorScheme.onSurface,

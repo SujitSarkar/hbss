@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
-import 'package:maori_health/domain/employee/entities/employee.dart';
 
-import 'package:maori_health/presentation/employee/bloc/bloc.dart';
+import 'package:maori_health/domain/client/entities/client.dart';
+
+import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/common_app_bar.dart';
 import 'package:maori_health/presentation/shared/widgets/error_view_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/no_data_found_widget.dart';
@@ -23,7 +24,7 @@ class TimeSheetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<TimeSheetBloc>()..add(const TimeSheetDateAndEmployeeChanged()),
+      create: (_) => getIt<TimeSheetBloc>()..add(const TimeSheetDateAndClientChanged()),
       child: const _TimeSheetView(),
     );
   }
@@ -39,27 +40,27 @@ class _TimeSheetView extends StatefulWidget {
 class _TimeSheetViewState extends State<_TimeSheetView> {
   DateTime? _startDate;
   DateTime? _endDate;
-  Employee? _selectedEmployee;
+  Client? _selectedClient;
 
   TimeSheetBloc get _timeSheetBloc => context.read<TimeSheetBloc>();
 
   @override
   void initState() {
     super.initState();
-    // Load employees if not loaded
-    if (context.read<EmployeeBloc>().state is! EmployeeLoadedState) {
-      context.read<EmployeeBloc>().add(const LoadEmployeeEvent());
+    // Load Clients if not loaded
+    if (context.read<ClientBloc>().state is! ClientLoadedState) {
+      context.read<ClientBloc>().add(const LoadClientsEvent());
     }
   }
 
   Future<void> _onRefresh(BuildContext context) async {
     _timeSheetBloc.add(
-      TimeSheetDateAndEmployeeChanged(startDate: _startDate, endDate: _endDate, employee: _selectedEmployee),
+      TimeSheetDateAndClientChanged(startDate: _startDate, endDate: _endDate, client: _selectedClient),
     );
 
     // Load employees if not loaded
-    if (context.read<EmployeeBloc>().state is! EmployeeLoadedState) {
-      context.read<EmployeeBloc>().add(const LoadEmployeeEvent());
+    if (context.read<ClientBloc>().state is! ClientLoadedState) {
+      context.read<ClientBloc>().add(const LoadClientsEvent());
     }
   }
 
@@ -75,14 +76,14 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
               TimesheetFilterWidget(
                 startDate: _startDate,
                 endDate: _endDate,
-                selectedEmployee: _selectedEmployee,
+                selectedClient: _selectedClient,
                 onDateRangeChanged: (start, end) {
                   setState(() {
                     _startDate = start;
                     _endDate = end;
                   });
                   _timeSheetBloc.add(
-                    TimeSheetDateAndEmployeeChanged(startDate: start, endDate: end, employee: _selectedEmployee),
+                    TimeSheetDateAndClientChanged(startDate: start, endDate: end, client: _selectedClient),
                   );
                 },
                 onDateRangeCleared: () {
@@ -90,12 +91,12 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
                     _startDate = null;
                     _endDate = null;
                   });
-                  _timeSheetBloc.add(TimeSheetDateAndEmployeeChanged(employee: _selectedEmployee));
+                  _timeSheetBloc.add(TimeSheetDateAndClientChanged(client: _selectedClient));
                 },
-                onEmployeeChanged: (employee) {
-                  setState(() => _selectedEmployee = employee);
+                onClientChanged: (client) {
+                  setState(() => _selectedClient = client);
                   _timeSheetBloc.add(
-                    TimeSheetDateAndEmployeeChanged(startDate: _startDate, endDate: _endDate, employee: employee),
+                    TimeSheetDateAndClientChanged(startDate: _startDate, endDate: _endDate, client: client),
                   );
                 },
               ),
@@ -107,7 +108,7 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
                       TimeSheetLoadingState() => const TimeSheetShimmer(),
                       TimeSheetErrorState(:final errorMessage) => ErrorViewWidget(
                         message: errorMessage,
-                        onRetry: () => _timeSheetBloc.add(const TimeSheetDateAndEmployeeChanged()),
+                        onRetry: () => _timeSheetBloc.add(const TimeSheetDateAndClientChanged()),
                       ),
                       TimeSheetLoadedState() => _buildContent(context, state),
                       _ => const SizedBox.shrink(),
@@ -140,7 +141,7 @@ class _TimeSheetViewState extends State<_TimeSheetView> {
                   hasMore: state.hasMore,
                   isLoadingMore: state.isLoadingMore,
                   onLoadMore: () => _timeSheetBloc.add(
-                    TimeSheetLoadMore(startDate: _startDate, endDate: _endDate, employee: _selectedEmployee),
+                    TimeSheetLoadMore(startDate: _startDate, endDate: _endDate, client: _selectedClient),
                   ),
                   child: SwipeRefreshWrapper(
                     onRefresh: () => _onRefresh(context),

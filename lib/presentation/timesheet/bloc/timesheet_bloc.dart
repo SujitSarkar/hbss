@@ -12,15 +12,15 @@ class TimeSheetBloc extends Bloc<TimeSheetEvent, TimeSheetState> {
   TimeSheetBloc({required TimeSheetRepository repository})
     : _repository = repository,
       super(const TimeSheetLoadingState()) {
-    on<TimeSheetDateAndEmployeeChanged>(_onDateAndEmployeeChanged);
+    on<TimeSheetDateAndClientChanged>(_onDateAndClientChanged);
     on<TimeSheetLoadMore>(_onLoadMore);
   }
 
-  Future<void> _onDateAndEmployeeChanged(TimeSheetDateAndEmployeeChanged event, Emitter<TimeSheetState> emit) async {
+  Future<void> _onDateAndClientChanged(TimeSheetDateAndClientChanged event, Emitter<TimeSheetState> emit) async {
     emit(const TimeSheetLoadingState());
 
     final result = await _repository.getTimeSheets(
-      clientUserId: event.employee?.id,
+      clientUserId: event.client?.id,
       startDate: event.startDate,
       endDate: event.endDate,
       page: 1,
@@ -52,7 +52,7 @@ class TimeSheetBloc extends Bloc<TimeSheetEvent, TimeSheetState> {
 
     final nextPage = currentState.currentPage + 1;
     final result = await _repository.getTimeSheets(
-      clientUserId: event.employee?.id,
+      clientUserId: event.client?.id,
       startDate: event.startDate,
       endDate: event.endDate,
       page: nextPage,

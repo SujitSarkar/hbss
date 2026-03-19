@@ -51,33 +51,25 @@ class _ShimmerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const .symmetric(horizontal: 14, vertical: 12),
+      padding: const .symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: .circular(12),
         border: .all(color: context.theme.cardColor),
       ),
-      child: const Row(
+      child: Column(
+        crossAxisAlignment: .start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                Row(
-                  children: [
-                    AppShimmer.text(width: 140, height: 14),
-                    SizedBox(width: 8),
-                    AppShimmer.text(width: 60, height: 20),
-                  ],
-                ),
-                SizedBox(height: 6),
-                AppShimmer.text(width: 160, height: 12),
-                SizedBox(height: 4),
-                AppShimmer.text(width: 50, height: 14),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: .spaceBetween,
+            children: [AppShimmer.text(width: 160, height: 20), AppShimmer.text(width: 60, height: 20)],
           ),
-          SizedBox(width: 12),
-          AppShimmer.text(width: 30, height: 22),
+          SizedBox(height: 8),
+          AppShimmer.text(width: 140, height: 12),
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: .spaceBetween,
+            children: [AppShimmer.text(width: 40, height: 14), AppShimmer.text(width: 40, height: 14)],
+          ),
         ],
       ),
     );

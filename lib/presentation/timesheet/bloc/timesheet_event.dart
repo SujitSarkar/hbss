@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import 'package:maori_health/domain/employee/entities/employee.dart';
+import 'package:maori_health/domain/client/entities/client.dart';
 
 abstract class TimeSheetEvent extends Equatable {
   const TimeSheetEvent();
@@ -9,23 +8,23 @@ abstract class TimeSheetEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class TimeSheetDateAndEmployeeChanged extends TimeSheetEvent {
+class TimeSheetDateAndClientChanged extends TimeSheetEvent {
   final DateTime? startDate;
   final DateTime? endDate;
-  final Employee? employee;
+  final Client? client;
 
-  const TimeSheetDateAndEmployeeChanged({this.startDate, this.endDate, this.employee});
+  const TimeSheetDateAndClientChanged({this.startDate, this.endDate, this.client});
 
   @override
-  List<Object?> get props => [startDate, endDate, employee];
+  List<Object?> get props => [startDate, endDate, client];
 }
 
 class TimeSheetLoadMore extends TimeSheetEvent {
   final DateTime? startDate;
   final DateTime? endDate;
-  final Employee? employee;
-  const TimeSheetLoadMore({this.startDate, this.endDate, this.employee});
+  final Client? client;
+  const TimeSheetLoadMore({this.startDate, this.endDate, this.client});
 
   @override
-  List<Object?> get props => [startDate, endDate, employee];
+  List<Object?> get props => [startDate, endDate, client];
 }
