@@ -35,6 +35,9 @@ abstract class ApiEndpoints {
   static const String clients = 'lookups/clients';
   static const String enums = 'lookups/enums';
 
+  // App Settings
+  static const String settings = 'settings';
+
   // TimeSheets
   static const String timeSheets = 'schedules/timesheet';
 

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-enum WeekStartFrom { sunday, monday }
+enum WeekStartFrom {
+  saturday('Sat'),
+  sunday('Sun'),
+  monday('Mon');
+
+  final String value;
+
+  const WeekStartFrom(this.value);
+}
 
 const double _cellHeight = 60;
 

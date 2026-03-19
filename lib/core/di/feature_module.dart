@@ -4,6 +4,8 @@ import 'package:maori_health/core/network/dio_client.dart';
 import 'package:maori_health/core/network/network_checker.dart';
 import 'package:maori_health/core/storage/local_cache_service.dart';
 import 'package:maori_health/core/storage/secure_storage_service.dart';
+import 'package:maori_health/data/app_settings/datasources/app_settings_remote_datasource.dart';
+import 'package:maori_health/data/app_settings/repositories/app_settings_repository_impl.dart';
 
 import 'package:maori_health/data/auth/datasources/auth_local_data_source.dart';
 import 'package:maori_health/data/auth/datasources/auth_remote_data_source.dart';
@@ -24,6 +26,8 @@ import 'package:maori_health/data/timesheet/datasources/timesheet_remote_data_so
 import 'package:maori_health/data/timesheet/repositories/timesheet_repository_impl.dart';
 import 'package:maori_health/data/dashboard/datasources/dashboard_remote_data_source.dart';
 import 'package:maori_health/data/dashboard/repositories/dashboard_repository_impl.dart';
+import 'package:maori_health/domain/app_settings/repositories/app_settings_repository.dart';
+import 'package:maori_health/domain/app_settings/usecases/get_app_settings_usecase.dart';
 
 import 'package:maori_health/domain/auth/repositories/auth_repository.dart';
 import 'package:maori_health/domain/asset/repositories/asset_repository.dart';
@@ -43,6 +47,7 @@ import 'package:maori_health/domain/timesheet/repositories/timesheet_repository.
 import 'package:maori_health/domain/dashboard/repositories/dashboard_repository.dart';
 
 import 'package:maori_health/presentation/app/bloc/app_bloc.dart';
+import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
 import 'package:maori_health/presentation/asset/bloc/asset_bloc.dart';
 import 'package:maori_health/presentation/auth/bloc/auth_bloc.dart';
 import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
@@ -72,6 +77,36 @@ void registerFeatureModule(GetIt getIt) {
     )
     ..registerFactory<AuthBloc>(() => AuthBloc(authRepository: getIt<AuthRepository>()));
 
+  // ── App Settings
+  getIt
+    ..registerLazySingleton<AppSettingsRemoteDataSource>(() => AppSettingsRemoteDataSource(client: getIt<DioClient>()))
+    ..registerLazySingleton<AppSettingsRepository>(
+      () => AppSettingsRepositoryImpl(
+        remoteDataSource: getIt<AppSettingsRemoteDataSource>(),
+        networkChecker: getIt<NetworkChecker>(),
+      ),
+    )
+    ..registerLazySingleton<GetAppSettingsUsecase>(
+      () => GetAppSettingsUsecase(repository: getIt<AppSettingsRepository>()),
+    )
+    ..registerFactory<AppSettingsBloc>(() => AppSettingsBloc(getAppSettingsUsecase: getIt<GetAppSettingsUsecase>()));
+
+  // ── Lookup Enums
+  getIt
+    ..registerLazySingleton<LookupEnumsRemoteDataSource>(
+      () => LookupEnumsRemoteDataSourceImpl(client: getIt<DioClient>()),
+    )
+    ..registerLazySingleton<LookupEnumsRepository>(
+      () => LookupEnumsRepositoryImpl(
+        remoteDataSource: getIt<LookupEnumsRemoteDataSource>(),
+        networkChecker: getIt<NetworkChecker>(),
+      ),
+    )
+    ..registerLazySingleton<GetLookupEnumsUsecase>(
+      () => GetLookupEnumsUsecase(repository: getIt<LookupEnumsRepository>()),
+    )
+    ..registerFactory<LookupEnumsBloc>(() => LookupEnumsBloc(getLookupEnumsUsecase: getIt<GetLookupEnumsUsecase>()));
+
   // -- Client
   getIt
     ..registerLazySingleton<ClientRemoteDataSource>(() => ClientRemoteDataSourceImpl(client: getIt<DioClient>()))
@@ -93,22 +128,6 @@ void registerFeatureModule(GetIt getIt) {
       ),
     )
     ..registerFactory<EmployeeBloc>(() => EmployeeBloc(repository: getIt<EmployeeRepository>()));
-
-  // ── Lookup Enums
-  getIt
-    ..registerLazySingleton<LookupEnumsRemoteDataSource>(
-      () => LookupEnumsRemoteDataSourceImpl(client: getIt<DioClient>()),
-    )
-    ..registerLazySingleton<LookupEnumsRepository>(
-      () => LookupEnumsRepositoryImpl(
-        remoteDataSource: getIt<LookupEnumsRemoteDataSource>(),
-        networkChecker: getIt<NetworkChecker>(),
-      ),
-    )
-    ..registerLazySingleton<GetLookupEnumsUsecase>(
-      () => GetLookupEnumsUsecase(repository: getIt<LookupEnumsRepository>()),
-    )
-    ..registerFactory<LookupEnumsBloc>(() => LookupEnumsBloc(getLookupEnumsUsecase: getIt<GetLookupEnumsUsecase>()));
 
   // ── Asset
   getIt

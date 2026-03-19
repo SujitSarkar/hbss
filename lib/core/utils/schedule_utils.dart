@@ -3,14 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
-import 'package:maori_health/domain/lookup_enums/entities/schedule_status.dart';
 
+import 'package:maori_health/domain/lookup_enums/entities/schedule_status.dart';
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
 import 'package:maori_health/domain/schedule/entities/schedule_finish_analysis_result.dart';
 
 import 'package:maori_health/presentation/shared/widgets/horizontal_week_calender.dart';
 
 class ScheduleUtils {
+  static WeekStartFrom getWeekStartFrom(String? weekDayStart, {WeekStartFrom fallback = WeekStartFrom.monday}) {
+    final normalized = (weekDayStart ?? '').trim().toLowerCase();
+    if (normalized.startsWith(WeekStartFrom.saturday.value.toLowerCase())) {
+      return WeekStartFrom.saturday;
+    }
+    if (normalized.startsWith(WeekStartFrom.sunday.value.toLowerCase())) {
+      return WeekStartFrom.sunday;
+    }
+    if (normalized.startsWith(WeekStartFrom.monday.value.toLowerCase())) {
+      return WeekStartFrom.monday;
+    }
+    return fallback;
+  }
+
   static String getScheduleStatus({
     required String? status,
     required ScheduleStatus scheduleStatusKey,
@@ -37,14 +51,26 @@ class ScheduleUtils {
     final DateTime now = currentDate ?? DateTime.now();
     final DateTime dateOnly = DateTime(now.year, now.month, now.day);
 
-    // 2. Determine the offset based on the starting day
-    // If Monday: Mon(1) -> 0, Tue(2) -> 1 ... Sun(7) -> 6
-    // If Sunday: Sun(7) -> 0, Mon(1) -> 1 ... Sat(6) -> 5
-    int offset = (weekStartFrom == WeekStartFrom.monday) ? dateOnly.weekday - 1 : dateOnly.weekday % 7;
+    int offset;
+    switch (weekStartFrom) {
+      case WeekStartFrom.saturday:
+        // Sat(6) -> 0, Sun(7) -> 1, Mon(1) -> 2 ... Fri(5) -> 6
+        // Logic: (6 + 1) % 7 = 0
+        offset = (dateOnly.weekday + 1) % 7;
+        break;
+      case WeekStartFrom.sunday:
+        // Sun(7) -> 0, Mon(1) -> 1 ... Sat(6) -> 5
+        offset = dateOnly.weekday % 7;
+        break;
+
+      case WeekStartFrom.monday:
+        // Mon(1) -> 0, Tue(2) -> 1 ... Sun(7) -> 6
+        offset = dateOnly.weekday - 1;
+        break;
+    }
 
     final DateTime firstDayOfWeek = dateOnly.subtract(Duration(days: offset));
 
-    // 3. Generate the 7-day list
     return List.generate(7, (index) => firstDayOfWeek.add(Duration(days: index)));
   }
 

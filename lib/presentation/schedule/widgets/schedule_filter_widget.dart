@@ -17,12 +17,14 @@ class ScheduleFilterWidget extends StatefulWidget {
   final ScheduleFilter selectedFilter;
   final DateTime? initialDate;
   final List<DateTime> initialWeek;
+  final WeekStartFrom weekStartFrom;
   final Client? initialClient;
   final void Function(DateTime? date, List<DateTime> week, Client? client) onFilterChanged;
   const ScheduleFilterWidget({
     super.key,
     required this.selectedFilter,
     required this.onFilterChanged,
+    this.weekStartFrom = WeekStartFrom.monday,
     this.initialClient,
     this.initialDate,
     this.initialWeek = const [],
@@ -74,6 +76,7 @@ class _ScheduleFilterWidgetState extends State<ScheduleFilterWidget> {
         valueListenable: selectedWeek,
         builder: (context, value, child) => WeekFilterWidget(
           selectedDate: selectedDate.value,
+          weekStartFrom: widget.weekStartFrom,
           onDateChange: (date) {},
           onWeekChange: (week) {
             onChangeFilter(week: week);
