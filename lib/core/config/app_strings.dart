@@ -134,6 +134,7 @@ abstract class AppStrings {
   static const String noAttachment = 'No attachment';
   static const String loading = 'Loading';
   static const String assetAccepted = 'Asset accepted';
+  static const String areYouSureYouWantToAcceptAsset = 'Are you sure you want to accept the asset?';
 
   // TimeSheet
   static const String appointments = 'Appointments';

@@ -11,6 +11,7 @@ import 'package:maori_health/presentation/asset/bloc/bloc.dart';
 import 'package:maori_health/presentation/asset/widgets/asset_list_tile.dart';
 import 'package:maori_health/presentation/asset/widgets/asset_page_shimmer.dart';
 import 'package:maori_health/presentation/shared/widgets/common_app_bar.dart';
+import 'package:maori_health/presentation/shared/widgets/confirmation_dialog.dart';
 import 'package:maori_health/presentation/shared/widgets/error_view_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/loading_overlay.dart';
 import 'package:maori_health/presentation/shared/widgets/swipe_refresh_wrapper.dart';
@@ -27,12 +28,29 @@ class AssetsPage extends StatelessWidget {
 class _AssetsView extends StatelessWidget {
   const _AssetsView();
 
+  void _onAcceptAsset(BuildContext context, int? assetId) async {
+    if (assetId == null) return;
+    final confirmed = await showConfirmationDialog(
+      context,
+      title: AppStrings.confirm,
+      message: AppStrings.areYouSureYouWantToAcceptAsset,
+      confirmText: AppStrings.yes,
+      cancelText: AppStrings.no,
+      cancelColor: Theme.of(context).colorScheme.error,
+    );
+    if (confirmed && context.mounted) {
+      context.read<AssetBloc>().add(AssetAcceptEvent(assetId));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AssetBloc, AssetState>(
       listener: (context, state) {
         if (state is AssetAcceptedState) {
           context.showSnackBar(AppStrings.assetAccepted);
+        } else if (state is AssetErrorState) {
+          context.showSnackBar(state.message, isError: true);
         }
       },
       child: Scaffold(
@@ -79,7 +97,7 @@ class _AssetsView extends StatelessWidget {
           return AssetListTile(
             asset: asset,
             onView: () => context.pushNamed(RouteNames.assetDetails, extra: asset),
-            onAccept: isAccepting ? null : () => context.read<AssetBloc>().add(AssetAcceptEvent(asset.asset.id!)),
+            onAccept: isAccepting ? null : () => _onAcceptAsset(context, asset.asset.id),
           );
         },
       ),
