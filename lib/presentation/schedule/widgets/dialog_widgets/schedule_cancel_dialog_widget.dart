@@ -153,7 +153,12 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: SolidButton(onPressed: onClose, child: const Text(AppStrings.close)),
+                  child: SolidButton(
+                    backgroundColor: context.theme.disabledColor,
+                    foregroundColor: Colors.white,
+                    onPressed: onClose,
+                    child: const Text(AppStrings.close),
+                  ),
                 ),
               ],
             ),
