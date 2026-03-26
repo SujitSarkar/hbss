@@ -76,7 +76,7 @@ class _StatusBadge extends StatelessWidget {
       padding: const .symmetric(horizontal: 10, vertical: 3),
       decoration: BoxDecoration(borderRadius: .circular(4), color: ColorUtils.hexToColor(color)),
       child: Text(
-        status,
+        status.capitalize(),
         style: context.textTheme.labelSmall?.copyWith(color: context.colorScheme.onPrimary, fontSize: 10),
       ),
     );
