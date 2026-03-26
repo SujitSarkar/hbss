@@ -4,10 +4,10 @@ import 'package:maori_health/core/utils/extensions.dart';
 
 class ProfileSectionCard extends StatelessWidget {
   final IconData icon;
-  final String title;
+  final String? title;
   final List<Widget> children;
 
-  const ProfileSectionCard({super.key, required this.icon, required this.title, required this.children});
+  const ProfileSectionCard({super.key, required this.icon, this.title, required this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,14 @@ class ProfileSectionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          Padding(
-            padding: const .fromLTRB(16, 14, 16, 4),
-            child: Text(
-              title,
-              style: context.textTheme.titleSmall?.copyWith(color: context.colorScheme.primary, fontWeight: .w600),
+          if (title != null)
+            Padding(
+              padding: const .fromLTRB(16, 14, 16, 4),
+              child: Text(
+                title!,
+                style: context.textTheme.titleSmall?.copyWith(color: context.colorScheme.primary, fontWeight: .w600),
+              ),
             ),
-          ),
           ...children,
           const SizedBox(height: 6),
         ],

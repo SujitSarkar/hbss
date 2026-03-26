@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
+import 'package:maori_health/core/utils/schedule_utils.dart';
 import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 
 class ScheduleDetailsInfoCard extends StatelessWidget {
@@ -33,6 +34,7 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     final textTheme = context.textTheme;
     final labelStyle = textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurfaceVariant);
 
@@ -58,12 +60,39 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (lookupEnumState != null && status == lookupEnumState!.lookupEnums.scheduleStatusKey.inprogress)
-                Container(
-                  width: 14,
-                  height: 14,
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.success),
-                ),
+              // Status Badge Row
+              lookupEnumState is LookupEnumsLoadedState
+                  ? Row(
+                      crossAxisAlignment: .center,
+                      children: [
+                        if (lookupEnumState != null &&
+                            status == lookupEnumState!.lookupEnums.scheduleStatusKey.inprogress)
+                          Container(
+                            width: 14,
+                            height: 14,
+                            margin: const .only(right: 4),
+                            decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.success),
+                          ),
+                        status != null
+                            ? Container(
+                                padding: const .symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: colorScheme.primary),
+                                  borderRadius: .circular(4),
+                                ),
+                                child: Text(
+                                  ScheduleUtils.getScheduleStatus(
+                                    status: status,
+                                    scheduleStatusKey: lookupEnumState!.lookupEnums.scheduleStatusKey,
+                                    scheduleStatusValue: lookupEnumState!.lookupEnums.scheduleStatusValue,
+                                  ),
+                                  style: textTheme.bodySmall?.copyWith(fontWeight: .w500),
+                                ),
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
           const SizedBox(height: 8),

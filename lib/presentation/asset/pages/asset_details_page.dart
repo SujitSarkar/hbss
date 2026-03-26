@@ -7,7 +7,6 @@ import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
 
-import 'package:maori_health/core/utils/asset_utils.dart';
 import 'package:maori_health/presentation/shared/widgets/app_shimmer.dart';
 import 'package:maori_health/presentation/shared/widgets/common_app_bar.dart';
 
@@ -60,9 +59,9 @@ class AssetDetailsPage extends StatelessWidget {
           const SizedBox(height: 8),
           _InfoRow(
             label: '${AppStrings.statusLabel}: ',
-            value: AssetUtils.statusLabel(asset.asset.acknowledgementStatus ?? 0),
+            value: asset.asset.status?.capitalize() ?? AppStrings.na,
             labelStyle: labelStyle,
-            valueStyle: valueStyle?.copyWith(color: AssetUtils.statusColor(asset.asset.acknowledgementStatus ?? 0)),
+            valueStyle: valueStyle?.copyWith(color: context.colorScheme.primary),
           ),
           const SizedBox(height: 8),
           _InfoRow(

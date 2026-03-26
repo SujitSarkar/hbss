@@ -48,7 +48,7 @@ class AssetListTile extends StatelessWidget {
             label: AppStrings.acknowledgementStatus,
             value: AssetUtils.isAcknowledged(asset.asset.acknowledgementStatus ?? 0)
                 ? AppStrings.accepted
-                : AppStrings.pending,
+                : AppStrings.na,
           ),
           const SizedBox(height: 14),
           _buildActions(context),
@@ -76,7 +76,7 @@ class AssetListTile extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        _StatusBadge(acknowledgementStatus: asset.asset.acknowledgementStatus),
+        _StatusBadge(status: asset.asset.status),
       ],
     );
   }
@@ -144,23 +144,18 @@ class AssetListTile extends StatelessWidget {
 }
 
 class _StatusBadge extends StatelessWidget {
-  final int? acknowledgementStatus;
+  final String? status;
 
-  const _StatusBadge({required this.acknowledgementStatus});
+  const _StatusBadge({required this.status});
 
   @override
   Widget build(BuildContext context) {
-    final ackStatus = acknowledgementStatus ?? 0;
-    final label = AssetUtils.statusLabel(ackStatus);
-    final fgColor = AssetUtils.statusColor(ackStatus);
-    final bgColor = fgColor.withAlpha(30);
-
     return Container(
       padding: const .symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bgColor, borderRadius: .circular(6)),
+      decoration: BoxDecoration(color: context.colorScheme.primary, borderRadius: .circular(6)),
       child: Text(
-        label,
-        style: context.textTheme.labelSmall?.copyWith(color: fgColor, fontWeight: .w600),
+        status?.capitalize() ?? AppStrings.na,
+        style: context.textTheme.labelSmall?.copyWith(color: Colors.white, fontWeight: .w600),
       ),
     );
   }

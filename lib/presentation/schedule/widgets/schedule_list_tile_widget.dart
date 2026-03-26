@@ -38,9 +38,7 @@ class ScheduleListTileWidget extends StatelessWidget {
           child: Container(
             padding: const .all(12),
             decoration: BoxDecoration(
-              color: schedule.color != null
-                  ? ColorUtils.hexToColor(schedule.color)!.withAlpha(150)
-                  : AppColors.primary.withAlpha(30),
+              color: schedule.color != null ? ColorUtils.hexToColor(schedule.color) : AppColors.primary.withAlpha(30),
               borderRadius: .circular(14),
               border: .all(color: AppColors.primary.withAlpha(150)),
             ),
@@ -53,7 +51,10 @@ class ScheduleListTileWidget extends StatelessWidget {
                   crossAxisAlignment: .start,
                   children: [
                     Expanded(
-                      child: Text(_date, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
+                      child: Text(
+                        _date,
+                        style: textTheme.bodySmall?.copyWith(fontWeight: .w500, color: Colors.white),
+                      ),
                     ),
                     // Status Badge Row
                     lookupEnumState is LookupEnumsLoadedState
@@ -70,7 +71,7 @@ class ScheduleListTileWidget extends StatelessWidget {
                                   ? Container(
                                       padding: const .symmetric(horizontal: 8, vertical: 3),
                                       decoration: BoxDecoration(
-                                        color: ColorUtils.hexToColor(schedule.color),
+                                        border: Border.all(color: Colors.white),
                                         borderRadius: .circular(4),
                                       ),
                                       child: Text(
@@ -91,7 +92,7 @@ class ScheduleListTileWidget extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   _title,
-                  style: textTheme.titleMedium?.copyWith(fontWeight: .bold),
+                  style: textTheme.titleMedium?.copyWith(fontWeight: .bold, color: Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -99,12 +100,17 @@ class ScheduleListTileWidget extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(_subtitle, style: textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        _subtitle,
+                        style: textTheme.bodySmall?.copyWith(color: Colors.white),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     if (_workStartedAt != null)
                       Text(
                         '${AppStrings.startedAt} : $_workStartedAt',
-                        style: textTheme.bodySmall?.copyWith(fontWeight: .w600),
+                        style: textTheme.bodySmall?.copyWith(fontWeight: .w600, color: Colors.white),
                       ),
                   ],
                 ),
@@ -140,9 +146,15 @@ class _TimeColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: .start,
       children: [
-        Text(label, style: textTheme.bodySmall?.copyWith(fontWeight: .w500)),
+        Text(
+          label,
+          style: textTheme.bodySmall?.copyWith(fontWeight: .w500, color: Colors.white),
+        ),
         const SizedBox(height: 2),
-        Text(value, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
+        Text(
+          value,
+          style: textTheme.titleSmall?.copyWith(fontWeight: .bold, color: Colors.white),
+        ),
       ],
     );
   }

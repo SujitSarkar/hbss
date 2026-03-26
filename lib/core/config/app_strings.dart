@@ -55,20 +55,10 @@ abstract class AppStrings {
   static const String missedTimeSheets = 'Missed\nTimesheets';
 
   // Profile
-  static const String basicInformation = 'Basic Information';
-  static const String contactInformation = 'Contact Information';
-  static const String fullName = 'Full Name';
-  static const String nickName = 'Nick Name';
-  static const String gender = 'Gender';
-  static const String dateOfBirth = 'Date of Birth';
-  static const String age = 'Age';
-  static const String ethnicity = 'Ethnicity';
   static const String statusLabel = 'Status';
-  static const String type = 'Type';
   static const String joinedDate = 'Joined Date';
   static const String location = 'Location';
   static const String phone = 'Phone';
-  static const String nhi = 'NHI';
   static const String changePassword = 'Change Password';
 
   // Change Password

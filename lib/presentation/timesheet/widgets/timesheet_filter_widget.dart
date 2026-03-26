@@ -86,38 +86,40 @@ class TimesheetFilterWidget extends StatelessWidget {
           data: dialogContext.theme.copyWith(
             colorScheme: dialogContext.colorScheme.copyWith(primary: dialogContext.colorScheme.primary),
           ),
-          child: Column(
-            children: [
-              Expanded(child: child!),
-              if (startDate != null && endDate != null)
-                SafeArea(
-                  top: false,
-                  child: Container(
-                    width: double.infinity,
-                    alignment: .center,
-                    padding: const .only(bottom: 8),
-                    color: context.colorScheme.surface,
-                    child: Center(
-                      child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: context.colorScheme.error,
-                          foregroundColor: context.colorScheme.onError,
-                          shape: RoundedRectangleBorder(borderRadius: .circular(8)),
-                        ),
-                        onPressed: () {
-                          cleared = true;
-                          Navigator.of(dialogContext).pop();
-                        },
-                        icon: Icon(Icons.clear, size: 20),
-                        label: Text(
-                          AppStrings.clear,
-                          style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onError),
+          child: Container(
+            color: context.theme.scaffoldBackgroundColor,
+            child: Column(
+              children: [
+                Expanded(child: child!),
+                if (startDate != null && endDate != null)
+                  SafeArea(
+                    top: false,
+                    child: Container(
+                      width: double.infinity,
+                      alignment: .center,
+                      color: context.theme.scaffoldBackgroundColor,
+                      child: Center(
+                        child: TextButton.icon(
+                          style: TextButton.styleFrom(
+                            backgroundColor: context.colorScheme.error,
+                            foregroundColor: context.colorScheme.onError,
+                            shape: RoundedRectangleBorder(borderRadius: .circular(8)),
+                          ),
+                          onPressed: () {
+                            cleared = true;
+                            Navigator.of(dialogContext).pop();
+                          },
+                          icon: Icon(Icons.clear, size: 20),
+                          label: Text(
+                            AppStrings.clear,
+                            style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onError),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         );
       },

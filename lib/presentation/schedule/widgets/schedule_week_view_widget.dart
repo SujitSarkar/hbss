@@ -7,9 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/color_utils.dart';
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
+
 import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
 
-class ScheduleWeekViewWidget extends StatelessWidget {
+class ScheduleWeekViewWidget extends StatefulWidget {
   final List<DateTime> weekDates;
   final List<Schedule> schedules;
   final ValueChanged<Schedule>? onScheduleTap;
@@ -20,15 +21,23 @@ class ScheduleWeekViewWidget extends StatelessWidget {
   static const int _defaultEndHour = 19;
   static const int _defaultSlotMinutes = 60;
   static const double _pixelsPerHour = 64;
+  static const double _dayColumnWidth = 100;
   static const double _timeColumnWidth = 46;
   static const double _cardMinHeight = 44;
+  static const double _headerHeight = 48;
 
+  @override
+  State<ScheduleWeekViewWidget> createState() => _ScheduleWeekViewWidgetState();
+}
+
+class _ScheduleWeekViewWidgetState extends State<ScheduleWeekViewWidget> {
   @override
   Widget build(BuildContext context) {
     final viewConfig = _resolveViewConfig(context);
-    final normalizedWeekDates = weekDates.map(_dateOnly).toList()..sort();
+    final normalizedWeekDates = widget.weekDates.map(_dateOnly).toList()..sort();
     final grouped = _groupSchedulesByWeekDate(normalizedWeekDates);
     final totalGridHeight = viewConfig.totalHeight;
+    final totalGridWidth = normalizedWeekDates.length * ScheduleWeekViewWidget._dayColumnWidth;
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
@@ -37,46 +46,66 @@ class ScheduleWeekViewWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          _buildHeader(theme, normalizedWeekDates),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: totalGridHeight + 1,
-            child: Row(
-              crossAxisAlignment: .start,
-              children: [
-                SizedBox(
-                  width: _timeColumnWidth,
-                  child: _TimeScaleColumn(
-                    startMinutes: viewConfig.startMinutes,
-                    endMinutes: viewConfig.endMinutes,
-                    slotMinutes: viewConfig.slotMinutes,
-                    pixelsPerHour: _pixelsPerHour,
-                    textStyle: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: .w500,
-                      color: theme.colorScheme.onSurfaceVariant,
+          Row(
+            crossAxisAlignment: .start,
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: ScheduleWeekViewWidget._headerHeight),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: ScheduleWeekViewWidget._timeColumnWidth,
+                    child: _TimeScaleColumn(
+                      startMinutes: viewConfig.startMinutes,
+                      endMinutes: viewConfig.endMinutes,
+                      slotMinutes: viewConfig.slotMinutes,
+                      pixelsPerHour: ScheduleWeekViewWidget._pixelsPerHour,
+                      textStyle: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: .w500,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 2),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: totalGridWidth,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: ScheduleWeekViewWidget._headerHeight,
+                          child: _buildHeader(theme, normalizedWeekDates),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: totalGridHeight + 1,
+                          child: Row(
+                            children: [
+                              for (final weekDate in normalizedWeekDates)
+                                SizedBox(
+                                  width: ScheduleWeekViewWidget._dayColumnWidth,
+                                  child: _WeekDayColumn(
+                                    schedules: grouped[weekDate] ?? const [],
+                                    startMinutes: viewConfig.startMinutes,
+                                    endMinutes: viewConfig.endMinutes,
+                                    slotMinutes: viewConfig.slotMinutes,
+                                    pixelsPerHour: ScheduleWeekViewWidget._pixelsPerHour,
+                                    onScheduleTap: widget.onScheduleTap,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 2),
-                Expanded(
-                  child: Row(
-                    children: [
-                      for (final weekDate in normalizedWeekDates)
-                        Expanded(
-                          child: _WeekDayColumn(
-                            schedules: grouped[weekDate] ?? const [],
-                            startMinutes: viewConfig.startMinutes,
-                            endMinutes: viewConfig.endMinutes,
-                            slotMinutes: viewConfig.slotMinutes,
-                            pixelsPerHour: _pixelsPerHour,
-                            onScheduleTap: onScheduleTap,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -86,27 +115,21 @@ class ScheduleWeekViewWidget extends StatelessWidget {
   Widget _buildHeader(ThemeData theme, List<DateTime> normalizedWeekDates) {
     return Row(
       children: [
-        const SizedBox(width: _timeColumnWidth + 2),
-        Expanded(
-          child: Row(
-            children: [
-              for (final date in normalizedWeekDates)
-                Expanded(
-                  child: Column(
-                    mainAxisSize: .min,
-                    children: [
-                      Text('${date.day}', style: theme.textTheme.titleMedium?.copyWith(fontWeight: .w700)),
-                      const SizedBox(height: 2),
-                      Text(
-                        DateFormat('EEE').format(date),
-                        style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                      ),
-                    ],
-                  ),
+        for (final date in normalizedWeekDates)
+          SizedBox(
+            width: ScheduleWeekViewWidget._dayColumnWidth,
+            child: Column(
+              mainAxisAlignment: .center,
+              children: [
+                Text('${date.day}', style: theme.textTheme.titleMedium?.copyWith(fontWeight: .w700)),
+                const SizedBox(height: 2),
+                Text(
+                  DateFormat('EEE').format(date),
+                  style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),
-            ],
+              ],
+            ),
           ),
-        ),
       ],
     );
   }
@@ -114,7 +137,7 @@ class ScheduleWeekViewWidget extends StatelessWidget {
   Map<DateTime, List<Schedule>> _groupSchedulesByWeekDate(List<DateTime> normalizedWeekDates) {
     final grouped = <DateTime, List<Schedule>>{for (final date in normalizedWeekDates) date: []};
 
-    for (final schedule in schedules) {
+    for (final schedule in widget.schedules) {
       final start = _parseIso(schedule.scheduleStartTime);
       if (start == null) continue;
       final scheduleDate = _dateOnly(start.toLocal());
@@ -143,26 +166,30 @@ class ScheduleWeekViewWidget extends StatelessWidget {
     final settingsState = context.watch<AppSettingsBloc>().state;
     if (settingsState is! AppSettingsLoadedState) {
       return _WeekViewConfig(
-        startMinutes: _defaultStartHour * 60,
-        endMinutes: _defaultEndHour * 60,
-        slotMinutes: _defaultSlotMinutes,
-        pixelsPerHour: _pixelsPerHour,
+        startMinutes: ScheduleWeekViewWidget._defaultStartHour * 60,
+        endMinutes: ScheduleWeekViewWidget._defaultEndHour * 60,
+        slotMinutes: ScheduleWeekViewWidget._defaultSlotMinutes,
+        pixelsPerHour: ScheduleWeekViewWidget._pixelsPerHour,
       );
     }
 
-    final startMinutes = _parseTimeToMinutes(settingsState.appSettings.officeStartTime) ?? (_defaultStartHour * 60);
-    var endMinutes = _parseTimeToMinutes(settingsState.appSettings.officeEndTime) ?? (_defaultEndHour * 60);
-    final slotMinutes = _parseDurationToMinutes(settingsState.appSettings.slotDuration) ?? _defaultSlotMinutes;
+    final startMinutes =
+        _parseTimeToMinutes(settingsState.appSettings.officeStartTime) ??
+        (ScheduleWeekViewWidget._defaultStartHour * 60);
+    var endMinutes =
+        _parseTimeToMinutes(settingsState.appSettings.officeEndTime) ?? (ScheduleWeekViewWidget._defaultEndHour * 60);
+    final slotMinutes =
+        _parseDurationToMinutes(settingsState.appSettings.slotDuration) ?? ScheduleWeekViewWidget._defaultSlotMinutes;
 
     if (endMinutes <= startMinutes) {
-      endMinutes = startMinutes + _defaultSlotMinutes;
+      endMinutes = startMinutes + ScheduleWeekViewWidget._defaultSlotMinutes;
     }
 
     return _WeekViewConfig(
       startMinutes: startMinutes,
       endMinutes: endMinutes,
       slotMinutes: math.max(1, slotMinutes),
-      pixelsPerHour: _pixelsPerHour,
+      pixelsPerHour: ScheduleWeekViewWidget._pixelsPerHour,
     );
   }
 
@@ -297,21 +324,16 @@ class _WeekDayColumn extends StatelessWidget {
                         Text(
                           _title(item.schedule),
                           maxLines: 1,
+                          textAlign: .center,
                           overflow: .ellipsis,
-                          style: theme.textTheme.labelSmall?.copyWith(fontWeight: .w600),
+                          style: theme.textTheme.labelSmall?.copyWith(fontWeight: .w600, color: Colors.white),
                         ),
                         Text(
-                          _formatTime(item.start),
-                          maxLines: 1,
+                          '${_formatTime(item.start)} - ${_formatTime(item.end)}',
+                          maxLines: 2,
+                          textAlign: .center,
                           overflow: .ellipsis,
-                          style: theme.textTheme.labelMedium?.copyWith(fontWeight: .w500),
-                        ),
-                        Text('-', maxLines: 1, style: theme.textTheme.labelMedium?.copyWith(fontWeight: .w500)),
-                        Text(
-                          _formatTime(item.end),
-                          maxLines: 1,
-                          overflow: .ellipsis,
-                          style: theme.textTheme.labelMedium?.copyWith(fontWeight: .w500),
+                          style: theme.textTheme.labelMedium?.copyWith(fontWeight: .w500, color: Colors.white),
                         ),
                       ],
                     ),
@@ -356,7 +378,7 @@ class _WeekDayColumn extends StatelessWidget {
           end: end,
           top: top.clamp(0, totalHeight - ScheduleWeekViewWidget._cardMinHeight),
           height: height.clamp(ScheduleWeekViewWidget._cardMinHeight, totalHeight - top),
-          backgroundColor: baseColor.withAlpha(150),
+          backgroundColor: baseColor,
         ),
       );
     }

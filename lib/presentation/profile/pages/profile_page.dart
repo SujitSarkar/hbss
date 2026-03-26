@@ -72,8 +72,6 @@ class _ProfileBody extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           _buildBasicInfo(context),
-          const SizedBox(height: 16),
-          _buildContactInfo(context),
           const SizedBox(height: 24),
         ],
       ),
@@ -100,36 +98,20 @@ class _ProfileBody extends StatelessWidget {
   Widget _buildBasicInfo(BuildContext context) {
     return ProfileSectionCard(
       icon: Icons.person_outline,
-      title: AppStrings.basicInformation,
       children: [
         ProfileInfoTile(
           icon: Icons.verified_outlined,
           label: AppStrings.statusLabel,
           trailing: _StatusBadge(status: user.status),
         ),
-        ProfileInfoTile(icon: Icons.face_outlined, label: AppStrings.nickName, value: user.nickName),
-        ProfileInfoTile(icon: Icons.wc_outlined, label: AppStrings.gender, value: user.gender),
-        ProfileInfoTile(icon: Icons.cake_outlined, label: AppStrings.dateOfBirth, value: user.dob),
-        ProfileInfoTile(icon: Icons.hourglass_bottom_outlined, label: AppStrings.age, value: user.age),
-        ProfileInfoTile(icon: Icons.diversity_3_outlined, label: AppStrings.ethnicity, value: user.ethnicity),
-        ProfileInfoTile(icon: Icons.medical_information_outlined, label: AppStrings.nhi, value: user.nhi),
+        ProfileInfoTile(icon: Icons.location_on_outlined, label: AppStrings.location, value: user.location),
+        ProfileInfoTile(icon: Icons.email_outlined, label: AppStrings.email, value: user.email),
+        ProfileInfoTile(icon: Icons.phone_outlined, label: AppStrings.phone, value: user.phone),
         ProfileInfoTile(
           icon: Icons.calendar_today_outlined,
           label: AppStrings.joinedDate,
           value: DateConverter.formatIsoDateTime(user.createdAt),
         ),
-      ],
-    );
-  }
-
-  Widget _buildContactInfo(BuildContext context) {
-    return ProfileSectionCard(
-      icon: Icons.contact_mail_outlined,
-      title: AppStrings.contactInformation,
-      children: [
-        ProfileInfoTile(icon: Icons.email_outlined, label: AppStrings.email, value: user.email),
-        ProfileInfoTile(icon: Icons.phone_outlined, label: AppStrings.phone, value: user.phone),
-        ProfileInfoTile(icon: Icons.location_on_outlined, label: AppStrings.location, value: user.location),
       ],
     );
   }
@@ -151,7 +133,7 @@ class _StatusBadge extends StatelessWidget {
 
     return Container(
       padding: const .symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(color: isActive ? AppColors.success : Colors.grey, borderRadius: .circular(20)),
+      decoration: BoxDecoration(color: isActive ? AppColors.success : Colors.grey, borderRadius: .circular(4)),
       child: Text(
         (status ?? '-').capitalize(),
         style: context.textTheme.labelSmall?.copyWith(color: Colors.white, fontWeight: .w600),

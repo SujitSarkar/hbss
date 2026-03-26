@@ -92,7 +92,7 @@ class ScheduleFinishDialogWidget extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: SolidButton(
-                  backgroundColor: context.theme.disabledColor,
+                  backgroundColor: context.theme.hintColor,
                   foregroundColor: Colors.white,
                   onPressed: onClose,
                   child: const Text(AppStrings.close),
