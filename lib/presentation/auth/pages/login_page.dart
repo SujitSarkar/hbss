@@ -79,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (!context.mounted) return;
         if (state is AuthenticatedState) {
           context.goNamed(RouteNames.dashboard);
         } else if (state is AuthErrorState) {

@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
@@ -54,6 +56,7 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage> {
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (!context.mounted) return;
         if (state is AuthOtpVerifiedState) {
           context.showSnackBar(state.message, onTop: true);
           context.pushNamed(RouteNames.resetPassword, extra: {'email': widget.email});
@@ -105,6 +108,27 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage> {
               ),
             );
           },
+        ),
+        const SizedBox(height: 24),
+        Center(
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '${AppStrings.haveNotGotEmailYet} ',
+                  style: context.textTheme.bodyMedium?.copyWith(color: Colors.black),
+                ),
+                TextSpan(
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      context.read<AuthBloc>().add(AuthForgotPasswordEvent(email: widget.email));
+                    },
+                  text: AppStrings.resendEmail,
+                  style: context.textTheme.bodyMedium?.copyWith(decoration: TextDecoration.underline),
+                ),
+              ],
+            ),
+          ),
         ),
         SizedBox(height: screenHeight * 0.25),
       ],

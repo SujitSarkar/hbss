@@ -33,6 +33,8 @@ abstract class AppStrings {
   static const String terminateProcess = 'Terminate process?';
   static const String terminateProcessInstruction =
       'If you go back now, the password reset process will be terminated. Do you want to proceed?';
+  static const String haveNotGotEmailYet = 'Haven\'t got the email yet?';
+  static const String resendEmail = 'Resend email';
 
   // Dashboard
   static const String welcomeTo = 'Welcome to $appName';

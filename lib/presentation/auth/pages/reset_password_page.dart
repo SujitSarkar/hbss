@@ -66,6 +66,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       },
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (!context.mounted) return;
           if (state is AuthResetPasswordSuccessState) {
             context.showSnackBar(state.message, onTop: true);
             context.goNamed(RouteNames.login);

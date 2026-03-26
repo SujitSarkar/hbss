@@ -54,6 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (!context.mounted) return;
         if (state is AuthOtpSentSuccessState) {
           context.showSnackBar(state.message, onTop: true);
           context.pushNamed(RouteNames.forgotPasswordOtp, extra: {'email': _emailController.text.trim()});
