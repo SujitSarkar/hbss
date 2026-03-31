@@ -13,7 +13,7 @@ class CancelScheduleUsecase {
     required int scheduleId,
     required String cancelBy,
     required String? cancelReason,
-    required int hour,
+    required int? hour,
     required int minute,
     required String reason,
   }) async {

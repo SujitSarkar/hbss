@@ -19,7 +19,7 @@ import 'package:maori_health/presentation/shared/widgets/solid_button.dart';
 class ScheduleCancelDialogWidget extends StatelessWidget {
   final Schedule schedule;
   final VoidCallback onClose;
-  final Function(String canceledBy, String? cancelReason, int hour, int minute, String reason) onSave;
+  final Function(String canceledBy, String? cancelReason, int? hour, int minute, String reason) onSave;
 
   const ScheduleCancelDialogWidget({super.key, required this.schedule, required this.onSave, required this.onClose});
 
@@ -144,7 +144,7 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
                         onSave(
                           canceledBy.value!,
                           cancelReason.value,
-                          int.parse(hourController.text),
+                          int.tryParse(hourController.text),
                           int.parse(minuteController.text),
                           reasonController.text,
                         );
