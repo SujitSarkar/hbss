@@ -8,6 +8,8 @@ import 'package:maori_health/core/utils/form_validators.dart';
 
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
 
+import 'package:maori_health/core/utils/schedule_utils.dart';
+import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
 import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/decorations/outline_input_decoration.dart';
 import 'package:maori_health/presentation/shared/widgets/app_dialog.dart';
@@ -76,13 +78,13 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
 
             // Hours and minutes input
             Row(
+              crossAxisAlignment: .start,
               children: [
                 Expanded(
                   child: TextFormField(
                     controller: hourController,
                     decoration: OutlineInputDecoration(context: context, labelText: AppStrings.hours),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: FormValidators.validateHours,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     keyboardType: .number,
                     errorBuilder: (context, error) => Text(
@@ -179,10 +181,17 @@ class CanceledByFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LookupEnumsBloc, LookupEnumsState>(
       builder: (context, state) {
-        final List<String> canceledByList = state is LookupEnumsLoadedState
-            ? state.lookupEnums.canceledBy.values.toList()
-            : [];
         final isLoading = state is LookupEnumsLoadingState;
+
+        final List<String> canceledByList = state is LookupEnumsLoadedState
+            ? ScheduleUtils.getFilteredCanceledByList(
+                lookupEnums: state.lookupEnums,
+                appSettings: context.read<AppSettingsBloc>().state is AppSettingsLoadedState
+                    ? (context.read<AppSettingsBloc>().state as AppSettingsLoadedState).appSettings
+                    : null,
+              )
+            : [];
+
         return Column(
           crossAxisAlignment: .start,
           children: [

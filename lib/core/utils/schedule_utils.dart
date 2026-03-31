@@ -4,6 +4,8 @@ import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
+import 'package:maori_health/domain/app_settings/entities/app_settings.dart';
+import 'package:maori_health/domain/lookup_enums/entities/lookup_enums.dart';
 import 'package:maori_health/domain/lookup_enums/entities/schedule_status.dart';
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
 import 'package:maori_health/domain/schedule/entities/schedule_finish_analysis_result.dart';
@@ -167,5 +169,18 @@ class ScheduleUtils {
     final hours = totalMinutes / 60;
     final hoursLabel = hours == hours.toInt() ? hours.toInt().toString() : hours.toStringAsFixed(1);
     return '$hoursLabel ${AppStrings.hours}';
+  }
+
+  /// Returns the filtered list of "cancel by" display values based on
+  /// [AppSettings.cancelByClient] and [AppSettings.cancelByKaimahi] flags.
+  static List<String> getFilteredCanceledByList({required LookupEnums lookupEnums, required AppSettings? appSettings}) {
+    return lookupEnums.canceledBy.entries
+        .where((entry) {
+          if (entry.key == 'client') return appSettings?.cancelByClient?.toLowerCase() == 'yes';
+          if (entry.key == 'employee') return appSettings?.cancelByKaimahi?.toLowerCase() == 'yes';
+          return true;
+        })
+        .map((e) => e.value)
+        .toList();
   }
 }
