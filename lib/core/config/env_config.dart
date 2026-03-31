@@ -20,12 +20,12 @@ abstract class EnvConfig {
     switch (env) {
       case Env.dev:
         envName = 'Development';
-        baseUrl = 'https://v3admin.thctsandbox.co.nz/api/v1/';
-        hostUrl = 'https://v3admin.thctsandbox.co.nz/';
+        baseUrl = 'https://hbss.brpconstruction.online/api/v1/';
+        hostUrl = 'https://hbss.brpconstruction.online/';
       case Env.prod:
         envName = 'Production';
-        baseUrl = 'https://v3admin.thctsandbox.co.nz/api/v1/';
-        hostUrl = 'https://v3admin.thctsandbox.co.nz/';
+        baseUrl = 'https://hbss.brpconstruction.online/api/v1/';
+        hostUrl = 'https://hbss.brpconstruction.online/';
     }
   }
 
