@@ -37,7 +37,8 @@ abstract class AppStrings {
   static const String resendEmail = 'Resend email';
 
   // Dashboard
-  static const String welcomeTo = 'Welcome to $appName';
+  static const String hi = 'Hi';
+  static const String welcomeTo = 'Welcome to';
   static const String availableJobs = 'Available Jobs';
   static const String currentScheduled = 'Current Scheduled';
   static const String nextSchedule = 'Next Schedule';

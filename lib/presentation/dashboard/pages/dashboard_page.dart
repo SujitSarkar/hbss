@@ -13,6 +13,7 @@ import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/domain/dashboard/entities/dashboard_response.dart';
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
 import 'package:maori_health/domain/dashboard/entities/stats.dart';
+import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
 
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/bloc/bloc.dart';
@@ -163,32 +164,45 @@ class _DashboardView extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     final textTheme = context.textTheme;
 
-    return BlocBuilder<AuthBloc, AuthState>(
-      buildWhen: (prev, curr) => prev.user != curr.user,
+    return BlocBuilder<AppSettingsBloc, AppSettingsState>(
       builder: (context, state) {
-        final name = state.user?.firstName ?? '';
-        return Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: .start,
-                children: [
-                  Text('Hi, $name', style: textTheme.headlineSmall?.copyWith(fontWeight: .bold)),
-                  const SizedBox(height: 2),
-                  Text(
-                    AppStrings.welcomeTo,
-                    style: textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurfaceVariant),
+        final appSettings = state is AppSettingsLoadedState ? state.appSettings : null;
+        return BlocBuilder<AuthBloc, AuthState>(
+          buildWhen: (prev, curr) => prev.user != curr.user,
+          builder: (context, state) {
+            final name = state.user?.firstName ?? '';
+            return Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    children: [
+                      Text(
+                        '${AppStrings.hi}, $name',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.headlineSmall?.copyWith(fontWeight: .bold),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${AppStrings.welcomeTo} ${appSettings?.mobileAppName ?? ''}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurfaceVariant),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            CachedNetworkImage(
-              imageUrl: ApiEndpoints.imageUrl(state.user?.avatar ?? ''),
-              height: 48,
-              placeholder: (_, _) => Image.asset(Assets.assetsImagesBannerLogo, height: 48),
-              errorWidget: (_, _, _) => Image.asset(Assets.assetsImagesBannerLogo, height: 48),
-            ),
-          ],
+                ),
+                const SizedBox(width: 12),
+                CachedNetworkImage(
+                  imageUrl: ApiEndpoints.imageUrl(appSettings?.mobileLogo ?? ''),
+                  height: 48,
+                  placeholder: (_, _) => Image.asset(Assets.assetsImagesBannerLogo, height: 48),
+                  errorWidget: (_, _, _) => Image.asset(Assets.assetsImagesBannerLogo, height: 48),
+                ),
+              ],
+            );
+          },
         );
       },
     );
