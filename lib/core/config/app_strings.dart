@@ -103,6 +103,8 @@ abstract class AppStrings {
   static const String reason = 'Reason';
   static const String cancelReason = 'Cancel reason';
   static const String canceledBy = 'Canceled by';
+  static const String enterValidNumber = 'Enter a valid number';
+  static const String minutesValidationMsg = 'Minutes cannot be greater than 59';
 
   // Assets
   static const String id = 'ID';

@@ -56,20 +56,8 @@ class FormValidators {
       required(),
       (value) {
         final parsedValue = int.tryParse(value!.trim());
-        if (parsedValue == null) return 'Enter a valid number';
-        if (parsedValue > 59) return 'Minutes cannot be greater than 59';
-        return null;
-      },
-    ])(value);
-  }
-
-  static String? validateHours(String? value) {
-    return compose([
-      required(),
-      (value) {
-        final parsedValue = int.tryParse(value!.trim());
-        if (parsedValue == null) return 'Enter a valid number';
-        if (parsedValue > 23) return 'Hours cannot be greater than 23';
+        if (parsedValue == null) return AppStrings.enterValidNumber;
+        if (parsedValue > 59) return AppStrings.minutesValidationMsg;
         return null;
       },
     ])(value);
