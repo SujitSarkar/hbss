@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/theme/app_colors.dart';
+import 'package:maori_health/core/utils/asset_utils.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
 
-import 'package:maori_health/core/utils/asset_utils.dart';
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
+import 'package:maori_health/presentation/shared/widgets/loading_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/solid_button.dart';
 
 class AssetListTile extends StatelessWidget {
@@ -22,42 +25,54 @@ class AssetListTile extends StatelessWidget {
     final textTheme = context.textTheme;
     final dividerColor = context.theme.dividerColor;
 
-    return Container(
-      padding: const .all(16),
-      decoration: BoxDecoration(
-        borderRadius: .circular(14),
-        border: .all(color: dividerColor),
-      ),
-      child: Column(
-        crossAxisAlignment: .start,
-        children: [
-          _buildHeader(context, textTheme),
-          const SizedBox(height: 12),
-          _buildInfoRow(context, icon: Icons.tag, label: AppStrings.id, value: '${asset.stock.uniqueId}'),
-          const SizedBox(height: 10),
-          _buildInfoRow(
-            context,
-            icon: Icons.calendar_today_outlined,
-            label: AppStrings.assignmentDate,
-            value: DateConverter.formatDate(asset.asset.assignedDate!),
+    return BlocBuilder<LookupEnumsBloc, LookupEnumsState>(
+      builder: (context, lookupState) {
+        final String? resolvedStatus = lookupState is LookupEnumsLoadedState
+            ? AssetUtils.getAssetStatus(
+                status: asset.asset.status,
+                assetStatusKey: lookupState.lookupEnums.assetStatusKey,
+                assetStatusValue: lookupState.lookupEnums.assetStatus,
+              )
+            : null;
+
+        return Container(
+          padding: const .all(16),
+          decoration: BoxDecoration(
+            borderRadius: .circular(14),
+            border: .all(color: dividerColor),
           ),
-          const SizedBox(height: 10),
-          _buildInfoRow(
-            context,
-            icon: Icons.calendar_today_outlined,
-            label: AppStrings.acknowledgementStatus,
-            value: AssetUtils.isAcknowledged(asset.asset.acknowledgementStatus ?? 0)
-                ? AppStrings.accepted
-                : AppStrings.na,
+          child: Column(
+            crossAxisAlignment: .start,
+            children: [
+              _buildHeader(context, textTheme, resolvedStatus),
+              const SizedBox(height: 12),
+              _buildInfoRow(context, icon: Icons.tag, label: AppStrings.id, value: '${asset.stock.uniqueId}'),
+              const SizedBox(height: 10),
+              _buildInfoRow(
+                context,
+                icon: Icons.calendar_today_outlined,
+                label: AppStrings.assignmentDate,
+                value: DateConverter.formatDate(asset.asset.assignedDate!),
+              ),
+              const SizedBox(height: 10),
+              _buildInfoRow(
+                context,
+                icon: Icons.calendar_today_outlined,
+                label: AppStrings.acknowledgementStatus,
+                value: AssetUtils.isAcknowledged(asset.asset.acknowledgementStatus ?? 0)
+                    ? AppStrings.accepted
+                    : AppStrings.na,
+              ),
+              const SizedBox(height: 14),
+              _buildActions(context),
+            ],
           ),
-          const SizedBox(height: 14),
-          _buildActions(context),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildHeader(BuildContext context, TextTheme textTheme) {
+  Widget _buildHeader(BuildContext context, TextTheme textTheme, String? resolvedStatus) {
     return Row(
       crossAxisAlignment: .center,
       children: [
@@ -76,7 +91,9 @@ class AssetListTile extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        _StatusBadge(status: asset.asset.status),
+        resolvedStatus != null
+            ? _StatusBadge(status: resolvedStatus)
+            : SizedBox(height: 16, width: 16, child: LoadingWidget()),
       ],
     );
   }

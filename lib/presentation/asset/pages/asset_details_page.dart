@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/network/api_endpoints.dart';
+import 'package:maori_health/core/utils/asset_utils.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
 
+import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
 import 'package:maori_health/presentation/shared/widgets/app_shimmer.dart';
 import 'package:maori_health/presentation/shared/widgets/common_app_bar.dart';
 
@@ -40,69 +43,81 @@ class AssetDetailsPage extends StatelessWidget {
     final labelStyle = textTheme.bodyMedium;
     final valueStyle = textTheme.bodyMedium?.copyWith(fontWeight: .w600);
 
-    return Container(
-      width: double.infinity,
-      padding: const .all(16),
-      decoration: BoxDecoration(
-        borderRadius: .circular(14),
-        border: .all(color: context.theme.dividerColor),
-      ),
-      child: Column(
-        crossAxisAlignment: .start,
-        children: [
-          _InfoRow(
-            label: '${AppStrings.aid}: ',
-            value: '${asset.asset.id}',
-            labelStyle: labelStyle,
-            valueStyle: valueStyle,
-          ),
-          const SizedBox(height: 8),
-          _InfoRow(
-            label: '${AppStrings.statusLabel}: ',
-            value: asset.asset.status?.capitalize() ?? AppStrings.na,
-            labelStyle: labelStyle,
-            valueStyle: valueStyle?.copyWith(color: context.colorScheme.primary),
-          ),
-          const SizedBox(height: 8),
-          _InfoRow(
-            label: '${AppStrings.product}: ',
-            value: asset.stock.uniqueId ?? AppStrings.na,
-            labelStyle: labelStyle,
-            valueStyle: valueStyle,
-          ),
-          const SizedBox(height: 8),
-          _InfoRow(
-            label: '${AppStrings.assignDate}: ',
-            value: DateConverter.formatDate(asset.asset.assignedDate!),
-            labelStyle: labelStyle,
-            valueStyle: valueStyle,
-          ),
-          const SizedBox(height: 8),
-          _InfoRow(
-            label: '${AppStrings.operator}: ',
-            value: asset.user.fullName ?? AppStrings.na,
-            labelStyle: labelStyle,
-            valueStyle: valueStyle,
-          ),
-          const SizedBox(height: 8),
-          _InfoRow(
-            label: '${AppStrings.acknowledgement}: ',
-            value: asset.receivedBy?.fullName ?? AppStrings.na,
-            labelStyle: labelStyle,
-            valueStyle: valueStyle,
-          ),
-          if (asset.asset.receivedAt != null) ...[
-            const SizedBox(height: 8),
+    return BlocBuilder<LookupEnumsBloc, LookupEnumsState>(
+      builder: (context, lookupState) {
+        final String resolvedStatus = lookupState is LookupEnumsLoadedState
+            ? AssetUtils.getAssetStatus(
+                status: asset.asset.status,
+                assetStatusKey: lookupState.lookupEnums.assetStatusKey,
+                assetStatusValue: lookupState.lookupEnums.assetStatus,
+              )
+            : asset.asset.status?.capitalize() ?? AppStrings.na;
 
-            _InfoRow(
-              label: '${AppStrings.at}: ',
-              value: DateConverter.formatDateTime(asset.asset.receivedAt!),
-              labelStyle: labelStyle,
-              valueStyle: valueStyle,
-            ),
-          ],
-        ],
-      ),
+        return Container(
+          width: double.infinity,
+          padding: const .all(16),
+          decoration: BoxDecoration(
+            borderRadius: .circular(14),
+            border: .all(color: context.theme.dividerColor),
+          ),
+          child: Column(
+            crossAxisAlignment: .start,
+            children: [
+              _InfoRow(
+                label: '${AppStrings.aid}: ',
+                value: '${asset.asset.id}',
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              const SizedBox(height: 8),
+              _InfoRow(
+                label: '${AppStrings.statusLabel}: ',
+                value: resolvedStatus,
+                labelStyle: labelStyle,
+                valueStyle: valueStyle?.copyWith(color: context.colorScheme.primary),
+              ),
+              const SizedBox(height: 8),
+              _InfoRow(
+                label: '${AppStrings.product}: ',
+                value: asset.stock.uniqueId ?? AppStrings.na,
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              const SizedBox(height: 8),
+              _InfoRow(
+                label: '${AppStrings.assignDate}: ',
+                value: DateConverter.formatDate(asset.asset.assignedDate!),
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              const SizedBox(height: 8),
+              _InfoRow(
+                label: '${AppStrings.operator}: ',
+                value: asset.user.fullName ?? AppStrings.na,
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              const SizedBox(height: 8),
+              _InfoRow(
+                label: '${AppStrings.acknowledgement}: ',
+                value: asset.receivedBy?.fullName ?? AppStrings.na,
+                labelStyle: labelStyle,
+                valueStyle: valueStyle,
+              ),
+              if (asset.asset.receivedAt != null) ...[
+                const SizedBox(height: 8),
+
+                _InfoRow(
+                  label: '${AppStrings.at}: ',
+                  value: DateConverter.formatDateTime(asset.asset.receivedAt!),
+                  labelStyle: labelStyle,
+                  valueStyle: valueStyle,
+                ),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 
