@@ -11,7 +11,7 @@ class Assets {
   static const String assetsImagesBannerLogo = "assets/images/banner_logo.png";
 
   /// Assets for assetsImagesLoginBg
-  /// assets/images/login_bg.png
-  static const String assetsImagesLoginBg = "assets/images/login_bg.png";
+  /// assets/images/login_bg.jpg
+  static const String assetsImagesLoginBg = "assets/images/login_bg.jpg";
 }
 
