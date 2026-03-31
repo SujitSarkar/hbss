@@ -1,3 +1,4 @@
+import 'package:maori_health/core/utils/data_parse_util.dart';
 import 'package:maori_health/data/client/models/address_model.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
 
@@ -36,7 +37,7 @@ class ClientModel extends Client {
     super.address,
   });
   factory ClientModel.fromJson(Map<String, dynamic> json) => ClientModel(
-    id: json["id"],
+    id: DataParseUtil.parseInt(json["id"].toString()),
     fName: json["f_name"],
     mName: json["m_name"],
     lName: json["l_name"],
@@ -62,7 +63,7 @@ class ClientModel extends Client {
     externalLoginOtpExpiredAt: json["external_login_otp_expired_at"] == null
         ? null
         : DateTime.parse(json["external_login_otp_expired_at"]),
-    operatorId: json["operator_id"],
+    operatorId: json["operator_id"] != null ? DataParseUtil.parseInt(json["operator_id"].toString()) : null,
     emailVerifiedAt: json["email_verified_at"] == null ? null : DateTime.parse(json["email_verified_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),

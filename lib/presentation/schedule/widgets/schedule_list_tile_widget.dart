@@ -38,7 +38,7 @@ class ScheduleListTileWidget extends StatelessWidget {
           child: Container(
             padding: const .all(12),
             decoration: BoxDecoration(
-              color: schedule.color != null ? ColorUtils.hexToColor(schedule.color) : AppColors.primary.withAlpha(30),
+              color: schedule.primaryColor != null ? ColorUtils.hexToColor(schedule.primaryColor) : AppColors.primary.withAlpha(30),
               borderRadius: .circular(14),
               border: .all(color: AppColors.primary.withAlpha(150)),
             ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/assets.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/di/injection.dart';
+import 'package:maori_health/core/network/api_endpoints.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 
@@ -180,7 +182,12 @@ class _DashboardView extends StatelessWidget {
                 ],
               ),
             ),
-            Image.asset(Assets.assetsImagesBannerLogo, height: 48),
+            CachedNetworkImage(
+              imageUrl: ApiEndpoints.imageUrl(state.user?.avatar ?? ''),
+              height: 48,
+              placeholder: (_, _) => Image.asset(Assets.assetsImagesBannerLogo, height: 48),
+              errorWidget: (_, _, _) => Image.asset(Assets.assetsImagesBannerLogo, height: 48),
+            ),
           ],
         );
       },

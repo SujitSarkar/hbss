@@ -370,7 +370,7 @@ class _WeekDayColumn extends StatelessWidget {
         ((visibleEnd - visibleStart) / 60) * pixelsPerHour,
       );
 
-      final baseColor = ColorUtils.hexToColor(schedule.color) ?? AppColors.primary;
+      final baseColor = ColorUtils.hexToColor(schedule.primaryColor) ?? AppColors.primary;
       items.add(
         _PositionedScheduleItem(
           schedule: schedule,

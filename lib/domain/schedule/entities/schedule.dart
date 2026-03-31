@@ -16,6 +16,7 @@ class Schedule extends Equatable {
   final double scheduleTotalTime;
   final double workTotalTime;
   final String? day;
+  final String? week;
   final String? jobType;
   final double payHour;
   final String? travelType;
@@ -36,8 +37,8 @@ class Schedule extends Equatable {
   final int payableCancelled;
   final String? cancelRequestedAt;
   final int? operatorId;
-  final String? color;
-  final List<String> childColors;
+  final String? primaryColor;
+  final List<String> secondaryColors;
   final String? createdAt;
   final String? updatedAt;
   final String? deletedAt;
@@ -58,6 +59,7 @@ class Schedule extends Equatable {
     this.scheduleTotalTime = 0,
     this.workTotalTime = 0,
     this.day,
+    this.week,
     this.jobType,
     this.payHour = 0,
     this.travelType,
@@ -78,8 +80,8 @@ class Schedule extends Equatable {
     this.payableCancelled = 0,
     this.cancelRequestedAt,
     this.operatorId,
-    this.color,
-    this.childColors = const [],
+    this.primaryColor,
+    this.secondaryColors = const [],
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
@@ -102,6 +104,7 @@ class Schedule extends Equatable {
     scheduleTotalTime,
     workTotalTime,
     day,
+    week,
     jobType,
     payHour,
     travelType,
@@ -122,8 +125,8 @@ class Schedule extends Equatable {
     payableCancelled,
     cancelRequestedAt,
     operatorId,
-    color,
-    childColors,
+    primaryColor,
+    secondaryColors,
     createdAt,
     updatedAt,
     deletedAt,

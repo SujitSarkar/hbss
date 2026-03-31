@@ -1,3 +1,4 @@
+import 'package:maori_health/core/utils/data_parse_util.dart';
 import 'package:maori_health/domain/client/entities/address.dart';
 
 class AddressModel extends Address {
@@ -26,20 +27,22 @@ class AddressModel extends Address {
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
-    id: json["id"],
-    userId: json["user_id"],
-    operatorId: json["operator_id"],
+    id: DataParseUtil.parseInt(json["id"].toString()),
+    userId: json["user_id"] != null ? DataParseUtil.parseInt(json["user_id"].toString()) : null,
+    operatorId: json["operator_id"] != null ? DataParseUtil.parseInt(json["operator_id"].toString()) : null,
     homeStreetAddress: json["home_street_address"],
     homeSuburb: json["home_suburb"],
     homeCity: json["home_city"],
-    homePostCode: json["home_post_code"],
+    homePostCode: json["home_post_code"] != null ? DataParseUtil.parseInt(json["home_post_code"].toString()) : null,
     homeSa3Region: json["home_SA3_region"],
     homeLatitude: json["home_latitude"],
     homeLongitude: json["home_longitude"],
     postalStreetAddress: json["postal_street_address"],
     postalSuburb: json["postal_suburb"],
     postalCity: json["postal_city"],
-    postalPostCode: json["postal_post_code"],
+    postalPostCode: json["postal_post_code"] != null
+        ? DataParseUtil.parseInt(json["postal_post_code"].toString())
+        : null,
     postalSa3Region: json["postal_SA3_region"],
     postalLatitude: json["postal_latitude"],
     postalLongitude: json["postal_longitude"],
