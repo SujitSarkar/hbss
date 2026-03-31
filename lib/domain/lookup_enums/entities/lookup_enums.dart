@@ -8,6 +8,7 @@ class LookupEnums extends Equatable {
   final ScheduleStatus scheduleStatusValue;
   final ScheduleStatus scheduleStatusKey;
   final AssetStatus assetStatus;
+  final AssetStatus assetStatusKey;
   final Map<String, String> jobType;
   final Map<String, String> canceledBy;
   final Map<String, String> cancelReason;
@@ -17,6 +18,7 @@ class LookupEnums extends Equatable {
     required this.scheduleStatusValue,
     required this.scheduleStatusKey,
     required this.assetStatus,
+    required this.assetStatusKey,
     required this.jobType,
     required this.canceledBy,
     required this.cancelReason,
@@ -28,6 +30,7 @@ class LookupEnums extends Equatable {
     scheduleStatusValue,
     scheduleStatusKey,
     assetStatus,
+    assetStatusKey,
     jobType,
     canceledBy,
     cancelReason,
