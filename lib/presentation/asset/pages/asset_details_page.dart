@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:maori_health/core/config/env_config.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
+import 'package:maori_health/core/network/api_endpoints.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/extensions.dart';
 import 'package:maori_health/data/asset/models/asset_response_model.dart';
@@ -137,7 +137,7 @@ class AssetDetailsPage extends StatelessWidget {
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.fitHeight,
-                  imageUrl: '${EnvConfig.hostUrl}${asset.stock.product?.image}',
+                  imageUrl: ApiEndpoints.imageUrl(asset.stock.product?.image ?? ''),
                   placeholder: (context, url) => AppShimmer.card(height: 200, borderRadius: 12),
                   errorWidget: (context, url, error) => _buildAttachmentPlaceholder(context, icon: Icons.error_outline),
                 ),
