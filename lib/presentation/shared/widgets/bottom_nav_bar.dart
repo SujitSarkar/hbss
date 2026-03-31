@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/utils.dart';
-import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
 
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/client/bloc/client_bloc.dart';
@@ -35,7 +34,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     super.initState();
     // Load app-settings, lookup enums, clients and employees
-    context.read<AppSettingsBloc>().add(const LoadAppSettingsEvent());
     context.read<LookupEnumsBloc>().add(const LoadLookupEnumsEvent());
     context.read<ClientBloc>().add(const LoadClientsEvent());
     context.read<EmployeeBloc>().add(const LoadEmployeeEvent());

@@ -25,7 +25,7 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<AppBloc>()..add(const AppStarted())),
         BlocProvider(create: (_) => getIt<AuthBloc>()..add(const AuthLocalLoginEvent())),
-        BlocProvider(create: (_) => getIt<AppSettingsBloc>()),
+        BlocProvider(create: (_) => getIt<AppSettingsBloc>()..add(LoadAppSettingsEvent())),
         BlocProvider(create: (_) => getIt<LookupEnumsBloc>()),
         BlocProvider(create: (_) => getIt<ClientBloc>()),
         BlocProvider(create: (_) => getIt<EmployeeBloc>()),

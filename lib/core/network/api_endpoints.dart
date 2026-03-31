@@ -42,4 +42,5 @@ abstract class ApiEndpoints {
   static const String timeSheets = 'schedules/timesheet';
 
   static String fullUrl(String path) => '${EnvConfig.baseUrl}$path';
+  static String imageUrl(String imagePath) => '${EnvConfig.hostUrl}$imagePath';
 }

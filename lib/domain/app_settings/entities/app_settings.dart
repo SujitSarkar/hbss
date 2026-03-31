@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 class AppSettings extends Equatable {
   final String? mobileAppName;
   final String? appVersion;
-  final dynamic mobileLogo;
-  final dynamic mobileLoginBgImage;
+  final String? mobileLogo;
+  final String? mobileLoginBgImage;
   final String? cancelByKaimahi;
   final String? cancelByClient;
   final String? officeStartTime;
