@@ -161,11 +161,12 @@ class _ScheduleDetailsPageState extends State<ScheduleDetailsPage> {
   }
 
   Widget _buildActions(Schedule? job, LookupEnumsLoadedState? lookupEnumsLoadedState) {
-    if (job?.status == lookupEnumsLoadedState?.lookupEnums.scheduleStatusKey.parked) {
+    if (job?.assignee == null) {
       return _buildPendingActions(job);
-    } else if (job?.status == lookupEnumsLoadedState?.lookupEnums.scheduleStatusKey.active) {
+    } else if (job?.assignee != null && job?.status == lookupEnumsLoadedState?.lookupEnums.scheduleStatusKey.active) {
       return _buildAcceptedActions(job);
-    } else if (job?.status == lookupEnumsLoadedState?.lookupEnums.scheduleStatusKey.inprogress) {
+    } else if (job?.assignee != null &&
+        job?.status == lookupEnumsLoadedState?.lookupEnums.scheduleStatusKey.inprogress) {
       return _buildStartedActions(job);
     } else {
       return const SizedBox.shrink();
