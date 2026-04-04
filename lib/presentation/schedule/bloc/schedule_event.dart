@@ -70,7 +70,7 @@ class ScheduleCancelEvent extends ScheduleEvent {
   final String cancelBy;
   final String? cancelReason;
   final int? hour;
-  final int minute;
+  final int? minute;
   final String reason;
 
   const ScheduleCancelEvent({
@@ -78,9 +78,9 @@ class ScheduleCancelEvent extends ScheduleEvent {
     required this.cancelBy,
     required this.cancelReason,
     this.hour,
-    required this.minute,
+    this.minute,
     required this.reason,
   });
   @override
-  List<Object?> get props => [scheduleId, cancelBy, cancelReason, ?hour, minute, reason];
+  List<Object?> get props => [scheduleId, cancelBy, cancelReason, ?hour, ?minute, reason];
 }

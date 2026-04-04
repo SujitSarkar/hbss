@@ -97,7 +97,7 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
     required String cancelBy,
     required String? cancelReason,
     required int? hour,
-    required int minute,
+    required int? minute,
     required String reason,
   }) async {
     if (!await _networkChecker.hasConnection) return const ErrorResult(NetworkError());

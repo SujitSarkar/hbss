@@ -19,7 +19,7 @@ import 'package:maori_health/presentation/shared/widgets/solid_button.dart';
 class ScheduleCancelDialogWidget extends StatelessWidget {
   final Schedule schedule;
   final VoidCallback onClose;
-  final Function(String canceledBy, String? cancelReason, int? hour, int minute, String reason) onSave;
+  final Function(String canceledBy, String? cancelReason, int? hour, int? minute, String reason) onSave;
 
   const ScheduleCancelDialogWidget({super.key, required this.schedule, required this.onSave, required this.onClose});
 
@@ -103,7 +103,6 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
                     controller: minuteController,
                     decoration: OutlineInputDecoration(context: context, labelText: AppStrings.minutes),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: FormValidators.validateMinutes,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     keyboardType: .number,
                     errorBuilder: (context, error) => Text(
@@ -145,7 +144,7 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
                           canceledBy.value!,
                           cancelReason.value,
                           int.tryParse(hourController.text),
-                          int.parse(minuteController.text),
+                          int.tryParse(minuteController.text),
                           reasonController.text,
                         );
                       }

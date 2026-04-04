@@ -50,16 +50,4 @@ class FormValidators {
       return null;
     };
   }
-
-  static String? validateMinutes(String? value) {
-    return compose([
-      required(),
-      (value) {
-        final parsedValue = int.tryParse(value!.trim());
-        if (parsedValue == null) return AppStrings.enterValidNumber;
-        if (parsedValue > 59) return AppStrings.minutesValidationMsg;
-        return null;
-      },
-    ])(value);
-  }
 }

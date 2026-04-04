@@ -1,16 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/domain/timesheet/repositories/timesheet_repository.dart';
+import 'package:maori_health/domain/timesheet/usecases/get_timesheets_usecase.dart';
 
 import 'package:maori_health/presentation/timesheet/bloc/timesheet_event.dart';
 import 'package:maori_health/presentation/timesheet/bloc/timesheet_state.dart';
 
 class TimeSheetBloc extends Bloc<TimeSheetEvent, TimeSheetState> {
-  final TimeSheetRepository _repository;
+  final GetTimeSheetsUsecase _getTimeSheetsUsecase;
 
-  TimeSheetBloc({required TimeSheetRepository repository})
-    : _repository = repository,
+  TimeSheetBloc({required GetTimeSheetsUsecase getTimeSheetsUsecase})
+    : _getTimeSheetsUsecase = getTimeSheetsUsecase,
       super(const TimeSheetLoadingState()) {
     on<TimeSheetDateAndClientChanged>(_onDateAndClientChanged);
     on<TimeSheetLoadMore>(_onLoadMore);
@@ -19,7 +19,7 @@ class TimeSheetBloc extends Bloc<TimeSheetEvent, TimeSheetState> {
   Future<void> _onDateAndClientChanged(TimeSheetDateAndClientChanged event, Emitter<TimeSheetState> emit) async {
     emit(const TimeSheetLoadingState());
 
-    final result = await _repository.getTimeSheets(
+    final result = await _getTimeSheetsUsecase(
       clientUserId: event.client?.id,
       startDate: event.startDate,
       endDate: event.endDate,
@@ -51,7 +51,7 @@ class TimeSheetBloc extends Bloc<TimeSheetEvent, TimeSheetState> {
     emit(currentState.copyWith(isLoadingMore: true));
 
     final nextPage = currentState.currentPage + 1;
-    final result = await _repository.getTimeSheets(
+    final result = await _getTimeSheetsUsecase(
       clientUserId: event.client?.id,
       startDate: event.startDate,
       endDate: event.endDate,

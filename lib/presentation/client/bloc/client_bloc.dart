@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
-import 'package:maori_health/domain/client/repositories/client_repository.dart';
+import 'package:maori_health/domain/client/usecases/get_clients_usecase.dart';
 
 part 'client_event.dart';
 part 'client_state.dart';
 
 class ClientBloc extends Bloc<ClientEvent, ClientState> {
-  final ClientRepository _repository;
-  ClientBloc(this._repository) : super(ClientInitial()) {
+  final GetClientsUsecase _getClientsUsecase;
+  ClientBloc(this._getClientsUsecase) : super(ClientInitial()) {
     on<LoadClientsEvent>(_onLoadClientsEvent);
   }
 
   Future<void> _onLoadClientsEvent(LoadClientsEvent event, Emitter<ClientState> emit) async {
     emit(ClientLoadingState());
-    final result = await _repository.getClients(page: event.page);
+    final result = await _getClientsUsecase(page: event.page);
 
     await result.fold(
       onFailure: (error) async {

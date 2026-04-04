@@ -48,7 +48,7 @@ class _ScheduleDetailsPageState extends State<ScheduleDetailsPage> {
     }
   }
 
-  void _onJobCanceled(String canceledBy, String? cancelReason, int? hour, int minute, String reason) {
+  void _onJobCanceled(String canceledBy, String? cancelReason, int? hour, int? minute, String reason) {
     context.read<ScheduleBloc>().add(
       ScheduleCancelEvent(
         scheduleId: _scheduleNotifier.value?.id ?? 0,

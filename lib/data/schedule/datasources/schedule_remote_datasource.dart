@@ -24,7 +24,7 @@ abstract class ScheduleRemoteDataSource {
     required String cancelBy,
     required String? cancelReason,
     required int? hour,
-    required int minute,
+    required int? minute,
     required String reason,
   });
 }
@@ -139,7 +139,7 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     required String cancelBy,
     required String? cancelReason,
     required int? hour,
-    required int minute,
+    required int? minute,
     required String reason,
   }) async {
     try {
@@ -147,7 +147,7 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
         'cancel_by': cancelBy.toLowerCase(),
         'reason': reason,
         'hour': ?hour,
-        'minute': minute,
+        'minute': ?minute,
       });
       if (cancelReason != null) formData.fields.add(MapEntry('reason_type', cancelReason));
 

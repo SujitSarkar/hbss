@@ -2,17 +2,42 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
 import 'package:maori_health/core/error/failures.dart';
-import 'package:maori_health/domain/auth/repositories/auth_repository.dart';
+import 'package:maori_health/domain/auth/usecases/forgot_password_usecase.dart';
+import 'package:maori_health/domain/auth/usecases/get_local_login_usecase.dart';
+import 'package:maori_health/domain/auth/usecases/login_usecase.dart';
+import 'package:maori_health/domain/auth/usecases/logout_usecase.dart';
+import 'package:maori_health/domain/auth/usecases/reset_password_usecase.dart';
+import 'package:maori_health/domain/auth/usecases/update_password_usecase.dart';
+import 'package:maori_health/domain/auth/usecases/verify_otp_usecase.dart';
 
 import 'package:maori_health/presentation/auth/bloc/auth_event.dart';
 import 'package:maori_health/presentation/auth/bloc/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository _authRepository;
+  final GetLocalLoginUsecase _getLocalLoginUsecase;
+  final LoginUsecase _loginUsecase;
+  final UpdatePasswordUsecase _updatePasswordUsecase;
+  final ForgotPasswordUsecase _forgotPasswordUsecase;
+  final VerifyOtpUsecase _verifyOtpUsecase;
+  final ResetPasswordUsecase _resetPasswordUsecase;
+  final LogoutUsecase _logoutUsecase;
 
-  AuthBloc({required AuthRepository authRepository})
-    : _authRepository = authRepository,
-      super(const AuthLoadingState()) {
+  AuthBloc({
+    required GetLocalLoginUsecase getLocalLoginUsecase,
+    required LoginUsecase loginUsecase,
+    required UpdatePasswordUsecase updatePasswordUsecase,
+    required ForgotPasswordUsecase forgotPasswordUsecase,
+    required VerifyOtpUsecase verifyOtpUsecase,
+    required ResetPasswordUsecase resetPasswordUsecase,
+    required LogoutUsecase logoutUsecase,
+  }) : _getLocalLoginUsecase = getLocalLoginUsecase,
+       _loginUsecase = loginUsecase,
+       _updatePasswordUsecase = updatePasswordUsecase,
+       _forgotPasswordUsecase = forgotPasswordUsecase,
+       _verifyOtpUsecase = verifyOtpUsecase,
+       _resetPasswordUsecase = resetPasswordUsecase,
+       _logoutUsecase = logoutUsecase,
+       super(const AuthLoadingState()) {
     on<AuthLocalLoginEvent>(_onLocalLoginEvent);
     on<AuthLoginEvent>(_onLoginEvent);
     on<AuthChangePasswordEvent>(_onChangePasswordEvent);
@@ -23,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLocalLoginEvent(AuthLocalLoginEvent event, Emitter<AuthState> emit) async {
-    final result = await _authRepository.getLocalLogin();
+    final result = await _getLocalLoginUsecase();
     await result.fold(
       onFailure: (_) async => emit(const UnAuthenticatedState()),
       onSuccess: (user) async => emit(AuthenticatedState(user: user)),
@@ -33,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLoginEvent(AuthLoginEvent event, Emitter<AuthState> emit) async {
     emit(const AuthLoadingState());
 
-    final result = await _authRepository.login(email: event.email, password: event.password);
+    final result = await _loginUsecase(email: event.email, password: event.password);
     await result.fold(
       onFailure: (error) async {
         if (error is ApiAuthError) {
@@ -60,7 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     emit(UpdatePassLoadingState());
 
-    final result = await _authRepository.updatePassword(
+    final result = await _updatePasswordUsecase(
       oldPassword: event.oldPassword,
       newPassword: event.newPassword,
       confirmPassword: event.confirmPassword,
@@ -83,7 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (currentState is AuthForgotPasswordLoadingState) return;
 
     emit(const AuthForgotPasswordLoadingState());
-    final result = await _authRepository.forgotPassword(email: event.email);
+    final result = await _forgotPasswordUsecase(email: event.email);
 
     await result.fold(
       onFailure: (error) async {
@@ -100,7 +125,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (currentState is AuthForgotPasswordLoadingState) return;
 
     emit(const AuthForgotPasswordLoadingState());
-    final result = await _authRepository.verifyOtp(email: event.email, otp: event.otp);
+    final result = await _verifyOtpUsecase(email: event.email, otp: event.otp);
 
     await result.fold(
       onFailure: (error) async {
@@ -117,7 +142,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (currentState is AuthForgotPasswordLoadingState) return;
 
     emit(const AuthForgotPasswordLoadingState());
-    final result = await _authRepository.resetPassword(
+    final result = await _resetPasswordUsecase(
       email: event.email,
       newPassword: event.newPassword,
       confirmPassword: event.confirmPassword,
@@ -137,7 +162,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final currentUser = state.user;
     emit(const AuthLoadingState());
 
-    final success = await _authRepository.logout();
+    final success = await _logoutUsecase();
     if (success) {
       emit(const UnAuthenticatedState());
     } else if (currentUser != null) {

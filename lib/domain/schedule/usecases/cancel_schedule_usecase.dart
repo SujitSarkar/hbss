@@ -14,7 +14,7 @@ class CancelScheduleUsecase {
     required String cancelBy,
     required String? cancelReason,
     required int? hour,
-    required int minute,
+    required int? minute,
     required String reason,
   }) async {
     return _repository.cancelSchedule(

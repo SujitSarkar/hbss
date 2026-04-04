@@ -1,0 +1,13 @@
+---
+description: Maori Health Flutter project — clean architecture, BLoC, DI conventions for AI agents
+alwaysApply: true
+---
+
+# Maori Health — agent rules
+
+- **Package:** `maori_health`. Use **FVM** for Flutter commands (`fvm flutter …`).
+- **Layers:** `presentation` (BLoC/UI) → `domain` (use cases + repository interfaces) → `data` (sources + repo impls). **BLoCs depend on use cases, not repositories or data sources.**
+- **DI:** `lib/core/di/injection.dart` (`getIt`), feature registrations in `lib/core/di/feature_module.dart`.
+- **Use cases:** Suffix `Usecase`, `call(...)` delegating to repository. Register before BLoC factory.
+- **Routing / env:** `lib/core/router/`, `lib/core/config/env_config.dart`; flavors `main_dev.dart` / `main_prod.dart`.
+- **Extended context:** Read `docs/ai-knowledge-base.md` for stack, paths, and layering debt.

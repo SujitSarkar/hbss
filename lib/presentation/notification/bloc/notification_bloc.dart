@@ -1,16 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/domain/notification/repositories/notification_repository.dart';
+import 'package:maori_health/domain/notification/usecases/get_notification_by_id_usecase.dart';
+import 'package:maori_health/domain/notification/usecases/get_notifications_usecase.dart';
 
 import 'package:maori_health/presentation/notification/bloc/bloc.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  final NotificationRepository _repository;
+  final GetNotificationsUsecase _getNotificationsUsecase;
+  final GetNotificationByIdUsecase _getNotificationByIdUsecase;
 
-  NotificationBloc({required NotificationRepository repository})
-    : _repository = repository,
-      super(const NotificationLoadingState()) {
+  NotificationBloc({
+    required GetNotificationsUsecase getNotificationsUsecase,
+    required GetNotificationByIdUsecase getNotificationByIdUsecase,
+  }) : _getNotificationsUsecase = getNotificationsUsecase,
+       _getNotificationByIdUsecase = getNotificationByIdUsecase,
+       super(const NotificationLoadingState()) {
     on<NotificationsLoadEvent>(_onNotificationsLoadEvent);
     on<NotificationLoadMoreEvent>(_onNotificationLoadMoreEvent);
     on<NotificationReadEvent>(_onNotificationReadEvent);
@@ -19,7 +24,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   Future<void> _onNotificationsLoadEvent(NotificationsLoadEvent event, Emitter<NotificationState> emit) async {
     emit(const NotificationLoadingState());
 
-    final result = await _repository.getNotifications(page: 1);
+    final result = await _getNotificationsUsecase(page: 1);
     await result.fold(
       onFailure: (error) async {
         emit(NotificationErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
@@ -44,7 +49,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     emit(currentState.copyWith(isLoadingMore: true));
 
     final nextPage = currentState.currentPage + 1;
-    final result = await _repository.getNotifications(page: nextPage);
+    final result = await _getNotificationsUsecase(page: nextPage);
 
     await result.fold(
       onFailure: (error) async {
@@ -67,7 +72,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     final currentState = state;
     if (currentState is! NotificationLoadedState) return;
 
-    final result = await _repository.getNotification(event.notificationId);
+    final result = await _getNotificationByIdUsecase(event.notificationId);
     await result.fold(
       onFailure: (error) async {},
       onSuccess: (updatedNotification) async {

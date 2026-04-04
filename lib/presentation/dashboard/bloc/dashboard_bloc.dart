@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:maori_health/domain/dashboard/repositories/dashboard_repository.dart';
+import 'package:maori_health/domain/dashboard/usecases/get_dashboard_usecase.dart';
 import 'package:maori_health/presentation/dashboard/bloc/dashboard_event.dart';
 import 'package:maori_health/presentation/dashboard/bloc/dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
-  final DashboardRepository _repository;
+  final GetDashboardUsecase _getDashboardUsecase;
 
-  DashboardBloc({required DashboardRepository repository})
-    : _repository = repository,
+  DashboardBloc({required GetDashboardUsecase getDashboardUsecase})
+    : _getDashboardUsecase = getDashboardUsecase,
       super(const DashboardInitialState()) {
     on<DashboardLoadEvent>(_onLoadDashboardEvent);
   }
@@ -16,7 +16,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   Future<void> _onLoadDashboardEvent(DashboardLoadEvent event, Emitter<DashboardState> emit) async {
     emit(const DashboardLoadingState());
 
-    final result = await _repository.getDashboard();
+    final result = await _getDashboardUsecase();
 
     await result.fold(
       onFailure: (error) async {

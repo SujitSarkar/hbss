@@ -1,16 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/domain/asset/repositories/asset_repository.dart';
+import 'package:maori_health/domain/asset/usecases/accept_asset_usecase.dart';
+import 'package:maori_health/domain/asset/usecases/get_assets_usecase.dart';
 
 import 'package:maori_health/presentation/asset/bloc/asset_event.dart';
 import 'package:maori_health/presentation/asset/bloc/asset_state.dart';
 
 class AssetBloc extends Bloc<AssetEvent, AssetState> {
-  final AssetRepository _assetRepository;
+  final GetAssetsUsecase _getAssetsUsecase;
+  final AcceptAssetUsecase _acceptAssetUsecase;
 
-  AssetBloc({required AssetRepository assetRepository})
-    : _assetRepository = assetRepository,
+  AssetBloc({required GetAssetsUsecase getAssetsUsecase, required AcceptAssetUsecase acceptAssetUsecase})
+    : _getAssetsUsecase = getAssetsUsecase,
+      _acceptAssetUsecase = acceptAssetUsecase,
       super(const AssetInitialState()) {
     on<AssetsLoadEvent>(_onLoadAssetsEvent);
     on<AssetAcceptEvent>(_onAcceptEvent);
@@ -19,7 +22,7 @@ class AssetBloc extends Bloc<AssetEvent, AssetState> {
   Future<void> _onLoadAssetsEvent(AssetsLoadEvent event, Emitter<AssetState> emit) async {
     emit(const AssetLoadingState());
 
-    final result = await _assetRepository.getAssets();
+    final result = await _getAssetsUsecase();
     await result.fold(
       onFailure: (error) async {
         emit(AssetErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
@@ -37,7 +40,7 @@ class AssetBloc extends Bloc<AssetEvent, AssetState> {
     }
     emit(AssetAcceptLoadingState(List.of(currentState.assets)));
 
-    final result = await _assetRepository.acceptAsset(event.assetId);
+    final result = await _acceptAssetUsecase(event.assetId);
     await result.fold(
       onFailure: (error) async {
         emit(AssetErrorState(error.errorMessage ?? AppStrings.somethingWentWrong));
