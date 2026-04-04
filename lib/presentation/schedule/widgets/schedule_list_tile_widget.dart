@@ -21,7 +21,7 @@ class ScheduleListTileWidget extends StatelessWidget {
   String get _startTime => DateConverter.formatIsoDateTime(schedule.scheduleStartTime, pattern: 'h:mm a');
   String get _endTime => DateConverter.formatIsoDateTime(schedule.scheduleEndTime, pattern: 'h:mm a');
   String get _totalHours => schedule.scheduleTotalTime.toStringAsFixed(2);
-  String get _title => (schedule.jobType ?? '-').toUpperCase();
+  String get _fallbackTitle => (schedule.jobType ?? '-').toUpperCase();
   String get _subtitle => 'Job #${schedule.id}';
   String? get _workStartedAt => schedule.workStartTime != null
       ? DateConverter.formatIsoDateTime(schedule.workStartTime, pattern: 'h:mm a')
@@ -38,7 +38,9 @@ class ScheduleListTileWidget extends StatelessWidget {
           child: Container(
             padding: const .all(12),
             decoration: BoxDecoration(
-              color: schedule.primaryColor != null ? ColorUtils.hexToColor(schedule.primaryColor) : AppColors.primary.withAlpha(30),
+              color: schedule.primaryColor != null
+                  ? ColorUtils.hexToColor(schedule.primaryColor)
+                  : AppColors.primary.withAlpha(30),
               borderRadius: .circular(14),
               border: .all(color: AppColors.primary.withAlpha(150)),
             ),
@@ -91,7 +93,9 @@ class ScheduleListTileWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  _title,
+                  lookupEnumState is LookupEnumsLoadedState
+                      ? lookupEnumState.lookupEnums.jobType[schedule.jobType ?? ''] ?? _fallbackTitle
+                      : _fallbackTitle,
                   style: textTheme.titleMedium?.copyWith(fontWeight: .bold, color: Colors.white),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
