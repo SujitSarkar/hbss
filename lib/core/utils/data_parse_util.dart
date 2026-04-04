@@ -11,4 +11,9 @@ class DataParseUtil {
     if (value is String) return double.tryParse(value) ?? defaultValue;
     return defaultValue;
   }
+
+  static List<String> parseStringList(dynamic value) {
+    if (value is! List) return const [];
+    return value.map((e) => e.toString()).toList();
+  }
 }

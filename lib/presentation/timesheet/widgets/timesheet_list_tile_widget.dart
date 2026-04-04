@@ -41,7 +41,7 @@ class TimeSheetListTileWidget extends StatelessWidget {
                 child: Text(dayDate, style: context.textTheme.titleSmall?.copyWith(fontWeight: .w700)),
               ),
               const SizedBox(width: 8),
-              _StatusBadge(status: timeSheet.status, color: timeSheet.color ?? ''),
+              _StatusBadge(status: timeSheet.status, color: timeSheet.primaryColor ?? ''),
             ],
           ),
           const SizedBox(height: 4),
