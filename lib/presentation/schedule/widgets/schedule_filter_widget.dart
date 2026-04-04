@@ -35,10 +35,6 @@ class ScheduleFilterWidget extends StatefulWidget {
 }
 
 class _ScheduleFilterWidgetState extends State<ScheduleFilterWidget> {
-  // Client? selectedClient;
-  // DateTime? selectedDate = DateTime.now();
-  // List<DateTime> selectedWeek = [];
-
   final ValueNotifier<Client?> selectedClient = ValueNotifier(null);
   final ValueNotifier<DateTime?> selectedDate = ValueNotifier(DateTime.now());
   final ValueNotifier<List<DateTime>> selectedWeek = ValueNotifier([]);
