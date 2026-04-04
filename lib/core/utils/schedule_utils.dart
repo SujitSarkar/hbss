@@ -10,21 +10,11 @@ import 'package:maori_health/domain/lookup_enums/entities/schedule_status.dart';
 import 'package:maori_health/domain/schedule/entities/schedule.dart';
 import 'package:maori_health/domain/schedule/entities/schedule_finish_analysis_result.dart';
 
-import 'package:maori_health/presentation/shared/widgets/horizontal_week_calender.dart';
+import 'package:maori_health/core/utils/week_start_utils.dart';
 
 class ScheduleUtils {
   static WeekStartFrom getWeekStartFrom(String? weekDayStart, {WeekStartFrom fallback = WeekStartFrom.monday}) {
-    final normalized = (weekDayStart ?? '').trim().toLowerCase();
-    if (normalized.startsWith(WeekStartFrom.saturday.value.toLowerCase())) {
-      return WeekStartFrom.saturday;
-    }
-    if (normalized.startsWith(WeekStartFrom.sunday.value.toLowerCase())) {
-      return WeekStartFrom.sunday;
-    }
-    if (normalized.startsWith(WeekStartFrom.monday.value.toLowerCase())) {
-      return WeekStartFrom.monday;
-    }
-    return fallback;
+    return tryParseWeekStartFrom(weekDayStart) ?? fallback;
   }
 
   static String getScheduleStatus({
@@ -50,30 +40,7 @@ class ScheduleUtils {
   }
 
   static List<DateTime> getWeekDates({required WeekStartFrom weekStartFrom, DateTime? currentDate}) {
-    final DateTime now = currentDate ?? DateTime.now();
-    final DateTime dateOnly = DateTime(now.year, now.month, now.day);
-
-    int offset;
-    switch (weekStartFrom) {
-      case WeekStartFrom.saturday:
-        // Sat(6) -> 0, Sun(7) -> 1, Mon(1) -> 2 ... Fri(5) -> 6
-        // Logic: (6 + 1) % 7 = 0
-        offset = (dateOnly.weekday + 1) % 7;
-        break;
-      case WeekStartFrom.sunday:
-        // Sun(7) -> 0, Mon(1) -> 1 ... Sat(6) -> 5
-        offset = dateOnly.weekday % 7;
-        break;
-
-      case WeekStartFrom.monday:
-        // Mon(1) -> 0, Tue(2) -> 1 ... Sun(7) -> 6
-        offset = dateOnly.weekday - 1;
-        break;
-    }
-
-    final DateTime firstDayOfWeek = dateOnly.subtract(Duration(days: offset));
-
-    return List.generate(7, (index) => firstDayOfWeek.add(Duration(days: index)));
+    return weekDatesContaining(weekStartFrom: weekStartFrom, currentDate: currentDate);
   }
 
   static ScheduleFinishAnalysis analyzeFinishState(

@@ -7,6 +7,7 @@ import 'package:maori_health/core/enums/schedule.enum.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/date_converter.dart';
 import 'package:maori_health/core/utils/schedule_utils.dart';
+import 'package:maori_health/core/utils/week_start_utils.dart';
 import 'package:maori_health/domain/client/entities/client.dart';
 
 import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
@@ -20,7 +21,6 @@ import 'package:maori_health/presentation/schedule/widgets/shimmer_widgets/sched
 import 'package:maori_health/presentation/schedule/widgets/schedule_week_view_widget.dart';
 import 'package:maori_health/presentation/schedule/widgets/shimmer_widgets/schedule_week_view_shimmer.dart';
 import 'package:maori_health/presentation/shared/widgets/error_view_widget.dart';
-import 'package:maori_health/presentation/shared/widgets/horizontal_week_calender.dart';
 import 'package:maori_health/presentation/shared/widgets/no_data_found_widget.dart';
 import 'package:maori_health/presentation/shared/widgets/pagination_wrapper.dart';
 import 'package:maori_health/presentation/shared/widgets/swipe_refresh_wrapper.dart';

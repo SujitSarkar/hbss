@@ -1,25 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-enum WeekStartFrom {
-  saturday('Sat'),
-  sunday('Sun'),
-  monday('Mon');
+import 'package:maori_health/core/utils/week_start_utils.dart';
 
-  final String value;
-
-  const WeekStartFrom(this.value);
-}
+export 'package:maori_health/core/utils/week_start_utils.dart' show WeekStartFrom, weekDatesContaining;
 
 const double _cellHeight = 60;
 
 class HorizontalWeekCalendar extends StatefulWidget {
-  /// week start from Monday or Sunday
-  ///
-  /// default value is
-  /// ```dart
-  /// [WeekStartFrom.Monday]
-  /// ```
+  /// First day of the week (any weekday). Default [WeekStartFrom.monday].
   final WeekStartFrom? weekStartFrom;
 
   ///get DateTime on date select
@@ -214,21 +203,12 @@ class _HorizontalWeekCalendarState extends State<HorizontalWeekCalendar> {
     super.initState();
   }
 
-  DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
-
   void initCalender() {
     final date = widget.initialDate;
     selectedDate = widget.initialDate;
 
-    DateTime startOfCurrentWeek = widget.weekStartFrom == WeekStartFrom.monday
-        ? getDate(date.subtract(Duration(days: date.weekday - 1)))
-        : getDate(date.subtract(Duration(days: date.weekday % 7)));
-
-    currentWeek.add(startOfCurrentWeek);
-    for (int index = 0; index < 6; index++) {
-      DateTime addDate = startOfCurrentWeek.add(Duration(days: (index + 1)));
-      currentWeek.add(addDate);
-    }
+    final WeekStartFrom start = widget.weekStartFrom ?? WeekStartFrom.monday;
+    currentWeek = weekDatesContaining(weekStartFrom: start, currentDate: date);
 
     listOfWeeks.add(currentWeek);
 
@@ -237,15 +217,9 @@ class _HorizontalWeekCalendarState extends State<HorizontalWeekCalendar> {
     _getMoreNextWeeks();
 
     if (widget.controller != null) {
-      widget.controller!._stateChangerPre.addListener(() {
-        print("previous");
-        _onBackClick();
-      });
+      widget.controller!._stateChangerPre.addListener(_onBackClick);
 
-      widget.controller!._stateChangerNex.addListener(() {
-        print("next");
-        _onNextClick();
-      });
+      widget.controller!._stateChangerNex.addListener(_onNextClick);
     }
   }
 
