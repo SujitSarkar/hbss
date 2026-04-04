@@ -16,8 +16,14 @@ class ScheduleSlider extends StatefulWidget {
 }
 
 class _ScheduleSliderState extends State<ScheduleSlider> {
-  final _pageController = PageController(viewportFraction: 0.92);
+  late PageController _pageController;
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(viewportFraction: widget.schedules.length > 1 ? 0.92 : 1.0);
+  }
 
   @override
   void dispose() {
