@@ -1,0 +1,206 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:5274858718143599118",
+      "lastPropertyId": "3:7628561510979069904",
+      "name": "DashboardPointerEntity",
+      "properties": [
+        {
+          "id": "1:1738744906716780354",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4161731122356900076",
+          "name": "pointerKind",
+          "indexId": "2:4105100951472083052",
+          "type": 6,
+          "flags": 40
+        },
+        {
+          "id": "3:7628561510979069904",
+          "name": "scheduleId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:6946130067124534201",
+      "lastPropertyId": "4:9029771249671697007",
+      "name": "DashboardSectionLinkEntity",
+      "properties": [
+        {
+          "id": "1:907349657012249112",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7675344085612096424",
+          "name": "section",
+          "type": 6
+        },
+        {
+          "id": "3:7408534119782689450",
+          "name": "orderIndex",
+          "type": 6
+        },
+        {
+          "id": "4:9029771249671697007",
+          "name": "scheduleId",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:3720788967858916606",
+      "lastPropertyId": "4:6155023479497038611",
+      "name": "DashboardStatsEntity",
+      "properties": [
+        {
+          "id": "1:1764851928219809222",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "3:5042561747206587055",
+          "name": "jsonPayload",
+          "type": 9
+        },
+        {
+          "id": "4:6155023479497038611",
+          "name": "localStorageKey",
+          "indexId": "5:8346696206657049943",
+          "type": 9,
+          "flags": 2080
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:3812225467135477190",
+      "lastPropertyId": "5:2910320320996939043",
+      "name": "PendingScheduleSyncEntity",
+      "properties": [
+        {
+          "id": "1:8179377696542419701",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1762728717427416873",
+          "name": "scheduleId",
+          "type": 6
+        },
+        {
+          "id": "3:6478980348860523069",
+          "name": "actionType",
+          "type": 6
+        },
+        {
+          "id": "4:4768708089063274617",
+          "name": "cancelPayloadJson",
+          "type": 9
+        },
+        {
+          "id": "5:2910320320996939043",
+          "name": "createdAtMs",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:5309693757512811751",
+      "lastPropertyId": "6:5344227662959978370",
+      "name": "ScheduleListSnapshotEntity",
+      "properties": [
+        {
+          "id": "1:8392170337408836329",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "3:3213608005562103611",
+          "name": "jsonPayload",
+          "type": 9
+        },
+        {
+          "id": "4:4223821192988081372",
+          "name": "currentPage",
+          "type": 6
+        },
+        {
+          "id": "5:8544023209703891950",
+          "name": "lastPage",
+          "type": 6
+        },
+        {
+          "id": "6:5344227662959978370",
+          "name": "localStorageKey",
+          "indexId": "7:2693906548209859953",
+          "type": 9,
+          "flags": 2080
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:1259702974740427964",
+      "lastPropertyId": "3:1893046547047282948",
+      "name": "LocalStorageScheduleEntity",
+      "properties": [
+        {
+          "id": "1:4396635164405528482",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2594468393592000274",
+          "name": "scheduleId",
+          "indexId": "6:1494514976619328635",
+          "type": 6,
+          "flags": 40
+        },
+        {
+          "id": "3:1893046547047282948",
+          "name": "jsonPayload",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "7:1259702974740427964",
+  "lastIndexId": "7:2693906548209859953",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    5377537594831651491
+  ],
+  "retiredIndexUids": [
+    7686279454547002336,
+    213483683509872726
+  ],
+  "retiredPropertyUids": [
+    3944585331499583776,
+    6954496487102970048,
+    1025145785258374454,
+    3907063922963231925,
+    8072214650867728279
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

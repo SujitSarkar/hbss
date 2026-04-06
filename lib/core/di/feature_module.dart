@@ -25,8 +25,13 @@ import 'package:maori_health/data/schedule/datasources/schedule_remote_datasourc
 import 'package:maori_health/data/schedule/repositories/schedule_repository_impl.dart';
 import 'package:maori_health/data/timesheet/datasources/timesheet_remote_data_source.dart';
 import 'package:maori_health/data/timesheet/repositories/timesheet_repository_impl.dart';
+import 'package:maori_health/data/local_storage/local_storage_data_source.dart';
+import 'package:maori_health/data/local_storage/local_storage_data_source_impl.dart';
+import 'package:maori_health/data/offline/repositories/offline_sync_repository_impl.dart';
 import 'package:maori_health/data/dashboard/datasources/dashboard_remote_data_source.dart';
 import 'package:maori_health/data/dashboard/repositories/dashboard_repository_impl.dart';
+import 'package:maori_health/data/objectbox/objectbox_stores.dart';
+import 'package:maori_health/data/offline/offline_schedule_queue_data_source.dart';
 import 'package:maori_health/domain/app/repositories/theme_preference_repository.dart';
 import 'package:maori_health/domain/app/usecases/get_saved_theme_mode_usecase.dart';
 import 'package:maori_health/domain/app/usecases/persist_theme_mode_usecase.dart';
@@ -64,6 +69,9 @@ import 'package:maori_health/domain/timesheet/repositories/timesheet_repository.
 import 'package:maori_health/domain/timesheet/usecases/get_timesheets_usecase.dart';
 import 'package:maori_health/domain/dashboard/repositories/dashboard_repository.dart';
 import 'package:maori_health/domain/dashboard/usecases/get_dashboard_usecase.dart';
+import 'package:maori_health/domain/offline_sync/repositories/offline_sync_repository.dart';
+import 'package:maori_health/domain/offline_sync/usecases/has_pending_offline_sync_usecase.dart';
+import 'package:maori_health/domain/offline_sync/usecases/sync_offline_pending_usecase.dart';
 
 import 'package:maori_health/presentation/app/bloc/app_bloc.dart';
 import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.dart';
@@ -74,6 +82,7 @@ import 'package:maori_health/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:maori_health/presentation/notification/bloc/notification_bloc.dart';
 import 'package:maori_health/presentation/employee/bloc/employee_bloc.dart';
 import 'package:maori_health/presentation/lookup_enums/bloc/lookup_enums_bloc.dart';
+import 'package:maori_health/presentation/offline_sync/bloc/offline_sync_bloc.dart';
 import 'package:maori_health/presentation/schedule/bloc/schedule_bloc.dart';
 import 'package:maori_health/presentation/timesheet/bloc/timesheet_bloc.dart';
 
@@ -135,6 +144,7 @@ void registerFeatureModule(GetIt getIt) {
       () => AppSettingsRepositoryImpl(
         remoteDataSource: getIt<AppSettingsRemoteDataSource>(),
         networkChecker: getIt<NetworkChecker>(),
+        localCache: getIt<LocalCacheService>(),
       ),
     )
     ..registerLazySingleton<GetAppSettingsUsecase>(
@@ -151,6 +161,7 @@ void registerFeatureModule(GetIt getIt) {
       () => LookupEnumsRepositoryImpl(
         remoteDataSource: getIt<LookupEnumsRemoteDataSource>(),
         networkChecker: getIt<NetworkChecker>(),
+        localCache: getIt<LocalCacheService>(),
       ),
     )
     ..registerLazySingleton<GetLookupEnumsUsecase>(
@@ -165,6 +176,7 @@ void registerFeatureModule(GetIt getIt) {
       () => ClientRepositoryImpl(
         remoteDataSource: getIt<ClientRemoteDataSource>(),
         networkChecker: getIt<NetworkChecker>(),
+        localCache: getIt<LocalCacheService>(),
       ),
     )
     ..registerLazySingleton<GetClientsUsecase>(() => GetClientsUsecase(repository: getIt<ClientRepository>()))
@@ -177,6 +189,7 @@ void registerFeatureModule(GetIt getIt) {
       () => EmployeeRepositoryImpl(
         remoteDataSource: getIt<EmployeeRemoteDataSource>(),
         networkChecker: getIt<NetworkChecker>(),
+        localCache: getIt<LocalCacheService>(),
       ),
     )
     ..registerLazySingleton<GetEmployeesUsecase>(() => GetEmployeesUsecase(repository: getIt<EmployeeRepository>()))
@@ -233,13 +246,40 @@ void registerFeatureModule(GetIt getIt) {
     ..registerLazySingleton<GetTimeSheetsUsecase>(() => GetTimeSheetsUsecase(repository: getIt<TimeSheetRepository>()))
     ..registerFactory<TimeSheetBloc>(() => TimeSheetBloc(getTimeSheetsUsecase: getIt<GetTimeSheetsUsecase>()));
 
-  // ── Dashboard
+  // ── Dashboard / Schedule (ObjectBox local storage, schedule remote, offline sync)
   getIt
+    ..registerLazySingleton<LocalStorageDataSource>(() => LocalStorageDataSourceImpl(getIt<ObjectBoxStores>()))
+    ..registerLazySingleton<OfflineScheduleQueueDataSource>(
+      () => OfflineScheduleQueueDataSourceImpl(getIt<ObjectBoxStores>()),
+    )
+    ..registerLazySingleton<ScheduleRemoteDataSource>(() => ScheduleRemoteDataSourceImpl(client: getIt<DioClient>()))
+    ..registerLazySingleton<OfflineSyncRepository>(
+      () => OfflineSyncRepositoryImpl(
+        networkChecker: getIt<NetworkChecker>(),
+        queue: getIt<OfflineScheduleQueueDataSource>(),
+        remote: getIt<ScheduleRemoteDataSource>(),
+        localStorage: getIt<LocalStorageDataSource>(),
+      ),
+    )
+    ..registerLazySingleton<HasPendingOfflineSyncUsecase>(
+      () => HasPendingOfflineSyncUsecase(repository: getIt<OfflineSyncRepository>()),
+    )
+    ..registerLazySingleton<SyncOfflinePendingUsecase>(
+      () => SyncOfflinePendingUsecase(repository: getIt<OfflineSyncRepository>()),
+    )
+    ..registerLazySingleton<OfflineSyncBloc>(
+      () => OfflineSyncBloc(
+        networkChecker: getIt<NetworkChecker>(),
+        hasPendingOfflineSyncUsecase: getIt<HasPendingOfflineSyncUsecase>(),
+        syncOfflinePendingUsecase: getIt<SyncOfflinePendingUsecase>(),
+      ),
+    )
     ..registerLazySingleton<DashboardRemoteDataSource>(() => DashboardRemoteDataSourceImpl(client: getIt<DioClient>()))
     ..registerLazySingleton<DashboardRepository>(
       () => DashboardRepositoryImpl(
         remoteDataSource: getIt<DashboardRemoteDataSource>(),
         networkChecker: getIt<NetworkChecker>(),
+        localStorage: getIt<LocalStorageDataSource>(),
       ),
     )
     ..registerLazySingleton<GetDashboardUsecase>(() => GetDashboardUsecase(repository: getIt<DashboardRepository>()))
@@ -247,11 +287,13 @@ void registerFeatureModule(GetIt getIt) {
 
   // ── Schedule
   getIt
-    ..registerLazySingleton<ScheduleRemoteDataSource>(() => ScheduleRemoteDataSourceImpl(client: getIt<DioClient>()))
     ..registerLazySingleton<ScheduleRepository>(
       () => ScheduleRepositoryImpl(
         remoteDataSource: getIt<ScheduleRemoteDataSource>(),
         networkChecker: getIt<NetworkChecker>(),
+        localStorage: getIt<LocalStorageDataSource>(),
+        offlineQueue: getIt<OfflineScheduleQueueDataSource>(),
+        authRepository: getIt<AuthRepository>(),
       ),
     )
     ..registerLazySingleton<GetScheduleDetailsUsecase>(

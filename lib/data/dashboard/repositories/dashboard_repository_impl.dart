@@ -3,31 +3,42 @@ import 'package:maori_health/core/error/failures.dart';
 import 'package:maori_health/core/network/network_checker.dart';
 import 'package:maori_health/core/result/result.dart';
 
+import 'package:maori_health/data/local_storage/local_storage_data_source.dart';
 import 'package:maori_health/data/dashboard/datasources/dashboard_remote_data_source.dart';
 import 'package:maori_health/domain/dashboard/entities/dashboard_response.dart';
 import 'package:maori_health/domain/dashboard/repositories/dashboard_repository.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
+  DashboardRepositoryImpl({
+    required DashboardRemoteDataSource remoteDataSource,
+    required NetworkChecker networkChecker,
+    required LocalStorageDataSource localStorage,
+  }) : _remoteDataSource = remoteDataSource,
+       _networkChecker = networkChecker,
+       _localStorage = localStorage;
+
   final DashboardRemoteDataSource _remoteDataSource;
   final NetworkChecker _networkChecker;
-
-  DashboardRepositoryImpl({required DashboardRemoteDataSource remoteDataSource, required NetworkChecker networkChecker})
-    : _remoteDataSource = remoteDataSource,
-      _networkChecker = networkChecker;
+  final LocalStorageDataSource _localStorage;
 
   @override
   Future<Result<AppError, DashboardResponse>> getDashboard() async {
-    if (!await _networkChecker.hasConnection) {
-      return const ErrorResult(NetworkError());
+    if (await _networkChecker.hasConnection) {
+      try {
+        final response = await _remoteDataSource.getDashboard();
+        await _localStorage.persistDashboard(response);
+        return SuccessResult(response);
+      } on ApiException catch (e) {
+        return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
+      } catch (e) {
+        return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
+      }
     }
 
-    try {
-      final response = await _remoteDataSource.getDashboard();
-      return SuccessResult(response);
-    } on ApiException catch (e) {
-      return ErrorResult(ApiError(errorCode: e.statusCode, errorMessage: e.message));
-    } catch (e) {
-      return ErrorResult(ApiError(errorCode: 0, errorMessage: e.toString()));
+    final cached = await _localStorage.readDashboard();
+    if (cached != null) {
+      return SuccessResult(cached);
     }
+    return const ErrorResult(NetworkError());
   }
 }

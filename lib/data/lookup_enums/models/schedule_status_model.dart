@@ -18,4 +18,13 @@ class ScheduleStatusModel extends ScheduleStatus {
     inprogress: json["inprogress"],
     parked: json["parked"],
   );
+
+  Map<String, dynamic> toJson() => {
+    'active': active,
+    'cancelled': cancelled,
+    'completed': completed,
+    'finished': finished,
+    'inprogress': inprogress,
+    'parked': parked,
+  };
 }

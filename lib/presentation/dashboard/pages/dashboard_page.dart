@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:maori_health/core/config/assets.dart';
 import 'package:maori_health/core/config/app_strings.dart';
-import 'package:maori_health/core/di/injection.dart';
 import 'package:maori_health/core/network/api_endpoints.dart';
 import 'package:maori_health/core/router/route_names.dart';
 import 'package:maori_health/core/utils/extensions.dart';
@@ -17,6 +16,7 @@ import 'package:maori_health/presentation/app_settings/bloc/app_settings_bloc.da
 
 import 'package:maori_health/presentation/auth/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/bloc/bloc.dart';
+import 'package:maori_health/presentation/offline_sync/bloc/bloc.dart';
 import 'package:maori_health/presentation/dashboard/widgets/dashboard_shimmer.dart';
 import 'package:maori_health/presentation/dashboard/widgets/job_list_builder_widget.dart';
 import 'package:maori_health/presentation/lookup_enums/bloc/bloc.dart';
@@ -30,10 +30,7 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<DashboardBloc>()..add(const DashboardLoadEvent()),
-      child: const _DashboardView(),
-    );
+    return const _DashboardView();
   }
 }
 
@@ -42,17 +39,25 @@ class _DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<DashboardBloc, DashboardState>(
-          builder: (context, state) => switch (state) {
-            DashboardInitialState() || DashboardLoadingState() => const DashboardShimmer(),
-            DashboardErrorState(:final message) => ErrorViewWidget(
-              message: message,
-              onRetry: () => _onRefresh(context),
-            ),
-            DashboardLoadedState(:final dashboardData) => _buildLoaded(context, dashboardData),
-          },
+    return BlocListener<OfflineSyncBloc, OfflineSyncState>(
+      listenWhen: (prev, curr) => prev.status == OfflineSyncStatus.syncing && curr.status == OfflineSyncStatus.idle,
+      listener: (context, state) {
+        if (context.mounted) {
+          _onRefresh(context);
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, state) => switch (state) {
+              DashboardInitialState() || DashboardLoadingState() => const DashboardShimmer(),
+              DashboardErrorState(:final message) => ErrorViewWidget(
+                message: message,
+                onRetry: () => _onRefresh(context),
+              ),
+              DashboardLoadedState(:final dashboardData) => _buildLoaded(context, dashboardData),
+            },
+          ),
         ),
       ),
     );

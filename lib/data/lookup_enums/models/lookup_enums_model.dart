@@ -40,4 +40,21 @@ class LookupEnumsModel extends LookupEnums {
       cancelReason: _parseStringMap(json['cancel_reason']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final value = scheduleStatusValue as ScheduleStatusModel;
+    final key = scheduleStatusKey as ScheduleStatusModel;
+    final assetVal = assetStatus as AssetStatusModel;
+    final assetKey = assetStatusKey as AssetStatusModel;
+    return {
+      'gender': gender,
+      'schedule_status': value.toJson(),
+      'schedule_status_same_key_value': key.toJson(),
+      'asset_status': assetVal.toJson(),
+      'asset_status_same_key_value': assetKey.toJson(),
+      'job_type': jobType,
+      'cancel_by': canceledBy,
+      'cancel_reason': cancelReason,
+    };
+  }
 }

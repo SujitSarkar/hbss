@@ -26,4 +26,17 @@ class AppSettingsModel extends AppSettings {
     weekDayStart: json["week_day_start"],
     slotDuration: json["slot_duration"],
   );
+
+  Map<String, dynamic> toJson() => {
+    'mobile_app_name': mobileAppName,
+    'app_version': appVersion,
+    'mobile_logo': mobileLogo,
+    'mobile_login_bg_image': mobileLoginBgImage,
+    'cancel_by_kaimahi': cancelByKaimahi,
+    'cancel_by_client': cancelByClient,
+    'office_start_time': officeStartTime,
+    'office_end_time': officeEndTime,
+    'week_day_start': weekDayStart,
+    'slot_duration': slotDuration,
+  };
 }

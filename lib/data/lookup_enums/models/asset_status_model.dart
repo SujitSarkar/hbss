@@ -24,4 +24,16 @@ class AssetStatusModel extends AssetStatus {
     stockOut: json["stock_out"],
     warranty: json["warranty"],
   );
+
+  Map<String, dynamic> toJson() => {
+    'assigned': assigned,
+    'available': available,
+    'damaged': damaged,
+    'expired': expired,
+    'laptop_initiative': laptopInitiative,
+    'missing': missing,
+    'returned': returned,
+    'stock_out': stockOut,
+    'warranty': warranty,
+  };
 }

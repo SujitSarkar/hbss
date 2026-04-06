@@ -84,8 +84,9 @@ class ClientModel extends Client {
     "user_type": userType,
     "gender": gender,
     "pro_noun": proNoun,
-    "dob":
-        "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+    "dob": dob == null
+        ? null
+        : "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
     "status": status,
     "age": age,
     "age_group": ageGroup,

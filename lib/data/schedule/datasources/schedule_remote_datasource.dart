@@ -143,16 +143,20 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     required String reason,
   }) async {
     try {
-      final formData = FormData.fromMap({
-        'cancel_by': cancelBy.toLowerCase(),
-        'reason': reason,
-        'hour': ?hour,
-        'minute': ?minute,
-      });
+      final map = <String, dynamic>{'cancel_by': cancelBy.toLowerCase(), 'reason': reason};
+      if (hour != null) map['hour'] = hour;
+      if (minute != null) map['minute'] = minute;
+      final formData = FormData.fromMap(map);
       if (cancelReason != null) formData.fields.add(MapEntry('reason_type', cancelReason));
 
       final response = await _client.post(ApiEndpoints.cancelSchedule(scheduleId), data: formData);
-      return ScheduleModel.fromJson(response.data['data']);
+      final data = response.data['data'];
+      try {
+        return ScheduleModel.fromJson(data as Map<String, dynamic>);
+      } catch (_) {
+        // Cancel may have succeeded but payload shape differs; refresh from details endpoint.
+        return getScheduleById(scheduleId: scheduleId);
+      }
     } on DioException catch (e) {
       final message = (e.response?.data is Map) ? (e.response!.data as Map)['message']?.toString() : null;
       throw ApiException(

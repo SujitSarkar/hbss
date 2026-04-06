@@ -158,4 +158,5 @@ abstract class AppStrings {
   static const String passwordTooShort = 'Password must be at least 8 characters long';
   static const String noInternet = 'No internet connection. Please check your network.';
   static const String somethingWentWrong = 'Something went wrong. Please try again.';
+  static const String syncingOfflineData = 'Syncing data...';
 }

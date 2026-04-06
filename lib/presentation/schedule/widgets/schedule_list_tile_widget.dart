@@ -42,7 +42,6 @@ class ScheduleListTileWidget extends StatelessWidget {
                   ? ColorUtils.hexToColor(schedule.primaryColor)
                   : AppColors.primary.withAlpha(30),
               borderRadius: .circular(14),
-              border: .all(color: AppColors.primary.withAlpha(150)),
             ),
             child: Column(
               crossAxisAlignment: .start,
