@@ -57,7 +57,7 @@ abstract class AppTheme {
       ),
       bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.bottomNavColor,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withAlpha(160),
         selectedLabelStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: .w700),
@@ -123,7 +123,7 @@ abstract class AppTheme {
       ),
       bottomSheetTheme: const BottomSheetThemeData(backgroundColor: AppColors.cardDark),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.bottomNavColor,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withAlpha(160),
         selectedLabelStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: .w700),
