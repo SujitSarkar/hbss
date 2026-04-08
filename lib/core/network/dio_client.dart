@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 
 import 'package:maori_health/core/config/app_constants.dart';
 import 'package:maori_health/core/config/env_config.dart';
 import 'package:maori_health/core/network/interceptors/auth_interceptor.dart';
+import 'package:maori_health/core/network/interceptors/network_log_interceptor.dart';
 import 'package:maori_health/core/network/interceptors/refresh_token_interceptor.dart';
 import 'package:maori_health/core/storage/local_cache_service.dart';
 import 'package:maori_health/core/storage/secure_storage_service.dart';
@@ -24,12 +24,7 @@ class DioClient {
     _dio.interceptors.addAll([
       AuthInterceptor(secureStorage: secureStorage),
       RefreshTokenInterceptor(secureStorage: secureStorage, cache: cache),
-      if (EnvConfig.isDev)
-        LogInterceptor(
-          requestBody: true,
-          responseBody: true,
-          logPrint: (obj) => debugPrint(obj.toString(), wrapWidth: 1024),
-        ),
+      if (EnvConfig.isDev) NetworkLogInterceptor(),
     ]);
   }
 
