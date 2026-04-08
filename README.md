@@ -37,7 +37,21 @@ Use `fvm flutter` (or a shell alias) for all Flutter commands so the correct SDK
 fvm flutter pub get
 ```
 
-### 3. Run the App
+### 3. Generate ObjectBox code
+
+Local persistence uses [ObjectBox](https://objectbox.io/). Entity definitions live under `lib/data/objectbox/`; the generated store and bindings are written to `lib/objectbox.g.dart`. Regenerate that file whenever you change `@Entity` classes (or on a fresh clone if the file is missing):
+
+```bash
+fvm dart run build_runner build --delete-conflicting-outputs
+```
+
+For active development, you can keep codegen in sync automatically:
+
+```bash
+fvm dart run build_runner watch --delete-conflicting-outputs
+```
+
+### 4. Run the App
 
 ```bash
 # Development flavor
@@ -50,6 +64,9 @@ fvm flutter run --flavor prod -t lib/main_prod.dart
 ## Useful Commands
 
 ```bash
+# ObjectBox — regenerate lib/objectbox.g.dart after entity changes
+fvm dart run build_runner build --delete-conflicting-outputs
+
 # Static analysis (run before commits)
 fvm flutter analyze
 
