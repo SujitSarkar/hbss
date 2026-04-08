@@ -32,6 +32,8 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
     final TextEditingController minuteController = TextEditingController();
     final TextEditingController reasonController = TextEditingController();
 
+    final ValueNotifier<bool> isValidWorkingHours = ValueNotifier(true);
+
     return AppDialog(
       title: AppStrings.cancelJob,
       content: Form(
@@ -117,6 +119,32 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
                 ),
               ],
             ),
+
+            // Working hours validation message
+            ValueListenableBuilder(
+              valueListenable: isValidWorkingHours,
+              builder: (context, value, child) {
+                return !value
+                    ? Column(
+                        mainAxisAlignment: .start,
+                        crossAxisAlignment: .start,
+                        children: [
+                          const SizedBox(height: 4),
+                          Padding(
+                            padding: const .symmetric(horizontal: 12),
+                            child: Text(
+                              AppStrings.workingHoursAreInvalid,
+                              style: context.textTheme.labelMedium?.copyWith(
+                                fontSize: 9,
+                                color: context.theme.colorScheme.error,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink();
+              },
+            ),
             const SizedBox(height: 18),
 
             // Cancel reason input
@@ -139,14 +167,17 @@ class ScheduleCancelDialogWidget extends StatelessWidget {
                   child: SolidButton(
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
+                        final int? hour = int.tryParse(hourController.text);
+                        final int? minute = int.tryParse(minuteController.text);
+
+                        // Check if the working hours are valid
+                        if ((hour == null && minute == null) || (minute != null && minute < 0 && minute > 59)) {
+                          isValidWorkingHours.value = false;
+                          return;
+                        }
+
                         Navigator.maybePop(context);
-                        onSave(
-                          canceledBy.value!,
-                          cancelReason.value,
-                          int.tryParse(hourController.text),
-                          int.tryParse(minuteController.text),
-                          reasonController.text,
-                        );
+                        onSave(canceledBy.value!, cancelReason.value, hour, minute, reasonController.text);
                       }
                     },
                     child: const Text(AppStrings.save),
