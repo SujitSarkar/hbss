@@ -57,10 +57,10 @@ fvm flutter analyze
 fvm flutter test
 
 # Build APK — development
-fvm flutter build apk --flavor dev -t lib/main_dev.dart
+fvm flutter build apk --profile --flavor dev -t lib/main_dev.dart
 
 # Build APK — production
-fvm flutter build apk --flavor prod -t lib/main_prod.dart
+fvm flutter build apk --profile --flavor prod -t lib/main_prod.dart
 ```
 
 ### VS Code / Cursor
