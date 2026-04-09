@@ -241,6 +241,20 @@ class LocalStorageDataSourceImpl implements LocalStorageDataSource {
     final e = q.findFirst();
     q.close();
     if (e == null) return null;
-    return PaginatedScheduleResponse.fromJson(jsonDecode(e.jsonPayload) as Map<String, dynamic>);
+    final snapshot = PaginatedScheduleResponse.fromJson(jsonDecode(e.jsonPayload) as Map<String, dynamic>);
+
+    // Rehydrate schedules from per-schedule cache so offline patches
+    // (start/finish/cancel) survive app relaunch even if the list snapshot is stale.
+    final hydrated = <ScheduleModel>[];
+    for (final s in snapshot.schedules) {
+      final latest = await getScheduleById(s.id);
+      hydrated.add(latest ?? s);
+    }
+
+    return PaginatedScheduleResponse(
+      schedules: hydrated,
+      currentPage: snapshot.currentPage,
+      lastPage: snapshot.lastPage,
+    );
   }
 }
