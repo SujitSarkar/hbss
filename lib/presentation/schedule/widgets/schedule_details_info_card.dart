@@ -16,7 +16,10 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
   final String duration;
   final String startTime;
   final String endTime;
-  final String? jobStartedTime;
+
+  /// Formatted work start/end (e.g. `h:mm a`). Shown under Scheduled Time when either is set.
+  final String? workStartTime;
+  final String? workEndTime;
 
   const ScheduleDetailsInfoCard({
     super.key,
@@ -29,7 +32,8 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
     required this.duration,
     required this.startTime,
     required this.endTime,
-    this.jobStartedTime,
+    this.workStartTime,
+    this.workEndTime,
   });
 
   @override
@@ -124,7 +128,7 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: .start,
                   children: [
-                    Text(jobStartedTime != null ? AppStrings.start : AppStrings.startTime, style: labelStyle),
+                    Text(AppStrings.start, style: labelStyle),
                     _buildTimeValue(context, startTime),
                   ],
                 ),
@@ -133,22 +137,54 @@ class ScheduleDetailsInfoCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: .start,
                   children: [
-                    Text(jobStartedTime != null ? AppStrings.end : AppStrings.endTime, style: labelStyle),
+                    Text(AppStrings.end, style: labelStyle),
                     _buildTimeValue(context, endTime),
                   ],
                 ),
               ),
             ],
           ),
-          if (jobStartedTime != null) ...[
+          if (_hasWorkTimeRow) ...[
             const SizedBox(height: 12),
-            Text(AppStrings.jobStartedTime, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
-            const SizedBox(height: 2),
-            Text(jobStartedTime!, style: textTheme.bodyMedium),
+            Text(AppStrings.workTime, style: textTheme.titleSmall?.copyWith(fontWeight: .bold)),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    children: [
+                      Text(AppStrings.start, style: labelStyle),
+                      _buildTimeValue(context, _workTimeDisplay(workStartTime)),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    children: [
+                      Text(AppStrings.end, style: labelStyle),
+                      _buildTimeValue(context, _workTimeDisplay(workEndTime)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ],
       ),
     );
+  }
+
+  bool get _hasWorkTimeRow {
+    final a = workStartTime?.trim() ?? '';
+    final b = workEndTime?.trim() ?? '';
+    return a.isNotEmpty || b.isNotEmpty;
+  }
+
+  String _workTimeDisplay(String? formatted) {
+    final s = formatted?.trim() ?? '';
+    return s.isEmpty ? '-' : s;
   }
 
   Widget _buildTimeValue(BuildContext context, String time) {

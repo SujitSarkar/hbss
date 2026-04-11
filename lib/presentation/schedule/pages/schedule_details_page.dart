@@ -139,8 +139,11 @@ class _ScheduleDetailsPageState extends State<ScheduleDetailsPage> {
                                     ),
                                     endTime: DateConverter.formatIsoDateTime(job?.scheduleEndTime, pattern: 'h:mm a'),
                                     status: job?.status,
-                                    jobStartedTime: job?.workStartTime != null
-                                        ? DateConverter.formatIsoDateTime(job!.workStartTime, pattern: 'h:mm a')
+                                    workStartTime: job?.workStartTime != null && job!.workStartTime!.trim().isNotEmpty
+                                        ? DateConverter.formatIsoDateTime(job.workStartTime, pattern: 'h:mm a')
+                                        : null,
+                                    workEndTime: job?.workEndTime != null && job!.workEndTime!.trim().isNotEmpty
+                                        ? DateConverter.formatIsoDateTime(job.workEndTime, pattern: 'h:mm a')
                                         : null,
                                   ),
                                   const SizedBox(height: 24),
