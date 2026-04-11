@@ -75,7 +75,7 @@ class ScheduleListSnapshotEntity {
   int lastPage;
 }
 
-/// [offline_db] — sync order: actionType asc (start=0, finish=1, cancel=2), then [createdAtMs].
+/// [offline_db] — sync order: [actionType] asc (start=0, finish=1, cancel=2), then [createdAtMs] asc within each type.
 @Entity()
 class PendingScheduleSyncEntity {
   PendingScheduleSyncEntity({
@@ -83,6 +83,7 @@ class PendingScheduleSyncEntity {
     required this.scheduleId,
     required this.actionType,
     this.cancelPayloadJson,
+    this.scheduleSnapshotJson,
     required this.createdAtMs,
   });
 
@@ -95,6 +96,9 @@ class PendingScheduleSyncEntity {
   int actionType;
 
   String? cancelPayloadJson;
+
+  /// Full [ScheduleModel] JSON for start (0) / finish (1) so sync can send captured work times.
+  String? scheduleSnapshotJson;
 
   int createdAtMs;
 }

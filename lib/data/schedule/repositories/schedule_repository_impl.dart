@@ -8,7 +8,7 @@ import 'package:maori_health/core/result/result.dart';
 import 'package:maori_health/data/auth/models/user_model.dart';
 import 'package:maori_health/data/local_storage/local_storage_data_source.dart';
 import 'package:maori_health/data/dashboard/models/schedule_model.dart';
-import 'package:maori_health/data/offline/offline_schedule_queue_data_source.dart';
+import 'package:maori_health/data/offline_sync/offline_schedule_queue_data_source.dart';
 import 'package:maori_health/data/schedule/datasources/schedule_remote_datasource.dart';
 import 'package:maori_health/data/schedule/models/paginated_schedule_response.dart';
 import 'package:maori_health/data/schedule/schedule_offline_patch.dart';
@@ -124,10 +124,10 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   }
 
   @override
-  Future<Result<AppError, ScheduleModel>> startSchedule({required int scheduleId}) async {
+  Future<Result<AppError, ScheduleModel>> startSchedule({required int scheduleId, String? workStartTime}) async {
     if (await _networkChecker.hasConnection) {
       try {
-        final result = await _remoteDataSource.startSchedule(scheduleId: scheduleId);
+        final result = await _remoteDataSource.startSchedule(scheduleId: scheduleId, workStartTime: workStartTime);
         await _localStorage.upsertSchedule(result);
         return SuccessResult(result);
       } on ApiException catch (e) {
@@ -155,9 +155,14 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
           statusKey: OfflineScheduleStatusKeys.inprogress,
           updatedAtIso: _nowIso(),
         );
+        final workStart = updated.workStartTime?.trim();
+        if (workStart == null || workStart.isEmpty) {
+          return const ErrorResult(ApiError(errorMessage: 'Offline start could not capture work start time.'));
+        }
+        final snapshotJson = jsonEncode(updated.toJson());
         await Future.wait([
           _localStorage.upsertSchedule(updated),
-          _offlineQueue.enqueue(scheduleId: scheduleId, actionType: _queueStart),
+          _offlineQueue.enqueue(scheduleId: scheduleId, actionType: _queueStart, scheduleSnapshotJson: snapshotJson),
         ]);
         return SuccessResult(updated);
       },
@@ -165,10 +170,18 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   }
 
   @override
-  Future<Result<AppError, ScheduleModel>> finishSchedule({required int scheduleId}) async {
+  Future<Result<AppError, ScheduleModel>> finishSchedule({
+    required int scheduleId,
+    String? workStartTime,
+    String? workEndTime,
+  }) async {
     if (await _networkChecker.hasConnection) {
       try {
-        final result = await _remoteDataSource.finishSchedule(scheduleId: scheduleId);
+        final result = await _remoteDataSource.finishSchedule(
+          scheduleId: scheduleId,
+          workStartTime: workStartTime,
+          workEndTime: workEndTime,
+        );
         await _localStorage.upsertSchedule(result);
         return SuccessResult(result);
       } on ApiException catch (e) {
@@ -189,9 +202,15 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
       statusKey: OfflineScheduleStatusKeys.finished,
       updatedAtIso: _nowIso(),
     );
+    final workStart = updated.workStartTime?.trim();
+    final workEnd = updated.workEndTime?.trim();
+    if (workStart == null || workStart.isEmpty || workEnd == null || workEnd.isEmpty) {
+      return const ErrorResult(ApiError(errorMessage: 'Offline finish requires work start and end times.'));
+    }
+    final snapshotJson = jsonEncode(updated.toJson());
     await Future.wait([
       _localStorage.upsertSchedule(updated),
-      _offlineQueue.enqueue(scheduleId: scheduleId, actionType: _queueFinish),
+      _offlineQueue.enqueue(scheduleId: scheduleId, actionType: _queueFinish, scheduleSnapshotJson: snapshotJson),
     ]);
     return SuccessResult(updated);
   }

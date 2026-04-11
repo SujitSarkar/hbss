@@ -27,11 +27,11 @@ import 'package:maori_health/data/timesheet/datasources/timesheet_remote_data_so
 import 'package:maori_health/data/timesheet/repositories/timesheet_repository_impl.dart';
 import 'package:maori_health/data/local_storage/local_storage_data_source.dart';
 import 'package:maori_health/data/local_storage/local_storage_data_source_impl.dart';
-import 'package:maori_health/data/offline/repositories/offline_sync_repository_impl.dart';
+import 'package:maori_health/data/offline_sync/repositories/offline_sync_repository_impl.dart';
 import 'package:maori_health/data/dashboard/datasources/dashboard_remote_data_source.dart';
 import 'package:maori_health/data/dashboard/repositories/dashboard_repository_impl.dart';
 import 'package:maori_health/data/objectbox/objectbox_stores.dart';
-import 'package:maori_health/data/offline/offline_schedule_queue_data_source.dart';
+import 'package:maori_health/data/offline_sync/offline_schedule_queue_data_source.dart';
 import 'package:maori_health/domain/app/repositories/theme_preference_repository.dart';
 import 'package:maori_health/domain/app/usecases/get_saved_theme_mode_usecase.dart';
 import 'package:maori_health/domain/app/usecases/persist_theme_mode_usecase.dart';

@@ -54,4 +54,18 @@ abstract class DateConverter {
       return isoDate;
     }
   }
+
+  /// Backend validation expects PHP `Y-m-d H:i:s` (e.g. `2026-04-11 14:30:00`).
+  /// Accepts ISO-8601 or other strings [DateTime.parse] understands.
+  static String? toScheduleApiDateTime(String? raw) {
+    if (raw == null) return null;
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty) return null;
+    try {
+      final dt = DateTime.parse(trimmed).toLocal();
+      return DateFormat('yyyy-MM-dd HH:mm:ss').format(dt);
+    } catch (_) {
+      return null;
+    }
+  }
 }

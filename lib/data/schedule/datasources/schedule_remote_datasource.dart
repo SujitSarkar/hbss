@@ -4,6 +4,7 @@ import 'package:maori_health/core/error/exceptions.dart';
 import 'package:maori_health/core/network/api_endpoints.dart';
 import 'package:maori_health/core/network/dio_client.dart';
 import 'package:maori_health/core/utils/data_parse_util.dart';
+import 'package:maori_health/core/utils/date_converter.dart';
 
 import 'package:maori_health/data/dashboard/models/schedule_model.dart';
 import 'package:maori_health/data/schedule/models/paginated_schedule_response.dart';
@@ -17,8 +18,8 @@ abstract class ScheduleRemoteDataSource {
   });
   Future<ScheduleModel> getScheduleById({required int scheduleId});
   Future<ScheduleModel> acceptSchedule({required int scheduleId});
-  Future<ScheduleModel> startSchedule({required int scheduleId});
-  Future<ScheduleModel> finishSchedule({required int scheduleId});
+  Future<ScheduleModel> startSchedule({required int scheduleId, String? workStartTime});
+  Future<ScheduleModel> finishSchedule({required int scheduleId, String? workStartTime, String? workEndTime});
   Future<ScheduleModel> cancelSchedule({
     required int scheduleId,
     required String cancelBy,
@@ -100,9 +101,19 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
   }
 
   @override
-  Future<ScheduleModel> startSchedule({required int scheduleId}) async {
+  Future<ScheduleModel> startSchedule({required int scheduleId, String? workStartTime}) async {
     try {
-      final response = await _client.post(ApiEndpoints.startSchedule(scheduleId));
+      String? apiStart;
+      if (workStartTime != null && workStartTime.trim().isNotEmpty) {
+        apiStart = DateConverter.toScheduleApiDateTime(workStartTime);
+        if (apiStart == null) {
+          throw ApiException(message: 'Invalid work_start_time');
+        }
+      }
+      final response = await _client.post(
+        ApiEndpoints.startSchedule(scheduleId),
+        data: apiStart != null ? {'work_start_time': apiStart} : null,
+      );
       return ScheduleModel.fromJson(response.data['data']);
     } on DioException catch (e) {
       final message = (e.response?.data is Map) ? (e.response!.data as Map)['message']?.toString() : null;
@@ -117,9 +128,27 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
   }
 
   @override
-  Future<ScheduleModel> finishSchedule({required int scheduleId}) async {
+  Future<ScheduleModel> finishSchedule({required int scheduleId, String? workStartTime, String? workEndTime}) async {
     try {
-      final response = await _client.post(ApiEndpoints.finishSchedule(scheduleId));
+      final payload = <String, dynamic>{};
+      if (workStartTime != null && workStartTime.trim().isNotEmpty) {
+        final apiStart = DateConverter.toScheduleApiDateTime(workStartTime);
+        if (apiStart == null) {
+          throw ApiException(message: 'Invalid work_start_time');
+        }
+        payload['work_start_time'] = apiStart;
+      }
+      if (workEndTime != null && workEndTime.trim().isNotEmpty) {
+        final apiEnd = DateConverter.toScheduleApiDateTime(workEndTime);
+        if (apiEnd == null) {
+          throw ApiException(message: 'Invalid work_end_time');
+        }
+        payload['work_end_time'] = apiEnd;
+      }
+      final response = await _client.post(
+        ApiEndpoints.finishSchedule(scheduleId),
+        data: payload.isEmpty ? null : payload,
+      );
       return ScheduleModel.fromJson(response.data['data']);
     } on DioException catch (e) {
       final message = (e.response?.data is Map) ? (e.response!.data as Map)['message']?.toString() : null;

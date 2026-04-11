@@ -9,7 +9,8 @@
 import 'dart:typed_data';
 
 import 'package:flat_buffers/flat_buffers.dart' as fb;
-import 'package:objectbox/internal.dart' as obx_int; // generated code can access "internal" functionality
+import 'package:objectbox/internal.dart'
+    as obx_int; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
@@ -24,7 +25,12 @@ final _entities = <obx_int.ModelEntity>[
     lastPropertyId: const obx_int.IdUid(3, 7628561510979069904),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(id: const obx_int.IdUid(1, 1738744906716780354), name: 'id', type: 6, flags: 1),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1738744906716780354),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(2, 4161731122356900076),
         name: 'pointerKind',
@@ -32,7 +38,12 @@ final _entities = <obx_int.ModelEntity>[
         flags: 40,
         indexId: const obx_int.IdUid(2, 4105100951472083052),
       ),
-      obx_int.ModelProperty(id: const obx_int.IdUid(3, 7628561510979069904), name: 'scheduleId', type: 6, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7628561510979069904),
+        name: 'scheduleId',
+        type: 6,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -43,10 +54,30 @@ final _entities = <obx_int.ModelEntity>[
     lastPropertyId: const obx_int.IdUid(4, 9029771249671697007),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(id: const obx_int.IdUid(1, 907349657012249112), name: 'id', type: 6, flags: 1),
-      obx_int.ModelProperty(id: const obx_int.IdUid(2, 7675344085612096424), name: 'section', type: 6, flags: 0),
-      obx_int.ModelProperty(id: const obx_int.IdUid(3, 7408534119782689450), name: 'orderIndex', type: 6, flags: 0),
-      obx_int.ModelProperty(id: const obx_int.IdUid(4, 9029771249671697007), name: 'scheduleId', type: 6, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 907349657012249112),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 7675344085612096424),
+        name: 'section',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7408534119782689450),
+        name: 'orderIndex',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 9029771249671697007),
+        name: 'scheduleId',
+        type: 6,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -57,8 +88,18 @@ final _entities = <obx_int.ModelEntity>[
     lastPropertyId: const obx_int.IdUid(4, 6155023479497038611),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(id: const obx_int.IdUid(1, 1764851928219809222), name: 'id', type: 6, flags: 1),
-      obx_int.ModelProperty(id: const obx_int.IdUid(3, 5042561747206587055), name: 'jsonPayload', type: 9, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1764851928219809222),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 5042561747206587055),
+        name: 'jsonPayload',
+        type: 9,
+        flags: 0,
+      ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(4, 6155023479497038611),
         name: 'localStorageKey',
@@ -73,19 +114,45 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(5, 3812225467135477190),
     name: 'PendingScheduleSyncEntity',
-    lastPropertyId: const obx_int.IdUid(5, 2910320320996939043),
+    lastPropertyId: const obx_int.IdUid(6, 4001076582760215057),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(id: const obx_int.IdUid(1, 8179377696542419701), name: 'id', type: 6, flags: 1),
-      obx_int.ModelProperty(id: const obx_int.IdUid(2, 1762728717427416873), name: 'scheduleId', type: 6, flags: 0),
-      obx_int.ModelProperty(id: const obx_int.IdUid(3, 6478980348860523069), name: 'actionType', type: 6, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 8179377696542419701),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1762728717427416873),
+        name: 'scheduleId',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 6478980348860523069),
+        name: 'actionType',
+        type: 6,
+        flags: 0,
+      ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(4, 4768708089063274617),
         name: 'cancelPayloadJson',
         type: 9,
         flags: 0,
       ),
-      obx_int.ModelProperty(id: const obx_int.IdUid(5, 2910320320996939043), name: 'createdAtMs', type: 6, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 2910320320996939043),
+        name: 'createdAtMs',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 4001076582760215057),
+        name: 'scheduleSnapshotJson',
+        type: 9,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -96,10 +163,30 @@ final _entities = <obx_int.ModelEntity>[
     lastPropertyId: const obx_int.IdUid(6, 5344227662959978370),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(id: const obx_int.IdUid(1, 8392170337408836329), name: 'id', type: 6, flags: 1),
-      obx_int.ModelProperty(id: const obx_int.IdUid(3, 3213608005562103611), name: 'jsonPayload', type: 9, flags: 0),
-      obx_int.ModelProperty(id: const obx_int.IdUid(4, 4223821192988081372), name: 'currentPage', type: 6, flags: 0),
-      obx_int.ModelProperty(id: const obx_int.IdUid(5, 8544023209703891950), name: 'lastPage', type: 6, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 8392170337408836329),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3213608005562103611),
+        name: 'jsonPayload',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 4223821192988081372),
+        name: 'currentPage',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 8544023209703891950),
+        name: 'lastPage',
+        type: 6,
+        flags: 0,
+      ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(6, 5344227662959978370),
         name: 'localStorageKey',
@@ -117,7 +204,12 @@ final _entities = <obx_int.ModelEntity>[
     lastPropertyId: const obx_int.IdUid(3, 1893046547047282948),
     flags: 0,
     properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(id: const obx_int.IdUid(1, 4396635164405528482), name: 'id', type: 6, flags: 1),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 4396635164405528482),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(2, 2594468393592000274),
         name: 'scheduleId',
@@ -125,7 +217,12 @@ final _entities = <obx_int.ModelEntity>[
         flags: 40,
         indexId: const obx_int.IdUid(6, 1494514976619328635),
       ),
-      obx_int.ModelProperty(id: const obx_int.IdUid(3, 1893046547047282948), name: 'jsonPayload', type: 9, flags: 0),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 1893046547047282948),
+        name: 'jsonPayload',
+        type: 9,
+        flags: 0,
+      ),
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
@@ -214,48 +311,87 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        final pointerKindParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-        final scheduleIdParam = const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
-        final object = DashboardPointerEntity(id: idParam, pointerKind: pointerKindParam, scheduleId: scheduleIdParam);
-
-        return object;
-      },
-    ),
-    DashboardSectionLinkEntity: obx_int.EntityDefinition<DashboardSectionLinkEntity>(
-      model: _entities[1],
-      toOneRelations: (DashboardSectionLinkEntity object) => [],
-      toManyRelations: (DashboardSectionLinkEntity object) => {},
-      getId: (DashboardSectionLinkEntity object) => object.id,
-      setId: (DashboardSectionLinkEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (DashboardSectionLinkEntity object, fb.Builder fbb) {
-        fbb.startTable(5);
-        fbb.addInt64(0, object.id);
-        fbb.addInt64(1, object.section);
-        fbb.addInt64(2, object.orderIndex);
-        fbb.addInt64(3, object.scheduleId);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        final sectionParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-        final orderIndexParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-        final scheduleIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
-        final object = DashboardSectionLinkEntity(
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final pointerKindParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final scheduleIdParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          8,
+        );
+        final object = DashboardPointerEntity(
           id: idParam,
-          section: sectionParam,
-          orderIndex: orderIndexParam,
+          pointerKind: pointerKindParam,
           scheduleId: scheduleIdParam,
         );
 
         return object;
       },
     ),
+    DashboardSectionLinkEntity:
+        obx_int.EntityDefinition<DashboardSectionLinkEntity>(
+          model: _entities[1],
+          toOneRelations: (DashboardSectionLinkEntity object) => [],
+          toManyRelations: (DashboardSectionLinkEntity object) => {},
+          getId: (DashboardSectionLinkEntity object) => object.id,
+          setId: (DashboardSectionLinkEntity object, int id) {
+            object.id = id;
+          },
+          objectToFB: (DashboardSectionLinkEntity object, fb.Builder fbb) {
+            fbb.startTable(5);
+            fbb.addInt64(0, object.id);
+            fbb.addInt64(1, object.section);
+            fbb.addInt64(2, object.orderIndex);
+            fbb.addInt64(3, object.scheduleId);
+            fbb.finish(fbb.endTable());
+            return object.id;
+          },
+          objectFromFB: (obx.Store store, ByteData fbData) {
+            final buffer = fb.BufferContext(fbData);
+            final rootOffset = buffer.derefObject(0);
+            final idParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              4,
+              0,
+            );
+            final sectionParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              6,
+              0,
+            );
+            final orderIndexParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              8,
+              0,
+            );
+            final scheduleIdParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              10,
+              0,
+            );
+            final object = DashboardSectionLinkEntity(
+              id: idParam,
+              section: sectionParam,
+              orderIndex: orderIndexParam,
+              scheduleId: scheduleIdParam,
+            );
+
+            return object;
+          },
+        ),
     DashboardStatsEntity: obx_int.EntityDefinition<DashboardStatsEntity>(
       model: _entities[2],
       toOneRelations: (DashboardStatsEntity object) => [],
@@ -277,11 +413,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
       objectFromFB: (obx.Store store, ByteData fbData) {
         final buffer = fb.BufferContext(fbData);
         final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
         final localStorageKeyParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 10, '');
-        final jsonPayloadParam = const fb.StringReader(asciiOptimization: true).vTableGet(buffer, rootOffset, 8, '');
+        final jsonPayloadParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
         final object = DashboardStatsEntity(
           id: idParam,
           localStorageKey: localStorageKeyParam,
@@ -291,121 +434,184 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
-    PendingScheduleSyncEntity: obx_int.EntityDefinition<PendingScheduleSyncEntity>(
-      model: _entities[3],
-      toOneRelations: (PendingScheduleSyncEntity object) => [],
-      toManyRelations: (PendingScheduleSyncEntity object) => {},
-      getId: (PendingScheduleSyncEntity object) => object.id,
-      setId: (PendingScheduleSyncEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (PendingScheduleSyncEntity object, fb.Builder fbb) {
-        final cancelPayloadJsonOffset = object.cancelPayloadJson == null
-            ? null
-            : fbb.writeString(object.cancelPayloadJson!);
-        fbb.startTable(6);
-        fbb.addInt64(0, object.id);
-        fbb.addInt64(1, object.scheduleId);
-        fbb.addInt64(2, object.actionType);
-        fbb.addOffset(3, cancelPayloadJsonOffset);
-        fbb.addInt64(4, object.createdAtMs);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        final scheduleIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-        final actionTypeParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
-        final cancelPayloadJsonParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 10);
-        final createdAtMsParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
-        final object = PendingScheduleSyncEntity(
-          id: idParam,
-          scheduleId: scheduleIdParam,
-          actionType: actionTypeParam,
-          cancelPayloadJson: cancelPayloadJsonParam,
-          createdAtMs: createdAtMsParam,
-        );
+    PendingScheduleSyncEntity:
+        obx_int.EntityDefinition<PendingScheduleSyncEntity>(
+          model: _entities[3],
+          toOneRelations: (PendingScheduleSyncEntity object) => [],
+          toManyRelations: (PendingScheduleSyncEntity object) => {},
+          getId: (PendingScheduleSyncEntity object) => object.id,
+          setId: (PendingScheduleSyncEntity object, int id) {
+            object.id = id;
+          },
+          objectToFB: (PendingScheduleSyncEntity object, fb.Builder fbb) {
+            final cancelPayloadJsonOffset = object.cancelPayloadJson == null
+                ? null
+                : fbb.writeString(object.cancelPayloadJson!);
+            final scheduleSnapshotJsonOffset =
+                object.scheduleSnapshotJson == null
+                ? null
+                : fbb.writeString(object.scheduleSnapshotJson!);
+            fbb.startTable(7);
+            fbb.addInt64(0, object.id);
+            fbb.addInt64(1, object.scheduleId);
+            fbb.addInt64(2, object.actionType);
+            fbb.addOffset(3, cancelPayloadJsonOffset);
+            fbb.addInt64(4, object.createdAtMs);
+            fbb.addOffset(5, scheduleSnapshotJsonOffset);
+            fbb.finish(fbb.endTable());
+            return object.id;
+          },
+          objectFromFB: (obx.Store store, ByteData fbData) {
+            final buffer = fb.BufferContext(fbData);
+            final rootOffset = buffer.derefObject(0);
+            final idParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              4,
+              0,
+            );
+            final scheduleIdParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              6,
+              0,
+            );
+            final actionTypeParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              8,
+              0,
+            );
+            final cancelPayloadJsonParam = const fb.StringReader(
+              asciiOptimization: true,
+            ).vTableGetNullable(buffer, rootOffset, 10);
+            final scheduleSnapshotJsonParam = const fb.StringReader(
+              asciiOptimization: true,
+            ).vTableGetNullable(buffer, rootOffset, 14);
+            final createdAtMsParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              12,
+              0,
+            );
+            final object = PendingScheduleSyncEntity(
+              id: idParam,
+              scheduleId: scheduleIdParam,
+              actionType: actionTypeParam,
+              cancelPayloadJson: cancelPayloadJsonParam,
+              scheduleSnapshotJson: scheduleSnapshotJsonParam,
+              createdAtMs: createdAtMsParam,
+            );
 
-        return object;
-      },
-    ),
-    ScheduleListSnapshotEntity: obx_int.EntityDefinition<ScheduleListSnapshotEntity>(
-      model: _entities[4],
-      toOneRelations: (ScheduleListSnapshotEntity object) => [],
-      toManyRelations: (ScheduleListSnapshotEntity object) => {},
-      getId: (ScheduleListSnapshotEntity object) => object.id,
-      setId: (ScheduleListSnapshotEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (ScheduleListSnapshotEntity object, fb.Builder fbb) {
-        final jsonPayloadOffset = fbb.writeString(object.jsonPayload);
-        final localStorageKeyOffset = fbb.writeString(object.localStorageKey);
-        fbb.startTable(7);
-        fbb.addInt64(0, object.id);
-        fbb.addOffset(2, jsonPayloadOffset);
-        fbb.addInt64(3, object.currentPage);
-        fbb.addInt64(4, object.lastPage);
-        fbb.addOffset(5, localStorageKeyOffset);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        final localStorageKeyParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 14, '');
-        final jsonPayloadParam = const fb.StringReader(asciiOptimization: true).vTableGet(buffer, rootOffset, 8, '');
-        final currentPageParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
-        final lastPageParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
-        final object = ScheduleListSnapshotEntity(
-          id: idParam,
-          localStorageKey: localStorageKeyParam,
-          jsonPayload: jsonPayloadParam,
-          currentPage: currentPageParam,
-          lastPage: lastPageParam,
-        );
+            return object;
+          },
+        ),
+    ScheduleListSnapshotEntity:
+        obx_int.EntityDefinition<ScheduleListSnapshotEntity>(
+          model: _entities[4],
+          toOneRelations: (ScheduleListSnapshotEntity object) => [],
+          toManyRelations: (ScheduleListSnapshotEntity object) => {},
+          getId: (ScheduleListSnapshotEntity object) => object.id,
+          setId: (ScheduleListSnapshotEntity object, int id) {
+            object.id = id;
+          },
+          objectToFB: (ScheduleListSnapshotEntity object, fb.Builder fbb) {
+            final jsonPayloadOffset = fbb.writeString(object.jsonPayload);
+            final localStorageKeyOffset = fbb.writeString(
+              object.localStorageKey,
+            );
+            fbb.startTable(7);
+            fbb.addInt64(0, object.id);
+            fbb.addOffset(2, jsonPayloadOffset);
+            fbb.addInt64(3, object.currentPage);
+            fbb.addInt64(4, object.lastPage);
+            fbb.addOffset(5, localStorageKeyOffset);
+            fbb.finish(fbb.endTable());
+            return object.id;
+          },
+          objectFromFB: (obx.Store store, ByteData fbData) {
+            final buffer = fb.BufferContext(fbData);
+            final rootOffset = buffer.derefObject(0);
+            final idParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              4,
+              0,
+            );
+            final localStorageKeyParam = const fb.StringReader(
+              asciiOptimization: true,
+            ).vTableGet(buffer, rootOffset, 14, '');
+            final jsonPayloadParam = const fb.StringReader(
+              asciiOptimization: true,
+            ).vTableGet(buffer, rootOffset, 8, '');
+            final currentPageParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              10,
+              0,
+            );
+            final lastPageParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              12,
+              0,
+            );
+            final object = ScheduleListSnapshotEntity(
+              id: idParam,
+              localStorageKey: localStorageKeyParam,
+              jsonPayload: jsonPayloadParam,
+              currentPage: currentPageParam,
+              lastPage: lastPageParam,
+            );
 
-        return object;
-      },
-    ),
-    LocalStorageScheduleEntity: obx_int.EntityDefinition<LocalStorageScheduleEntity>(
-      model: _entities[5],
-      toOneRelations: (LocalStorageScheduleEntity object) => [],
-      toManyRelations: (LocalStorageScheduleEntity object) => {},
-      getId: (LocalStorageScheduleEntity object) => object.id,
-      setId: (LocalStorageScheduleEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (LocalStorageScheduleEntity object, fb.Builder fbb) {
-        final jsonPayloadOffset = fbb.writeString(object.jsonPayload);
-        fbb.startTable(4);
-        fbb.addInt64(0, object.id);
-        fbb.addInt64(1, object.scheduleId);
-        fbb.addOffset(2, jsonPayloadOffset);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        final scheduleIdParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-        final jsonPayloadParam = const fb.StringReader(asciiOptimization: true).vTableGet(buffer, rootOffset, 8, '');
-        final object = LocalStorageScheduleEntity(
-          id: idParam,
-          scheduleId: scheduleIdParam,
-          jsonPayload: jsonPayloadParam,
-        );
+            return object;
+          },
+        ),
+    LocalStorageScheduleEntity:
+        obx_int.EntityDefinition<LocalStorageScheduleEntity>(
+          model: _entities[5],
+          toOneRelations: (LocalStorageScheduleEntity object) => [],
+          toManyRelations: (LocalStorageScheduleEntity object) => {},
+          getId: (LocalStorageScheduleEntity object) => object.id,
+          setId: (LocalStorageScheduleEntity object, int id) {
+            object.id = id;
+          },
+          objectToFB: (LocalStorageScheduleEntity object, fb.Builder fbb) {
+            final jsonPayloadOffset = fbb.writeString(object.jsonPayload);
+            fbb.startTable(4);
+            fbb.addInt64(0, object.id);
+            fbb.addInt64(1, object.scheduleId);
+            fbb.addOffset(2, jsonPayloadOffset);
+            fbb.finish(fbb.endTable());
+            return object.id;
+          },
+          objectFromFB: (obx.Store store, ByteData fbData) {
+            final buffer = fb.BufferContext(fbData);
+            final rootOffset = buffer.derefObject(0);
+            final idParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              4,
+              0,
+            );
+            final scheduleIdParam = const fb.Int64Reader().vTableGet(
+              buffer,
+              rootOffset,
+              6,
+              0,
+            );
+            final jsonPayloadParam = const fb.StringReader(
+              asciiOptimization: true,
+            ).vTableGet(buffer, rootOffset, 8, '');
+            final object = LocalStorageScheduleEntity(
+              id: idParam,
+              scheduleId: scheduleIdParam,
+              jsonPayload: jsonPayloadParam,
+            );
 
-        return object;
-      },
-    ),
+            return object;
+          },
+        ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -414,86 +620,147 @@ obx_int.ModelDefinition getObjectBoxModel() {
 /// [DashboardPointerEntity] entity fields to define ObjectBox queries.
 class DashboardPointerEntity_ {
   /// See [DashboardPointerEntity.id].
-  static final id = obx.QueryIntegerProperty<DashboardPointerEntity>(_entities[0].properties[0]);
+  static final id = obx.QueryIntegerProperty<DashboardPointerEntity>(
+    _entities[0].properties[0],
+  );
 
   /// See [DashboardPointerEntity.pointerKind].
-  static final pointerKind = obx.QueryIntegerProperty<DashboardPointerEntity>(_entities[0].properties[1]);
+  static final pointerKind = obx.QueryIntegerProperty<DashboardPointerEntity>(
+    _entities[0].properties[1],
+  );
 
   /// See [DashboardPointerEntity.scheduleId].
-  static final scheduleId = obx.QueryIntegerProperty<DashboardPointerEntity>(_entities[0].properties[2]);
+  static final scheduleId = obx.QueryIntegerProperty<DashboardPointerEntity>(
+    _entities[0].properties[2],
+  );
 }
 
 /// [DashboardSectionLinkEntity] entity fields to define ObjectBox queries.
 class DashboardSectionLinkEntity_ {
   /// See [DashboardSectionLinkEntity.id].
-  static final id = obx.QueryIntegerProperty<DashboardSectionLinkEntity>(_entities[1].properties[0]);
+  static final id = obx.QueryIntegerProperty<DashboardSectionLinkEntity>(
+    _entities[1].properties[0],
+  );
 
   /// See [DashboardSectionLinkEntity.section].
-  static final section = obx.QueryIntegerProperty<DashboardSectionLinkEntity>(_entities[1].properties[1]);
+  static final section = obx.QueryIntegerProperty<DashboardSectionLinkEntity>(
+    _entities[1].properties[1],
+  );
 
   /// See [DashboardSectionLinkEntity.orderIndex].
-  static final orderIndex = obx.QueryIntegerProperty<DashboardSectionLinkEntity>(_entities[1].properties[2]);
+  static final orderIndex =
+      obx.QueryIntegerProperty<DashboardSectionLinkEntity>(
+        _entities[1].properties[2],
+      );
 
   /// See [DashboardSectionLinkEntity.scheduleId].
-  static final scheduleId = obx.QueryIntegerProperty<DashboardSectionLinkEntity>(_entities[1].properties[3]);
+  static final scheduleId =
+      obx.QueryIntegerProperty<DashboardSectionLinkEntity>(
+        _entities[1].properties[3],
+      );
 }
 
 /// [DashboardStatsEntity] entity fields to define ObjectBox queries.
 class DashboardStatsEntity_ {
   /// See [DashboardStatsEntity.id].
-  static final id = obx.QueryIntegerProperty<DashboardStatsEntity>(_entities[2].properties[0]);
+  static final id = obx.QueryIntegerProperty<DashboardStatsEntity>(
+    _entities[2].properties[0],
+  );
 
   /// See [DashboardStatsEntity.jsonPayload].
-  static final jsonPayload = obx.QueryStringProperty<DashboardStatsEntity>(_entities[2].properties[1]);
+  static final jsonPayload = obx.QueryStringProperty<DashboardStatsEntity>(
+    _entities[2].properties[1],
+  );
 
   /// See [DashboardStatsEntity.localStorageKey].
-  static final localStorageKey = obx.QueryStringProperty<DashboardStatsEntity>(_entities[2].properties[2]);
+  static final localStorageKey = obx.QueryStringProperty<DashboardStatsEntity>(
+    _entities[2].properties[2],
+  );
 }
 
 /// [PendingScheduleSyncEntity] entity fields to define ObjectBox queries.
 class PendingScheduleSyncEntity_ {
   /// See [PendingScheduleSyncEntity.id].
-  static final id = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(_entities[3].properties[0]);
+  static final id = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(
+    _entities[3].properties[0],
+  );
 
   /// See [PendingScheduleSyncEntity.scheduleId].
-  static final scheduleId = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(_entities[3].properties[1]);
+  static final scheduleId = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(
+    _entities[3].properties[1],
+  );
 
   /// See [PendingScheduleSyncEntity.actionType].
-  static final actionType = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(_entities[3].properties[2]);
+  static final actionType = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(
+    _entities[3].properties[2],
+  );
 
   /// See [PendingScheduleSyncEntity.cancelPayloadJson].
-  static final cancelPayloadJson = obx.QueryStringProperty<PendingScheduleSyncEntity>(_entities[3].properties[3]);
+  static final cancelPayloadJson =
+      obx.QueryStringProperty<PendingScheduleSyncEntity>(
+        _entities[3].properties[3],
+      );
 
   /// See [PendingScheduleSyncEntity.createdAtMs].
-  static final createdAtMs = obx.QueryIntegerProperty<PendingScheduleSyncEntity>(_entities[3].properties[4]);
+  static final createdAtMs =
+      obx.QueryIntegerProperty<PendingScheduleSyncEntity>(
+        _entities[3].properties[4],
+      );
+
+  /// See [PendingScheduleSyncEntity.scheduleSnapshotJson].
+  static final scheduleSnapshotJson =
+      obx.QueryStringProperty<PendingScheduleSyncEntity>(
+        _entities[3].properties[5],
+      );
 }
 
 /// [ScheduleListSnapshotEntity] entity fields to define ObjectBox queries.
 class ScheduleListSnapshotEntity_ {
   /// See [ScheduleListSnapshotEntity.id].
-  static final id = obx.QueryIntegerProperty<ScheduleListSnapshotEntity>(_entities[4].properties[0]);
+  static final id = obx.QueryIntegerProperty<ScheduleListSnapshotEntity>(
+    _entities[4].properties[0],
+  );
 
   /// See [ScheduleListSnapshotEntity.jsonPayload].
-  static final jsonPayload = obx.QueryStringProperty<ScheduleListSnapshotEntity>(_entities[4].properties[1]);
+  static final jsonPayload =
+      obx.QueryStringProperty<ScheduleListSnapshotEntity>(
+        _entities[4].properties[1],
+      );
 
   /// See [ScheduleListSnapshotEntity.currentPage].
-  static final currentPage = obx.QueryIntegerProperty<ScheduleListSnapshotEntity>(_entities[4].properties[2]);
+  static final currentPage =
+      obx.QueryIntegerProperty<ScheduleListSnapshotEntity>(
+        _entities[4].properties[2],
+      );
 
   /// See [ScheduleListSnapshotEntity.lastPage].
-  static final lastPage = obx.QueryIntegerProperty<ScheduleListSnapshotEntity>(_entities[4].properties[3]);
+  static final lastPage = obx.QueryIntegerProperty<ScheduleListSnapshotEntity>(
+    _entities[4].properties[3],
+  );
 
   /// See [ScheduleListSnapshotEntity.localStorageKey].
-  static final localStorageKey = obx.QueryStringProperty<ScheduleListSnapshotEntity>(_entities[4].properties[4]);
+  static final localStorageKey =
+      obx.QueryStringProperty<ScheduleListSnapshotEntity>(
+        _entities[4].properties[4],
+      );
 }
 
 /// [LocalStorageScheduleEntity] entity fields to define ObjectBox queries.
 class LocalStorageScheduleEntity_ {
   /// See [LocalStorageScheduleEntity.id].
-  static final id = obx.QueryIntegerProperty<LocalStorageScheduleEntity>(_entities[5].properties[0]);
+  static final id = obx.QueryIntegerProperty<LocalStorageScheduleEntity>(
+    _entities[5].properties[0],
+  );
 
   /// See [LocalStorageScheduleEntity.scheduleId].
-  static final scheduleId = obx.QueryIntegerProperty<LocalStorageScheduleEntity>(_entities[5].properties[1]);
+  static final scheduleId =
+      obx.QueryIntegerProperty<LocalStorageScheduleEntity>(
+        _entities[5].properties[1],
+      );
 
   /// See [LocalStorageScheduleEntity.jsonPayload].
-  static final jsonPayload = obx.QueryStringProperty<LocalStorageScheduleEntity>(_entities[5].properties[2]);
+  static final jsonPayload =
+      obx.QueryStringProperty<LocalStorageScheduleEntity>(
+        _entities[5].properties[2],
+      );
 }

@@ -86,7 +86,7 @@
     },
     {
       "id": "5:3812225467135477190",
-      "lastPropertyId": "5:2910320320996939043",
+      "lastPropertyId": "6:4001076582760215057",
       "name": "PendingScheduleSyncEntity",
       "properties": [
         {
@@ -114,6 +114,11 @@
           "id": "5:2910320320996939043",
           "name": "createdAtMs",
           "type": 6
+        },
+        {
+          "id": "6:4001076582760215057",
+          "name": "scheduleSnapshotJson",
+          "type": 9
         }
       ],
       "relations": []

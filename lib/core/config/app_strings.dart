@@ -80,6 +80,7 @@ abstract class AppStrings {
   static const String hours = 'Hours';
   static const String minutes = 'Minutes';
   static const String scheduledTime = 'Scheduled Time';
+  static const String workTime = 'Work Time';
   static const String start = 'Start';
   static const String end = 'End';
   static const String jobStartedTime = 'Job Started  Time';

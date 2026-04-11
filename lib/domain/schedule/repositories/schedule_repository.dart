@@ -13,8 +13,12 @@ abstract class ScheduleRepository {
   });
   Future<Result<AppError, ScheduleModel>> getScheduleById({required int scheduleId});
   Future<Result<AppError, ScheduleModel>> acceptSchedule({required int scheduleId});
-  Future<Result<AppError, ScheduleModel>> startSchedule({required int scheduleId});
-  Future<Result<AppError, ScheduleModel>> finishSchedule({required int scheduleId});
+  Future<Result<AppError, ScheduleModel>> startSchedule({required int scheduleId, String? workStartTime});
+  Future<Result<AppError, ScheduleModel>> finishSchedule({
+    required int scheduleId,
+    String? workStartTime,
+    String? workEndTime,
+  });
   Future<Result<AppError, ScheduleModel>> cancelSchedule({
     required int scheduleId,
     required String cancelBy,
